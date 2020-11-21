@@ -6,10 +6,10 @@
 :- dynamic(kunci/2).
 :- dynamic(shop/2).
 :- dynamic(quest/2).
-:- dynamic(goblin/2).
-:- dynamic(slime/2).
-:- dynamic(wolf/2).
-:- dynamic(dungeon/2).
+:- dynamic(goblincamp/2).
+:- dynamic(slimecamp/2).
+:- dynamic(wolfcamp/2).
+:- dynamic(underlord/2).
 :- dynamic(secretboss/2).
 
 lebarpeta(18).
@@ -67,28 +67,28 @@ mulai :-
 	asserta(barrier(16,14)),
 	asserta(barrier(17,14)),
 
-	asserta(goblin(15,6)),
-	asserta(goblin(16,6)),
-	asserta(goblin(17,6)),
-	asserta(goblin(15,7)),
-	asserta(goblin(16,7)),
-	asserta(goblin(17,7)),
+	asserta(goblincamp(15,6)),
+	asserta(goblincamp(16,6)),
+	asserta(goblincamp(17,6)),
+	asserta(goblincamp(15,7)),
+	asserta(goblincamp(16,7)),
+	asserta(goblincamp(17,7)),
 
-	asserta(slime(15,9)),
-	asserta(slime(16,9)),
-	asserta(slime(17,9)),
-	asserta(slime(15,10)),
-	asserta(slime(16,10)),
-	asserta(slime(17,10)),
+	asserta(slimecamp(15,9)),
+	asserta(slimecamp(16,9)),
+	asserta(slimecamp(17,9)),
+	asserta(slimecamp(15,10)),
+	asserta(slimecamp(16,10)),
+	asserta(slimecamp(17,10)),
 
-	asserta(wolf(15,12)),
-	asserta(wolf(16,12)),
-	asserta(wolf(17,12)),
-	asserta(wolf(15,13)),
-	asserta(wolf(16,13)),
-	asserta(wolf(17,13)),
+	asserta(wolfcamp(15,12)),
+	asserta(wolfcamp(16,12)),
+	asserta(wolfcamp(17,12)),
+	asserta(wolfcamp(15,13)),
+	asserta(wolfcamp(16,13)),
+	asserta(wolfcamp(17,13)),
 
-	asserta(dungeon(9,17)),
+	asserta(underlord(9,17)),
 	!.
 
 misidone :- 
@@ -144,28 +144,28 @@ misidone :-
 	asserta(barrier(16,14)),
 	asserta(barrier(17,14)),
 
-	asserta(goblin(15,6)),
-	asserta(goblin(16,6)),
-	asserta(goblin(17,6)),
-	asserta(goblin(15,7)),
-	asserta(goblin(16,7)),
-	asserta(goblin(17,7)),
+	asserta(goblincamp(15,6)),
+	asserta(goblincamp(16,6)),
+	asserta(goblincamp(17,6)),
+	asserta(goblincamp(15,7)),
+	asserta(goblincamp(16,7)),
+	asserta(goblincamp(17,7)),
 
-	asserta(slime(15,9)),
-	asserta(slime(16,9)),
-	asserta(slime(17,9)),
-	asserta(slime(15,10)),
-	asserta(slime(16,10)),
-	asserta(slime(17,10)),
+	asserta(slimecamp(15,9)),
+	asserta(slimecamp(16,9)),
+	asserta(slimecamp(17,9)),
+	asserta(slimecamp(15,10)),
+	asserta(slimecamp(16,10)),
+	asserta(slimecamp(17,10)),
 
-	asserta(wolf(15,12)),
-	asserta(wolf(16,12)),
-	asserta(wolf(17,12)),
-	asserta(wolf(15,13)),
-	asserta(wolf(16,13)),
-	asserta(wolf(17,13)),
+	asserta(wolfcamp(15,12)),
+	asserta(wolfcamp(16,12)),
+	asserta(wolfcamp(17,12)),
+	asserta(wolfcamp(15,13)),
+	asserta(wolfcamp(16,13)),
+	asserta(wolfcamp(17,13)),
 
-	asserta(dungeon(9,17)),
+	asserta(underlord(9,17)),
 	!.
 
 secretmap :- 
@@ -201,7 +201,7 @@ secretmap :-
 	asserta(star(2,12)),
 
 	asserta(secretboss(1,11)),
-	asserta(dungeon(9,17)),
+	asserta(underlord(9,17)),
 	!.
 
 %definisi borders
@@ -238,13 +238,13 @@ printpeta(X,Y) :-
 printpeta(X,Y) :-
 	quest(X,Y), !, write('Q').
 printpeta(X,Y) :-
-	goblin(X,Y), !, write('G').
+	goblincamp(X,Y), !, write('G').
 printpeta(X,Y) :-
-	slime(X,Y), !, write('L').
+	slimecamp(X,Y), !, write('L').
 printpeta(X,Y) :-
-	wolf(X,Y), !, write('W').
+	wolfcamp(X,Y), !, write('W').
 printpeta(X,Y) :-
-	dungeon(X,Y), !, write('D').
+	underlord(X,Y), !, write('D').
 printpeta(X,Y) :-
 	secretboss(X,Y), !, write('H').
 printpeta(_,_) :-
