@@ -1,9 +1,10 @@
 :- dynamic(lebarpeta/1).
 :- dynamic(tinggipeta/1).
 
+:- dynamic(posisipemain/2).
+
 :- dynamic(legenda/1).
 :- dynamic(barrier/2).
-:- dynamic(gate/2).
 :- dynamic(star/2).
 
 :- dynamic(kunci/2).
@@ -22,8 +23,12 @@
 lebarpeta(18).
 tinggipeta(18).
 
+spawnpemain :-
+	asserta(posisipemain(1,1)).
+
 mulai :-
 	retractall(whichstage(_)),
+	spawnpemain,
 	asserta(whichstage(1)).
 
 questsdone :-
@@ -116,20 +121,20 @@ mapunlock :-
 	asserta(shop(9,1)),
 	asserta(quest(9,2)),
 
-	asserta(gate(10,1)),
-	asserta(gate(10,2)),
-	asserta(gate(10,3)),
-	asserta(gate(9,3)),
+	asserta(barrier(10,1)),
+	asserta(barrier(10,2)),
+	asserta(barrier(10,3)),
+	asserta(barrier(9,3)),
 
-	asserta(gate(9,5)),
-	asserta(gate(10,5)),
-	asserta(gate(11,5)),
-	asserta(gate(12,5)),
-	asserta(gate(13,5)),
-	asserta(gate(14,5)),
-	asserta(gate(15,5)),
-	asserta(gate(16,5)),
-	asserta(gate(17,5)),
+	asserta(barrier(9,5)),
+	asserta(barrier(10,5)),
+	asserta(barrier(11,5)),
+	asserta(barrier(12,5)),
+	asserta(barrier(13,5)),
+	asserta(barrier(14,5)),
+	asserta(barrier(15,5)),
+	asserta(barrier(16,5)),
+	asserta(barrier(17,5)),
 
 	asserta(star(10,17)),
 	asserta(star(11,17)),
@@ -193,20 +198,20 @@ mapsecret :-
 	asserta(shop(9,1)),
 	asserta(quest(9,2)),
 
-	asserta(gate(10,1)),
-	asserta(gate(10,2)),
-	asserta(gate(10,3)),
-	asserta(gate(9,3)),
+	asserta(barrier(10,1)),
+	asserta(barrier(10,2)),
+	asserta(barrier(10,3)),
+	asserta(barrier(9,3)),
 
-	asserta(gate(9,5)),
-	asserta(gate(10,5)),
-	asserta(gate(11,5)),
-	asserta(gate(12,5)),
-	asserta(gate(13,5)),
-	asserta(gate(14,5)),
-	asserta(gate(15,5)),
-	asserta(gate(16,5)),
-	asserta(gate(17,5)),
+	asserta(barrier(9,5)),
+	asserta(barrier(10,5)),
+	asserta(barrier(11,5)),
+	asserta(barrier(12,5)),
+	asserta(barrier(13,5)),
+	asserta(barrier(14,5)),
+	asserta(barrier(15,5)),
+	asserta(barrier(16,5)),
+	asserta(barrier(17,5)),
 
 	asserta(star(10,17)),
 	asserta(star(11,17)),
@@ -237,37 +242,37 @@ bataskanan(X,_):-
 	X =:= A,!.
 
 %mengeprint peta gaes
-printpeta(X,Y) :-
+printchar(X,Y) :-
+	posisipemain(X,Y), !, write('P').
+printchar(X,Y) :-
 	batasatas(X,Y), !, write('#').
-printpeta(X,Y) :-
+printchar(X,Y) :-
 	batasbawah(X,Y), !, write('#').
-printpeta(X,Y) :-
+printchar(X,Y) :-
 	bataskiri(X,Y), !, write('#').
-printpeta(X,Y) :-
+printchar(X,Y) :-
 	bataskanan(X,Y), !, write('#').
-printpeta(X,Y) :-
+printchar(X,Y) :-
 	barrier(X,Y), !, write('#').
-printpeta(X,Y) :-
-	gate(X,Y), !, write('/').
-printpeta(X,Y) :-
+printchar(X,Y) :-
 	star(X,Y), !, write('*').
-printpeta(X,Y) :-
+printchar(X,Y) :-
 	kunci(X,Y), !, write('K').
-printpeta(X,Y) :-
+printchar(X,Y) :-
 	shop(X,Y), !, write('S').
-printpeta(X,Y) :-
+printchar(X,Y) :-
 	quest(X,Y), !, write('Q').
-printpeta(X,Y) :-
+printchar(X,Y) :-
 	goblincamp(X,Y), !, write('G').
-printpeta(X,Y) :-
+printchar(X,Y) :-
 	slimecamp(X,Y), !, write('L').
-printpeta(X,Y) :-
+printchar(X,Y) :-
 	wolfcamp(X,Y), !, write('W').
-printpeta(X,Y) :-
+printchar(X,Y) :-
 	underlord(X,Y), !, write('D').
-printpeta(X,Y) :-
+printchar(X,Y) :-
 	secretboss(X,Y), !, write('H').
-printpeta(_,_) :-
+printchar(_,_) :-
 	write('-').
 
 legenda(mapawal) :-
@@ -303,7 +308,7 @@ legenda(mapsecret) :-
 
 map :-
 	whichstage(1),
-	retractall(gate(_,_)),
+	retractall(barrier(_,_)),
 	retractall(slimecamp(_,_)),
 	retractall(goblincamp(_,_)),
 	retractall(wolfcamp(_,_)),
@@ -317,7 +322,7 @@ map :-
 	Ymax is T,
 	forall(between(Y,Ymax,J), (
 			forall(between(X,Xmax,I), (
-					printpeta(I,J)
+					printchar(I,J)
 				)),
 			nl
 		)),
@@ -326,7 +331,7 @@ map :-
 
 map :-
 	whichstage(2),
-	retractall(gate(_,_)),
+	retractall(barrier(_,_)),
 	retractall(slimecamp(_,_)),
 	retractall(goblincamp(_,_)),
 	retractall(wolfcamp(_,_)),
@@ -340,7 +345,7 @@ map :-
 	Ymax is T,
 	forall(between(Y,Ymax,J), (
 			forall(between(X,Xmax,I), (
-					printpeta(I,J)
+					printchar(I,J)
 				)),
 			nl
 		)),
@@ -349,12 +354,17 @@ map :-
 
 map :-
 	whichstage(3),
-	retractall(gate(_,_)),
+	retractall(barrier(_,_)),
 	retractall(slimecamp(_,_)),
 	retractall(goblincamp(_,_)),
 	retractall(wolfcamp(_,_)),
 	retractall(barrier(_,_)),
 	mapsecret,
+	printmap,
+	legenda(mapsecret),
+	!.
+
+printmap :-
 	tinggipeta(T),
 	lebarpeta(L),
 	X is 0,
@@ -363,16 +373,95 @@ map :-
 	Ymax is T,
 	forall(between(Y,Ymax,J), (
 			forall(between(X,Xmax,I), (
-					printpeta(I,J)
+					printchar(I,J)
 				)),
 			nl
 		)),
-	legenda(mapsecret),
 	!.
 
+w :-
+	posisipemain(X,Y),
+	Ynew is Y-1,
+	batasatas(X,Ynew),
+	write('You ran into a wall.'),
+	!.
 
+w :-
+	posisipemain(X,Y),
+	Ynew is Y-1,
+	barrier(X,Ynew),
+	write('You ran into a wall.'),
+	!.
 
-	
+w :-
+	retract(posisipemain(X,Y)),
+	Ynew is Y-1,
+	asserta(posisipemain(X,Ynew)),
+	printmap,
+	!.
+
+s :-
+	posisipemain(X,Y),
+	Ynew is Y+1,
+	batasbawah(X,Ynew),
+	write('You ran into a wall.'),
+	!.
+
+s :-
+	posisipemain(X,Y),
+	Ynew is Y+1,
+	barrier(X,Ynew),
+	write('You ran into a wall.'),
+	!.
+
+s :-
+	retract(posisipemain(X,Y)),
+	Ynew is Y+1,
+	asserta(posisipemain(X,Ynew)),
+	printmap,
+	!.
+
+a :-
+	posisipemain(X,Y),
+	Xnew is X-1,
+	batasbawah(Xnew,Y),
+	write('You ran into a wall.'),
+	!.
+
+a :-
+	posisipemain(X,Y),
+	Xnew is X-1,
+	barrier(Xnew,Y),
+	write('You ran into a wall.'),
+	!.
+
+a :-
+	retract(posisipemain(X,Y)),
+	Xnew is X-1,
+	asserta(posisipemain(Xnew,Y)),
+	printmap,
+	!.
+
+d :-
+	posisipemain(X,Y),
+	Xnew is X+1,
+	batasbawah(Xnew,Y),
+	write('You ran into a wall.'),
+	!.
+
+d :-
+	posisipemain(X,Y),
+	Xnew is X+1,
+	barrier(Xnew,Y),
+	write('You ran into a wall.'),
+	!.
+
+d :-
+	retract(posisipemain(X,Y)),
+	Xnew is X+1,
+	asserta(posisipemain(Xnew,Y)),
+	printmap,
+	!.
 
 
 
