@@ -20,7 +20,7 @@
 :- discontiguous(restoreHealth/1).
 
 spawnDungeon :-
-    initId,
+    initIdDungeon,
     initDungeon,
     initExpDungeon,
     initLevel,
@@ -93,7 +93,7 @@ getlevel(Name) :-
     level(Name, Lvl),
     TempLvl is Lvl + 1,
     dungeonExp(Name, Exp),
-    TempExp is Exp + 20,
+    TempExp is Exp + 15,
     baseHp(Name, BaseHp),
     TempBaseHp is BaseHp+30,
     TempHp is TempBaseHp,
