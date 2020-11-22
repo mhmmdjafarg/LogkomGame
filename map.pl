@@ -1,23 +1,41 @@
 :- dynamic(lebarpeta/1).
 :- dynamic(tinggipeta/1).
-:- dynamic(peta/1).
+
 :- dynamic(legenda/1).
 :- dynamic(barrier/2).
 :- dynamic(gate/2).
 :- dynamic(star/2).
+
 :- dynamic(kunci/2).
 :- dynamic(shop/2).
 :- dynamic(quest/2).
+
 :- dynamic(goblincamp/2).
 :- dynamic(slimecamp/2).
 :- dynamic(wolfcamp/2).
+
 :- dynamic(underlord/2).
 :- dynamic(secretboss/2).
+
+:- dynamic(whichstage/1).
 
 lebarpeta(18).
 tinggipeta(18).
 
-mulai :- 
+mulai :-
+	retractall(whichstage(_)),
+	asserta(whichstage(1)).
+
+questsdone :-
+	retractall(whichstage(_)),
+	asserta(whichstage(2)).
+
+secretstage :-
+	retractall(whichstage(_)),
+	asserta(whichstage(3)).
+
+
+mapawal :- 
 	asserta(kunci(14,3)),
 	asserta(shop(9,1)),
 	asserta(quest(9,2)),
@@ -93,7 +111,7 @@ mulai :-
 	asserta(underlord(9,17)),
 	!.
 
-misidone :- 
+mapunlock :- 
 	asserta(kunci(14,3)),
 	asserta(shop(9,1)),
 	asserta(quest(9,2)),
@@ -170,7 +188,7 @@ misidone :-
 	asserta(underlord(9,17)),
 	!.
 
-secretmap :- 
+mapsecret :- 
 	asserta(kunci(14,3)),
 	asserta(shop(9,1)),
 	asserta(quest(9,2)),
@@ -252,7 +270,7 @@ printpeta(X,Y) :-
 printpeta(_,_) :-
 	write('-').
 
-legenda(mulai) :-
+legenda(mapawal) :-
 	write('Legends:'),nl,
 	write('     K: Key'),nl,
 	write('     S: Shop'), nl,
@@ -263,7 +281,7 @@ legenda(mulai) :-
 	write('     D: Dungeon'),
 	!.
 
-legenda(misidone) :-
+legenda(mapunlock) :-
 	write('Legends:'),nl,
 	write('     K: Key'),nl,
 	write('     S: Shop'), nl,
@@ -274,7 +292,7 @@ legenda(misidone) :-
 	write('     D: Dungeon'),
 	!.
 
-legenda(secretmap) :-
+legenda(mapsecret) :-
 	write('Legends:'),nl,
 	write('     K: Key'),nl,
 	write('     S: Shop'), nl,
@@ -283,13 +301,14 @@ legenda(secretmap) :-
 	write('     H: Go there and find out for yourself.'),
 	!.
 
-peta(Apa) :-
+map :-
+	whichstage(1),
 	retractall(gate(_,_)),
 	retractall(slimecamp(_,_)),
 	retractall(goblincamp(_,_)),
 	retractall(wolfcamp(_,_)),
 	retractall(barrier(_,_)),
-	Apa,
+	mapawal,
 	tinggipeta(T),
 	lebarpeta(L),
 	X is 0,
@@ -302,7 +321,53 @@ peta(Apa) :-
 				)),
 			nl
 		)),
-	legenda(Apa),
+	legenda(mapawal),
+	!.
+
+map :-
+	whichstage(2),
+	retractall(gate(_,_)),
+	retractall(slimecamp(_,_)),
+	retractall(goblincamp(_,_)),
+	retractall(wolfcamp(_,_)),
+	retractall(barrier(_,_)),
+	mapunlock,
+	tinggipeta(T),
+	lebarpeta(L),
+	X is 0,
+	Xmax is L,
+	Y is 0,
+	Ymax is T,
+	forall(between(Y,Ymax,J), (
+			forall(between(X,Xmax,I), (
+					printpeta(I,J)
+				)),
+			nl
+		)),
+	legenda(mapunlock),
+	!.
+
+map :-
+	whichstage(3),
+	retractall(gate(_,_)),
+	retractall(slimecamp(_,_)),
+	retractall(goblincamp(_,_)),
+	retractall(wolfcamp(_,_)),
+	retractall(barrier(_,_)),
+	mapsecret,
+	tinggipeta(T),
+	lebarpeta(L),
+	X is 0,
+	Xmax is L,
+	Y is 0,
+	Ymax is T,
+	forall(between(Y,Ymax,J), (
+			forall(between(X,Xmax,I), (
+					printpeta(I,J)
+				)),
+			nl
+		)),
+	legenda(mapsecret),
 	!.
 
 
