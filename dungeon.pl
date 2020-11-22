@@ -1,4 +1,4 @@
-
+:- dynamic(idDungeon/2).
 :- dynamic(dungeon/1).
 :- dynamic(level/2).
 :- dynamic(baseHp/2).
@@ -15,14 +15,23 @@
 :- discontiguous(initAttack/0).
 :- discontiguous(initDefence/0).
 :- discontiguous(getlevel/1).
+:- discontiguous(restoreHealth/1).
 
 spawnDungeon :-
+    initId,
     initDungeon,
     initLevel,
     initbaseHealth,
     initHealth,
     initAttack,
     initDefence.
+
+initIdDungeon :-
+    assertz(idDungeon(goblin,1)),
+    assertz(idDungeon(slime,2)),
+    assertz(idDungeon(wolf,3)),
+    assertz(idDungeon(underlord,4)),
+    assertz(idDungeon(dungeonBoss,5)).
 
 initDungeon :-
     assertz(dungeon(goblin)),
@@ -92,6 +101,9 @@ getlevel(Name) :-
     asserta(health(Name, TempHp)),
     asserta(attack(Name, TempAtt)),
     asserta(defence(Name,TempDef)),!.
-    
-    
+
+restoreHealth(Name) :-
+    retract(health(Name,_)),
+    baseHp(Name, Base),
+    asserta(health(Name, Base)), !.
 
