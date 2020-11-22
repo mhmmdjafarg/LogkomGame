@@ -1,5 +1,7 @@
 :- dynamic(lebarpeta/1).
 :- dynamic(tinggipeta/1).
+:- dynamic(peta/1).
+:- dynamic(legenda/1).
 :- dynamic(barrier/2).
 :- dynamic(gate/2).
 :- dynamic(star/2).
@@ -250,8 +252,44 @@ printpeta(X,Y) :-
 printpeta(_,_) :-
 	write('-').
 
-map :- 
-	secretmap,
+legenda(mulai) :-
+	write('Legends:'),nl,
+	write('     K: Key'),nl,
+	write('     S: Shop'), nl,
+	write('     Q: Quests'),nl,
+	write('     G: Goblin camp'),nl,
+	write('     S: Slime camp'),nl,
+	write('     W: Wolf camp'),nl,
+	write('     D: Dungeon'),
+	!.
+
+legenda(misidone) :-
+	write('Legends:'),nl,
+	write('     K: Key'),nl,
+	write('     S: Shop'), nl,
+	write('     Q: Quests'),nl,
+	write('     G: Goblin camp'),nl,
+	write('     S: Slime camp'),nl,
+	write('     W: Wolf camp'),nl,
+	write('     D: Dungeon'),
+	!.
+
+legenda(secretmap) :-
+	write('Legends:'),nl,
+	write('     K: Key'),nl,
+	write('     S: Shop'), nl,
+	write('     Q: Quests'),nl,
+	write('     D: Dungeon'),nl,
+	write('     H: Go there and find out for yourself.'),
+	!.
+
+peta(Apa) :-
+	retractall(gate(_,_)),
+	retractall(slimecamp(_,_)),
+	retractall(goblincamp(_,_)),
+	retractall(wolfcamp(_,_)),
+	retractall(barrier(_,_)),
+	Apa,
 	tinggipeta(T),
 	lebarpeta(L),
 	X is 0,
@@ -264,7 +302,10 @@ map :-
 				)),
 			nl
 		)),
+	legenda(Apa),
 	!.
+
+
 
 	
 
