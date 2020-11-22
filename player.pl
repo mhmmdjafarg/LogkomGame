@@ -11,7 +11,7 @@
 :- dynamic(ulti/2).
 :- dynamic(type/2).
 :- dynamic(id/2).
-:- dynmaic(levelplayer/1)
+:- dynamic(levelplayer/1).
 
 :- discontiguous(playerLevel/0).
 :- discontiguous(char_player/0).
@@ -23,115 +23,115 @@
 :- discontiguous(char_healthbase/0).
 :- discontiguous(char_skill/0).
 :- discontiguous(weapon_type/0).
-:- discontiguous(char_id/0).b
+:- discontiguous(char_id/0).
 :- discontiguous(charplayer/0).
 
 
 charplayer :-
-    playerLevel
+    playerLevel,
     char_damage,
+    char_player,
     char_defense,
-    char_health,
     char_dodge,
     char_healthbase,
+    char_health,
     char_id,
-    char_jenis,
     char_milik,
     char_skill,
-    char_player,
     weapon_type.
 
 /*nama player*/
 char_player :-
-    asserta(player(Swordsman)),
-    asserta(player(Archer)),
-    asserta(player(Ninja)).
+    asserta(player(swordsman)),
+    asserta(player(archer)),
+    asserta(player(ninja)).
 
 /* Level Player */
 playerLevel :-
-    assertz(levelplayer(Swordsman,1)),
-    assertz(levelplayer(Archer,1)),
-    assertz(levelplayer(Ninja,1)).
+    assertz(levelplayer(swordsman,1)),
+    assertz(levelplayer(archer,1)),
+    assertz(levelplayer(ninja,1)).
 
 /*health base*/
 char_healthbase :-
-    asserta(healthbase(Swordsman, 850)), 
-    asserta(healthbase(Archer, 670)),
-    asserta(healthbase(Ninja, 700)).
+    asserta(healthbase(swordsman, 850)), 
+    asserta(healthbase(archer, 670)),
+    asserta(healthbase(ninja, 700)).
 
 /*health*/
 char_health :-
-    healthbase(Swordsman, X),
-    healthbase(Archer, Y),
-    healthbase(Ninja, Z),
-    asserta(healthPlayer(Swordsman, X)),
-    asserta(healthPlayer(Archer, Y)),
-    asserta(healthPlayer(Ninja, Z)),
+    healthbase(swordsman, X),
+    healthbase(archer, Y),
+    healthbase(ninja, Z),
+    asserta(healthPlayer(swordsman, X)),
+    asserta(healthPlayer(archer, Y)),
+    asserta(healthPlayer(ninja, Z)).
 
 /*tipe*/
 weapon_type :-
-    asserta(type(Swordsman, Sword)),
-    asserta(type(Archer, Bow)),
-    asserta(type(Ninja, Kunai)).
+    asserta(type(swordsman, Sword)),
+    asserta(type(archer, Bow)),
+    asserta(type(ninja, Kunai)).
 
 /*normal attack*/
 char_damage :-
-    asserta(damage(Swordsman, 53)),
-    asserta(damage(Archer, 60)),
-    asserta(damage(Ninja, 58)).
+    asserta(damage(swordsman, 53)),
+    asserta(damage(archer, 60)),
+    asserta(damage(ninja, 58)).
 
 /*normal defense*/
 char_defense :-
-    asserta(defense(Swordsman, 67)),
-    asserta(defense(Archer, 45)),
-    asserta(defense(Ninja, 55)).
+    asserta(defense(swordsman, 67)),
+    asserta(defense(archer, 45)),
+    asserta(defense(ninja, 55)).
 
 /* Player Dodge */
 char_dodge :-
-    asserta(dodge(Swordsman, 1)),
-    asserta(dodge(Archer, 1)),
-    asserta(dodge(Ninja, 1)).
+    asserta(dodge(swordsman, 1)),
+    asserta(dodge(archer, 1)),
+    asserta(dodge(ninja, 1)).
 
 
 /*skill */
 char_skill :-
-    asserta(skill(Swordsman, 60)),
-    asserta(skill(Archer, 60)),
-    asserta(skill(Ninja, 60)).
+    asserta(skill(swordsman, 200)),
+    asserta(skill(archer, 200)),
+    asserta(skill(ninja, 200)).
 
 /*kepemilikan*/
 char_milik :-
-    asserta(milik(Swordsman, 0)),
-    asserta(milik(Archer, 0)),
-    asserta(milik(Ninja, 0)),
+    asserta(milik(swordsman, 0)),
+    asserta(milik(archer, 0)),
+    asserta(milik(ninja, 0)).
 
 /*id player*/
 char_id :-
-    asserta(id(Swordsman, 1)),
-    asserta(id(Archer, 2)),
-    asserta(id(Ninja, 3)).
+    asserta(id(swordsman, 1)),
+    asserta(id(archer, 2)),
+    asserta(id(ninja, 3)).
 
-updatelevel(player) :-
-    levelplayer(player, levelP),
-    Templevel is levelP + 1,
-    healthbase(player, healthbase),
-    Temphealthbase is healthbase+30,
+updatelevel(Player) :-
+    levelplayer(Player, LevelP),
+    Templevel is LevelP + 1,
+    healthbase(Player, Healthbase),
+    Temphealthbase is Healthbase+30,
     Tempnyawa is Temphealthbase,
-    damage(player, serangan),
-    Tempdamage is serangan+8,
-    defense(player, tahanan),
-    Temptahan is tahanan+5,
-    retract(levelplayer(player,_)),
-    retract(healthbase(player,_)),
-    retract(health(player,_)),
-    retract(damage(player,_)),
-    retract(defense(player,_)),
+    damage(Player, Serangan),
+    Tempdamage is Serangan+8,
+    defense(Player, Tahanan),
+    Temptahan is Tahanan+5,
 
-    asserta(level(player,Templevel)),
-    asserta(healthbase(player, Temphealthbase)),
-    asserta(health(player, Tempnyawa)),
-    asserta(damage(player, Tempserangan)),
-    asserta(defense(player,Temptahanan)),!.
+    retract(levelplayer(Player,_)),
+    retract(healthbase(Player,_)),
+    retract(healthPlayer(Player,_)),
+    retract(damage(Player,_)),
+    retract(defense(Player,_)),
+
+    asserta(level(Player,Templevel)),
+    asserta(healthbase(Player, Temphealthbase)),
+    asserta(healthPlayer(Player, Tempnyawa)),
+    asserta(damage(Player, Tempdamage)),
+    asserta(defense(Player,Temptahan)),!.
 
 updateserangan(player) :-
     skill(player, X),
