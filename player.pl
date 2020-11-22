@@ -12,6 +12,9 @@
 :- dynamic(type/2).
 :- dynamic(id/2).
 :- dynamic(levelplayer/1).
+:- dynamic(rubypalyer/2).
+:- dynamic(expplayerbase/2).
+:- dynamic(expplayer/2).
 
 :- discontiguous(playerLevel/0).
 :- discontiguous(char_player/0).
@@ -25,6 +28,11 @@
 :- discontiguous(weapon_type/0).
 :- discontiguous(char_id/0).
 :- discontiguous(charplayer/0).
+:- discontiguous(charRuby/0).
+:- discontiguous(char_expbase/0).
+:- discontiguous(char_exp/0).
+:- discontiguous(updatelevel/1).
+:- discontiguous(updateruby/1).
 
 
 charplayer :-
@@ -38,13 +46,16 @@ charplayer :-
     char_id,
     char_milik,
     char_skill,
-    weapon_type.
+    weapon_type,
+    char_expbase,
+    char_exp,
+    charRuby.
 
 /*nama player*/
 char_player :-
-    asserta(player(swordsman)),
-    asserta(player(archer)),
-    asserta(player(ninja)).
+    assertz(player(swordsman)),
+    assertz(player(archer)),
+    assertz(player(ninja)).
 
 /* Level Player */
 playerLevel :-
@@ -54,61 +65,79 @@ playerLevel :-
 
 /*health base*/
 char_healthbase :-
-    asserta(healthbase(swordsman, 850)), 
-    asserta(healthbase(archer, 670)),
-    asserta(healthbase(ninja, 700)).
+    assertz(healthbase(swordsman, 850)), 
+    assertz(healthbase(archer, 670)),
+    assertz(healthbase(ninja, 700)).
 
 /*health*/
 char_health :-
     healthbase(swordsman, X),
     healthbase(archer, Y),
     healthbase(ninja, Z),
-    asserta(healthPlayer(swordsman, X)),
-    asserta(healthPlayer(archer, Y)),
-    asserta(healthPlayer(ninja, Z)).
+    assertz(healthPlayer(swordsman, X)),
+    assertz(healthPlayer(archer, Y)),
+    assertz(healthPlayer(ninja, Z)).
 
 /*tipe*/
 weapon_type :-
-    asserta(type(swordsman, Sword)),
-    asserta(type(archer, Bow)),
-    asserta(type(ninja, Kunai)).
+    assertz(type(swordsman, sword)),
+    assertz(type(archer, bow)),
+    assertz(type(ninja, kunai)).
 
 /*normal attack*/
 char_damage :-
-    asserta(damage(swordsman, 53)),
-    asserta(damage(archer, 60)),
-    asserta(damage(ninja, 58)).
+    assertz(damage(swordsman, 53)),
+    assertz(damage(archer, 60)),
+    assertz(damage(ninja, 58)).
 
 /*normal defense*/
 char_defense :-
-    asserta(defense(swordsman, 67)),
-    asserta(defense(archer, 45)),
-    asserta(defense(ninja, 55)).
+    assertz(defense(swordsman, 67)),
+    assertz(defense(archer, 45)),
+    assertz(defense(ninja, 55)).
 
 /* Player Dodge */
 char_dodge :-
-    asserta(dodge(swordsman, 1)),
-    asserta(dodge(archer, 1)),
-    asserta(dodge(ninja, 1)).
+    assertz(dodge(swordsman, 1)),
+    assertz(dodge(archer, 1)),
+    assertz(dodge(ninja, 1)).
 
 
 /*skill */
 char_skill :-
-    asserta(skill(swordsman, 200)),
-    asserta(skill(archer, 200)),
-    asserta(skill(ninja, 200)).
+    assertz(skill(swordsman, 200)),
+    assertz(skill(archer, 200)),
+    assertz(skill(ninja, 200)).
 
 /*kepemilikan*/
 char_milik :-
-    asserta(milik(swordsman, 0)),
-    asserta(milik(archer, 0)),
-    asserta(milik(ninja, 0)).
+    assertz(milik(swordsman, 0)),
+    assertz(milik(archer, 0)),
+    assertz(milik(ninja, 0)).
 
 /*id player*/
 char_id :-
-    asserta(id(swordsman, 1)),
-    asserta(id(archer, 2)),
-    asserta(id(ninja, 3)).
+    assertz(id(swordsman, 1)),
+    assertz(id(archer, 2)),
+    assertz(id(ninja, 3)).
+
+/* Ruby player */
+charRuby :-
+    assertz(id(swordsman, 0)),
+    assertz(id(archer, 0)),
+    assertz(id(ninja, 0)).
+
+/* Exp player base level */
+char_expbase :-
+    assertz(expplayerbase(swordsman,50)),
+    assertz(expplayerbase(archer,50)),
+    assertz(expplayerbase(ninja,50)).
+
+/* Exp player base level */
+char_exp :-
+    assertz(expplayer(swordsman,0)),
+    assertz(expplayer(archer,0)),
+    assertz(expplayer(ninja,0)).
 
 updatelevel(Player) :-
     levelplayer(Player, LevelP),
@@ -120,23 +149,31 @@ updatelevel(Player) :-
     Tempdamage is Serangan+8,
     defense(Player, Tahanan),
     Temptahan is Tahanan+5,
+    expplayerbase(Player,Exp),
+    TempExp is Exp + 50,
+    expplayer(Player,Expskrg),
+    Expskrg is 0,
 
     retract(levelplayer(Player,_)),
     retract(healthbase(Player,_)),
     retract(healthPlayer(Player,_)),
     retract(damage(Player,_)),
     retract(defense(Player,_)),
+    retract(expplayerbase(Player,_)),
+    retract(expplayer(Player,_)),
 
-    asserta(level(Player,Templevel)),
-    asserta(healthbase(Player, Temphealthbase)),
-    asserta(healthPlayer(Player, Tempnyawa)),
-    asserta(damage(Player, Tempdamage)),
-    asserta(defense(Player,Temptahan)),!.
+    assertz(level(Player,Templevel)),
+    assertz(healthbase(Player, Temphealthbase)),
+    assertz(healthPlayer(Player, Tempnyawa)),
+    assertz(damage(Player, Tempdamage)),
+    assertz(expplayerbase(Player, TempExp)),
+    assertz(expplayerbase(Player, Expskrg)),
+    assertz(defense(Player,Temptahan)),!.
 
-updateserangan(player) :-
-    skill(player, X),
-    damage(player, Y),
-    Y is X,
-    retract(damage(player,_)),
+updateruby(Player) :-
+    rubyplayer(player, X),
+    Tempruby is X + 8 ,
+    Rubyasli is Tempruby,
+    retract(rubypalyer(player,_)),
 
-    asserta(damage(player,Y)).
+    assertz(rubypalyer(player,Rubyasli)),!.
