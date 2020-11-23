@@ -52,12 +52,6 @@ gacha_list(3,health_potion,_).
 gacha_list(4,defence_potion,_).
 gacha_list(5,attack_potion,_).
 
-open_gacha(Class):-
-    random(1,6,X),
-    gacha_list(X,Item,Class),
-    add_inventory(Item),
-    write('Congraulations you get...'), write(Item), write('!'),!.
-
 ruby_check(Player_class,New_money):-
     New_money >= 0,
     retract(rubyplayer(Player_class,_)),
@@ -70,11 +64,22 @@ ruby_check(_,New_money):-
     write('Better you gain more rubies...'), nl,
     write('Exiting store...'), nl.
 
+open_gacha(_,New_money):-
+    New_money < 0,
+    ruby_check(_,New_money).
+
+open_gacha(Class,New_money):-
+    New_money >= 0,
+    random(1,6,X),
+    gacha_list(X,Item,Class),
+    add_inventory(Item),
+    write('Congratulations you get...'), write(Item), write('!'),nl,
+    ruby_check(Class,New_money),!.
+
 
 buy_choice(1,Player_money,Player_class):- %gacha
     New_money is Player_money - 150,
-    ruby_check(Player_class,New_money),
-    open_gacha(Player_class).
+    open_gacha(Player_class,New_money).
 
 buy_choice(2,Player_money,Player_class) :-
     write('What kinda potion you wanna buy?'), nl, %potion
