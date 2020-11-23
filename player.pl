@@ -49,8 +49,7 @@ charplayer :-
     weapon_type,
     char_expbase,
     char_exp,
-    charRuby,
-    charInventory.
+    charRuby.
 
 /*nama player*/
 char_player :-
