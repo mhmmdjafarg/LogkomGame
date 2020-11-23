@@ -28,8 +28,8 @@ weapon_prize(5,kakute).
 
 weapon_randomizer(Class,Weapon):-
     random(1,6,X),
-    weapon_prize(X,Weapon),
-    typeweapon(Class,Weapon),!.
+    typeweapon(Class,Weapon),
+    weapon_prize(X,Weapon),!.
 
 armor_prize(1,metal_armor).
 armor_prize(2,nanosuit).
@@ -55,7 +55,8 @@ gacha_list(5,attack_potion,_).
 open_gacha(Class):-
     random(1,6,X),
     gacha_list(X,Item,Class),
-    add_inventory(Item),!.
+    add_inventory(Item),
+    write('Congraulations you get...'), write(Item), write('!'),!.
 
 ruby_check(Player_class,New_money):-
     New_money >= 0,
@@ -96,6 +97,7 @@ cancel_verif(X,_,_,_):-
     X =\= 3, write('Waste my time... Better buyin somethin next time').
 
 shop(Player_money,Player_class):-
+    char(Player_class),
     write('Welcome! What\'re ya buyin?'), nl,
     write('1. Gacha (150 Ruby)'), nl,
     write('2. Potion (50 Ruby)'), nl,
@@ -104,4 +106,4 @@ shop(Player_money,Player_class):-
     write('Ya sure?'), nl,
     write('Type 3 to proceed and other keys to exit'), nl,
     read(X), nl,
-    cancel_verif(X,Choice,Player_money,Player_class).
+    cancel_verif(X,Choice,Player_money,Player_class),!.
