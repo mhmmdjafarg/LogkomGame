@@ -1,11 +1,13 @@
 %STORE
 :- include('player.pl').
 
-add_inventory(Item):-
-    inventory(List_prev),
-    New_List is List_prev,
-    retract(inventory(List_prev)),
-    assertz(inventory([Item|New_List])).
+:- dynamic(inventory/2).
+
+rubyplayer(ninja,100). %kalau mau testing harus ada inventory dan rubyplayer
+inventory(0,gacha).
+inventory(0,attack_potion).
+inventory(0,health_potion).
+inventory(0,defence_potion).
 
 potion_choice(1):-
     add_inventory(health_potion).
@@ -21,7 +23,7 @@ ruby_check(Player_class,New_money):-
     write('Heh heh, thank you!'),nl,
     write('Exiting store...'), nl.
 
-ruby_check(Player_class,New_money):-
+ruby_check(_,New_money):-
     New_money < 0,
     write('Better you gain more rubies...'), nl,
     write('Exiting store...'), nl.
@@ -38,22 +40,26 @@ buy_choice(2,Player_money,Player_class) :-
     write('2. Attack Potion'), nl,
     write('3. Defence Potion'), nl,
     read(Choice_potion),
-    potion_choice(3),
+    potion_choice(Choice_potion),
     New_money is Player_money - 50,
     ruby_check(Player_class,New_money).
+
+cancel_verif(3,_,_,_):-
+    is_full,
+    write('Your inventory is full!').
 
 cancel_verif(3,Choice,Player_money,Player_class):-
     buy_choice(Choice,Player_money,Player_class).
 
-cancel_verif(X,Choice,Player_money,Player_class):-
-    X \= 3, write('Waste my time... Better buyin somethin next time').
+cancel_verif(X,_,_,_):-
+    X =\= 3, write('Waste my time... Better buyin somethin next time').
 
 shop(Player_money,Player_class):-
     write('Welcome! What\'re ya buyin?'), nl,
     write('1. Gacha (150 Ruby)'), nl,
     write('2. Potion (50 Ruby)'), nl,
     write('Type 1 for Gacha and 2 for Potion.') , nl,
-    read(Choice),
+    read(Choice), nl,
     write('Ya sure?'), nl,
     write('Type 3 to proceed and other keys to exit'), nl,
     read(X), nl,

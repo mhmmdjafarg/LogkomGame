@@ -15,6 +15,7 @@
 :- dynamic(rubyplayer/2).
 :- dynamic(expplayerbase/2).
 :- dynamic(expplayer/2).
+:- dynamic(inventory/2).
 
 :- discontiguous(playerLevel/0).
 :- discontiguous(char_player/0).
@@ -34,6 +35,7 @@
 :- discontiguous(updatelevel/1).
 :- discontiguous(updateruby/1).
 :- discontiguous(printPlayerStats/1).
+:- discontiguous(charInventory/0).
 
 
 charplayer :-
@@ -50,7 +52,36 @@ charplayer :-
     weapon_type,
     char_expbase,
     char_exp,
-    charRuby.
+    charRuby,
+    charInventory.
+
+/*ngurusin add inventory*/
+max_capacity(100).
+
+total_capacity(0,[]).
+
+total_capacity(Length,[H|T]):-
+    total_capacity(Prev_length,T),
+    inventory(Quantity,H),
+    Length is Prev_length + Quantity.
+
+check_capacity(Length):-
+    findall(Item,inventory(_,Item),List),
+    total_capacity(Length,List).
+
+is_full:-
+    check_capacity(Length),
+    Length >= 100.
+
+add_inventory(_):-
+    is_full,
+    write('Inventory full!').
+
+add_inventory(Item):-
+    inventory(Quantity,Item),
+    New_quantity is Quantity + 1,
+    retract(inventory(Quantity,Item)),
+    assertz(inventory(New_quantity,Item)).
 
 /*nama player*/
 char_player :-
@@ -128,11 +159,17 @@ charRuby :-
     assertz(rubyplayer(archer, 0)),
     assertz(rubyplayer(ninja, 0)).
 
-/* Inventory Player 
+/* Inventory Player*/
 charInventory :-
-    assertz(inventory([])).
-    
-*/
+    assertz(inventory(0,attack_potion)),
+    assertz(inventory(0,health_potion)),
+    assertz(inventory(0,defence_potion)),
+    assertz(inventory(0,health_potion)),
+    assertz(inventory(0,armor)),
+    assertz(inventory(0,boots)),
+    assertz(inventory(0,sword)),
+    assertz(inventory(0,bow)),
+    assertz(inventory(0,kunai)).
 
 /* Exp player base level */
 char_expbase :-
