@@ -39,15 +39,23 @@ armor_prize(5,elite_advanced_suit).
 
 armor_randomizer(Armor):-
     random(1,6,X),
+    armor_prize(X,Armor),!.
 
 
-gacha_list(Weapon,Class):-
+gacha_list(1,Weapon,Class):-
     weapon_randomizer(Class,Weapon).
 
-gacha_list()
+gacha_list(2,Armor,_):-
+    armor_randomizer(Armor).
 
-%open_gacha(Item):-
+gacha_list(3,health_potion,_).
+gacha_list(4,defence_potion,_).
+gacha_list(5,attack_potion,_).
 
+open_gacha(Class):-
+    random(1,6,X),
+    gacha_list(X,Item,Class),
+    add_inventory(Item),!.
 
 ruby_check(Player_class,New_money):-
     New_money >= 0,
@@ -63,9 +71,9 @@ ruby_check(_,New_money):-
 
 
 buy_choice(1,Player_money,Player_class):- %gacha
-    add_inventory(gacha),
     New_money is Player_money - 150,
-    ruby_check(Player_class,New_money).
+    ruby_check(Player_class,New_money),
+    open_gacha(Player_class).
 
 buy_choice(2,Player_money,Player_class) :-
     write('What kinda potion you wanna buy?'), nl, %potion
