@@ -33,6 +33,7 @@
 :- discontiguous(char_exp/0).
 :- discontiguous(updatelevel/1).
 :- discontiguous(updateruby/1).
+:- discontiguous(printPlayerStats/1).
 
 
 charplayer :-
@@ -144,6 +145,18 @@ char_exp :-
     assertz(expplayer(swordsman,0)),
     assertz(expplayer(archer,0)),
     assertz(expplayer(ninja,0)).
+
+printPlayerStats(Player) :-
+    levelplayer(Player, LevelPlayer),
+    damage(Player, Serang),
+    defense(Player, Tahan),
+    healthPlayer(Player, Hp),
+    write('Player'), write('Status'), nl,
+    write('Character : '), write(Player), nl,
+    write('Level     : '), write(LevelPlayer), nl,
+    write('Attack    : '), write(Serang), nl,
+    write('Defense   : '), write(Tahan), nl,
+    write('Hp        : '), write(Hp), nl, !.
 
 updatelevel(Player) :-
     levelplayer(Player, LevelP),
