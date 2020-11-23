@@ -1,6 +1,8 @@
 :- include('battle.pl').
+:- include('store.pl').
 
 %cara testing: compile dulu, habis itu "mulai.", "map." buat cetak peta, wasd buat jalan jalan
+
 :- dynamic(lebarpeta/1).
 :- dynamic(tinggipeta/1).
 
@@ -469,7 +471,17 @@ d :-
 muncul :-
 	repeat,
 		random(1,8, X),
-		(X =:= 4 -> decide; printmap),!.
+		(X =:= 4 -> decide; lain),!.
+
+lain :-
+	posisipemain(X,Y),
+	posisishop(X,Y),
+	printmap,
+	rubyplayer(Class, Money),
+	shop(Money,Class),!.
+
+lain :-
+	printmap,!.
 
 
 
