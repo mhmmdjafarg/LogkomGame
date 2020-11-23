@@ -219,7 +219,7 @@ updateHPPlayer(Damage) :-
         halt; 
         retractall(healthPlayer(Karakter,_)),
         asserta(healthPlayer(Karakter, TempHpPlayer)),!).
-    
+
 % attackPotion :-
 %     \+playing(_),
 %     write('Its not started yet'),!.

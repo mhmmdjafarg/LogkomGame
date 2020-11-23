@@ -1,5 +1,4 @@
 /* File : player.pl */
-
 :- dynamic(player/1).
 :- dynamic(healthPlayer/2).
 :- dynamic(healthbase/2).
@@ -43,11 +42,8 @@ charplayer :-
     char_damage,
     char_player,
     char_defense,
-    %char_dodge,
     char_healthbase,
     char_health,
-    %char_id,
-    %char_milik,
     char_skill,
     weapon_type,
     char_expbase,
@@ -120,12 +116,15 @@ weapon_type :-
     assertz(typeweapon(swordsman, dark_rapulser)),
     assertz(typeweapon(swordsman, sword_excalibur)),
     assertz(typeweapon(swordsman, night_sky_sword)),
+    assertz(typeweapon(swordsman, common_sword)),
     assertz(typeweapon(archer, amos_bow)),
+    assertz(typeweapon(archer, common_bow)),
     assertz(typeweapon(archer, the_viridescent_hunt)),
     assertz(typeweapon(archer, the_stringles_bow)),
     assertz(typeweapon(archer, skyward_harp)),
     assertz(typeweapon(archer, blackcliff_warbow)),
     assertz(typeweapon(ninja, kunai)),
+    assertz(typeweapon(ninja, shuriken)),
     assertz(typeweapon(ninja, katana)),
     assertz(typeweapon(ninja, tekko_kagi)),
     assertz(typeweapon(ninja, kusarigisama)),
@@ -137,11 +136,14 @@ weapon_damage :-
     assertz(damageweapon(dark_rapulser,75)),
     assertz(damageweapon(sword_excalibur,100)),
     assertz(damageweapon(night_sky_sword,80)),
+    assertz(damageweapon(common_sword,12)),
     assertz(damageweapon(amos_bow, 85)),
+    assertz(damageweapon(common_bow,15)),
     assertz(damageweapon(the_viridescent_hunt,75)),
     assertz(damageweapon(the_stringles_bow,60)),
     assertz(damageweapon(skyward_harp,80)),
     assertz(damageweapon(blackangels_warbow,100)),
+    assertz(damageweapon(shuriken,13)),
     assertz(damageweapon(kunai,85)),
     assertz(damageweapon(katana,100)),
     assertz(damageweapon(tekko_kagi,70)),
@@ -163,10 +165,14 @@ armor_type :-
     assertz(typearmor(ninja, nanosuit)),
     assertz(typearmor(ninja, wood_armor)),
     assertz(typearmor(ninja, ultimate_armor)),
+    assertz(typearmor(swordsman, common_armor)),
+    assertz(typearmor(archer, common_armor)),
+    assertz(typearmor(ninja, common_armor)),
     assertz(typearmor(ninja, elite_advanced_suit)).
 
 armor :-
     assertz(kerasarmor(metal_armor, 20)),
+    assertz(kerasarmor(common_armor, 5)),
     assertz(kerasarmor(nanosuit,40)),
     assertz(kerasarmor(wood_armor,10)),
     assertz(kerasarmor(ultimate_armor,50)),
@@ -221,6 +227,10 @@ charInventory :-
     assertz(inventory(0,katana)),
     assertz(inventory(0,tekko_kagi)),
     assertz(inventory(0,kusarigisama)),
+    assertz(inventory(0,common_sword),
+    assertz(inventory(0,common_bow)),
+    assertz(inventory(0,common_armor)),
+    assertz(inventory(0,shuriken)),
     assertz(inventory(0,kakute)).
 
 /* Exp player base level */
