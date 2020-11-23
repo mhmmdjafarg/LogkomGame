@@ -137,16 +137,16 @@ weapon_damage :-
     assertz(damageweapon(dark_rapulser,75)),
     assertz(damageweapon(sword_excalibur,100)),
     assertz(damageweapon(night_sky_sword,80)),
-    assertz(damageweapon(amos_bow, )),
-    assertz(damageweapon(archer, the_viridescent_hunt,75)),
-    assertz(damageweapon(archer, the_stringles_bow,60)),
-    assertz(damageweapon(archer, skyward_harp,80)),
-    assertz(damageweapon(archer, blackangels_warbow,100)),
-    assertz(damageweapon(ninja, kunai,85)),
-    assertz(damageweapon(ninja, katana,100)),
-    assertz(damageweapon(ninja, tekko_kagi,70)),
-    assertz(damageweapon(ninja, kusarigisama,80)),
-    assertz(damageweapon(ninja, kakute,60)).
+    assertz(damageweapon(amos_bow, 85)),
+    assertz(damageweapon(the_viridescent_hunt,75)),
+    assertz(damageweapon(the_stringles_bow,60)),
+    assertz(damageweapon(skyward_harp,80)),
+    assertz(damageweapon(blackangels_warbow,100)),
+    assertz(damageweapon(kunai,85)),
+    assertz(damageweapon(katana,100)),
+    assertz(damageweapon(tekko_kagi,70)),
+    assertz(damageweapon(kusarigisama,80)),
+    assertz(damageweapon(kakute,60)).
 
 /*normal attack*/
 char_damage :-
