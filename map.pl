@@ -429,7 +429,7 @@ s :-
 a :-
 	posisipemain(X,Y),
 	Xnew is X-1,
-	batasbawah(Xnew,Y),
+	bataskiri(Xnew,Y),
 	write('You ran into a wall.'),
 	!.
 
@@ -450,7 +450,7 @@ a :-
 d :-
 	posisipemain(X,Y),
 	Xnew is X+1,
-	batasbawah(Xnew,Y),
+	bataskanan(Xnew,Y),
 	write('You ran into a wall.'),
 	!.
 
