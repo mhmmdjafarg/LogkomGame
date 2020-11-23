@@ -188,7 +188,7 @@ printPlayerStats(Player) :-
     damage(Player, Serang),
     defense(Player, Tahan),
     healthPlayer(Player, Hp),
-    write('Player'), write('Status'), nl,
+    write('Player'), write(' Status'), nl,
     write('Character : '), write(Player), nl,
     write('Level     : '), write(LevelPlayer), nl,
     write('Attack    : '), write(Serang), nl,
