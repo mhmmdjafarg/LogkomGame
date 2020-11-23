@@ -10,6 +10,7 @@
 :- dynamic(skill/2).
 :- dynamic(ulti/2).
 :- dynamic(type/2).
+:- dynamic(damageweapon/2).
 :- dynamic(id/2).
 :- dynamic(levelplayer/1).
 :- dynamic(rubyplayer/2).
@@ -35,6 +36,7 @@
 :- discontiguous(updatelevel/1).
 :- discontiguous(updateruby/1).
 :- discontiguous(printPlayerStats/1).
+:- discontiguous(weapon_damage/0).
 :- discontiguous(charInventory/0).
 
 
@@ -53,6 +55,7 @@ charplayer :-
     char_expbase,
     char_exp,
     charRuby,
+    weapon_damage,
     charInventory.
 
 /*ngurusin add inventory*/
@@ -112,9 +115,38 @@ char_health :-
 
 /*tipe*/
 weapon_type :-
-    assertz(type(swordsman, sword)),
-    assertz(type(archer, bow)),
-    assertz(type(ninja, kunai)).
+    assertz(type(swordsman, sword_of_eventide)),
+    assertz(type(swordsman, small_sword)),
+    assertz(type(swordsman, dark_rapulser)),
+    assertz(type(swordsman, sword_excalibur)),
+    assertz(type(swordsman, night_sky_sword)),
+    assertz(type(archer, amos_bow)),
+    assertz(type(archer, the_viridescent_hunt)),
+    assertz(type(archer, the_stringles_bow)),
+    assertz(type(archer, skyward_harp)),
+    assertz(type(archer, blackcliff_warbow)),
+    assertz(type(ninja, kunai)),
+    assertz(type(ninja, katana)),
+    assertz(type(ninja, tekko_kagi)),
+    assertz(type(ninja, kusarigisama)),
+    assertz(type(ninja, kakute)).
+
+weapon_damage :-
+    assertz(damageweapon(sword_of_eventide, 85)),
+    assertz(damageweapon(small_sword,60)),
+    assertz(damageweapon(dark_rapulser,75)),
+    assertz(damageweapon(sword_excalibur,100)),
+    assertz(damageweapon(night_sky_sword,80)),
+    assertz(damageweapon(amos_bow, )),
+    assertz(damageweapon(archer, the_viridescent_hunt,75)),
+    assertz(damageweapon(archer, the_stringles_bow,60)),
+    assertz(damageweapon(archer, skyward_harp,80)),
+    assertz(damageweapon(archer, blackangels_warbow,100)),
+    assertz(damageweapon(ninja, kunai,85)),
+    assertz(damageweapon(ninja, katana,100)),
+    assertz(damageweapon(ninja, tekko_kagi,70)),
+    assertz(damageweapon(ninja, kusarigisama,80)),
+    assertz(damageweapon(ninja, kakute,60)).
 
 /*normal attack*/
 char_damage :-
