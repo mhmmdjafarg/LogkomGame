@@ -1,3 +1,5 @@
+:- include('battle.pl').
+
 %cara testing: compile dulu, habis itu "mulai.", "map." buat cetak peta, wasd buat jalan jalan
 :- dynamic(lebarpeta/1).
 :- dynamic(tinggipeta/1).
@@ -8,9 +10,9 @@
 :- dynamic(barrier/2).
 :- dynamic(star/2).
 
-:- dynamic(kunci/2).
-:- dynamic(shop/2).
-:- dynamic(quest/2).
+:- dynamic(posisikunci/2).
+:- dynamic(posisishop/2).
+:- dynamic(posisiquest/2).
 
 :- dynamic(goblincamp/2).
 :- dynamic(slimecamp/2).
@@ -42,9 +44,9 @@ secretstage :-
 
 
 mapawal :- 
-	asserta(kunci(14,3)),
-	asserta(shop(9,1)),
-	asserta(quest(9,2)),
+	asserta(posisikunci(14,3)),
+	asserta(posisishop(9,1)),
+	asserta(posisiquest(9,2)),
 
 	asserta(star(10,17)),
 	asserta(star(11,17)),
@@ -118,9 +120,9 @@ mapawal :-
 	!.
 
 mapunlock :- 
-	asserta(kunci(14,3)),
-	asserta(shop(9,1)),
-	asserta(quest(9,2)),
+	asserta(posisikunci(14,3)),
+	asserta(posisishop(9,1)),
+	asserta(posisiquest(9,2)),
 
 	asserta(barrier(10,1)),
 	asserta(barrier(10,2)),
@@ -195,9 +197,9 @@ mapunlock :-
 	!.
 
 mapsecret :- 
-	asserta(kunci(14,3)),
-	asserta(shop(9,1)),
-	asserta(quest(9,2)),
+	asserta(posisikunci(14,3)),
+	asserta(posisishop(9,1)),
+	asserta(posisiquest(9,2)),
 
 	asserta(barrier(10,1)),
 	asserta(barrier(10,2)),
@@ -258,11 +260,11 @@ printchar(X,Y) :-
 printchar(X,Y) :-
 	star(X,Y), !, write('*').
 printchar(X,Y) :-
-	kunci(X,Y), !, write('K').
+	posisikunci(X,Y), !, write('K').
 printchar(X,Y) :-
-	shop(X,Y), !, write('S').
+	posisishop(X,Y), !, write('S').
 printchar(X,Y) :-
-	quest(X,Y), !, write('Q').
+	posisiquest(X,Y), !, write('Q').
 printchar(X,Y) :-
 	goblincamp(X,Y), !, write('G').
 printchar(X,Y) :-
@@ -398,7 +400,7 @@ w :-
 	retract(posisipemain(X,Y)),
 	Ynew is Y-1,
 	asserta(posisipemain(X,Ynew)),
-	printmap,
+	muncul,
 	!.
 
 s :-
@@ -419,7 +421,7 @@ s :-
 	retract(posisipemain(X,Y)),
 	Ynew is Y+1,
 	asserta(posisipemain(X,Ynew)),
-	printmap,
+	muncul,
 	!.
 
 a :-
@@ -440,7 +442,7 @@ a :-
 	retract(posisipemain(X,Y)),
 	Xnew is X-1,
 	asserta(posisipemain(Xnew,Y)),
-	printmap,
+	muncul,
 	!.
 
 d :-
@@ -461,9 +463,13 @@ d :-
 	retract(posisipemain(X,Y)),
 	Xnew is X+1,
 	asserta(posisipemain(Xnew,Y)),
-	printmap,
+	muncul,
 	!.
 
+muncul :-
+	repeat,
+		random(1,8, X),
+		(X =:= 4 -> decide; printmap),!.
 
 
 
