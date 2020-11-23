@@ -6,6 +6,7 @@
 :- dynamic(inBattle/1).
 :- dynamic(enemy/1). %menandakan musuhnya apa
 :- dynamic(totalTurn/1). % menghitung jumlah turn pemain
+:- dynamic(playing/1). %nanti pindahin buat ngetes doang
 
 :- discontiguous(decide/0).
 :- discontiguous(run/0).
@@ -19,10 +20,11 @@
 /* Pilih random enemy */
 randomenemy :-
     % random untuk wolf slime goblin
-    random(1,3, Id),
-    idDungeon(EnemyType,Id),
-    asserta(enemy(EnemyType)),
-    printEnemyStats(EnemyType), !.
+    repeat,
+        random(1,4, Id),
+        idDungeon(EnemyType,Id),
+        asserta(enemy(EnemyType)),!,
+        printEnemyStats(EnemyType).
 
 
 printEnemyStats(Enemy) :-
@@ -30,7 +32,7 @@ printEnemyStats(Enemy) :-
     attack(Enemy, Att),
     defence(Enemy, Def),
     baseHp(Enemy, BaseHp),
-    write(Enemy), write('appears'), nl,
+    write(Enemy), write(' appears'), nl,
     write('Level : '), write(Level), nl,
     write('Attack : '), write(Att), nl,
     write('Defence : '), write(Def), nl,
@@ -39,7 +41,7 @@ printEnemyStats(Enemy) :-
 
 /* pertama kali bertemu dungeon */
 decide :-
-    asserta(inBattle(1)).
+    asserta(inBattle(1)),
     write('Beast creature appears, prepare yourself!'), nl,
     randomenemy,
     write('fight or run? '), nl.
@@ -52,13 +54,13 @@ run :-
 
 % kondisi tidak sedang dalam battle
 run :-
-    playing(_)
+    playing(_),
 	 \+inBattle(_),
     write('You are not in battle, run for what?'), nl,!.
   
 run :-
     inBattle(_),
-    random(1,5,Number),
+    random(1,8,Number),
     (Number =< 2 -> cannotRun; goRun).
 
 cannotRun :-
@@ -74,25 +76,29 @@ goRun :-
 % fight
 fight :-
     \+playing(_),
-    write('Its not started yet').
+    write('Its not started yet'),!.
 
 fight :-
-    playing(_), \+inBattle(_),
-    write('Are you mad? Go somewhere else to find monster!'), nl.
+    playing(_), 
+    \+inBattle(_),
+    write('Are you mad? Go somewhere else to find monster!'), nl, !.
 
+% fight :-
+%     write("There's no time to think, attack now !")
 
-updateHPPlayer (Player,Monster) :-
-    attack(Monster,X),
-    healthPlayer(Player, Y),
-    TempHpPlayer is Y - X,
-    retract(healthPlayer(Player,_)),
+% printFightCommand :-
+%     wr
+% updateHPPlayer(Player,Monster) :-
+%     attack(Monster,X),
+%     healthPlayer(Player, Y),
+%     TempHpPlayer is Y - X,
+%     retract(healthPlayer(Player,_)),
+%     assertz(healthPlayer(Player, TempHp)),!.
 
-    assertz(healthPlayer(Player, TempHp)),!.
-
-updateHPMonster (Player,Monster) :-
-    damage(Player, X),
-    health(Monster,Y),
-    TempHpMonster is Y - X,
-    retract(health(Monster,_)),
+% updateHPMonster (Player,Monster) :-
+%     damage(Player, X),
+%     health(Monster,Y),
+%     TempHpMonster is Y - X,
+%     retract(health(Monster,_)),
     
-    assertz(health(Monster, TempHpMonster)),!.
+%     assertz(health(Monster, TempHpMonster)),!.
