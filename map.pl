@@ -1,3 +1,4 @@
+%cara testing: compile dulu, habis itu "mulai.", "map." buat cetak peta, wasd buat jalan jalan
 :- dynamic(lebarpeta/1).
 :- dynamic(tinggipeta/1).
 
