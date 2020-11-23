@@ -1,8 +1,6 @@
 %STORE
 :- include('player.pl').
 
-:- dynamic(inventory/2).
-
 potion_choice(1):-
     add_inventory(health_potion).
 potion_choice(2):-

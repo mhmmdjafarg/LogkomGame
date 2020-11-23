@@ -405,16 +405,6 @@ w :-
 	muncul,
 	!.
 
-w :-
-	retract(posisipemain(X,Y)),
-	Ynew is Y-1,
-	posisishop(X,Ynew),
-	asserta(posisipemain(X,Ynew)),
-	printmap,
-	rubyplayer(Class, Money),
-	shop(Money,Class),
-	!.
-
 s :-
 	posisipemain(X,Y),
 	Ynew is Y+1,
@@ -436,20 +426,10 @@ s :-
 	muncul,
 	!.
 
-s :-
-	retract(posisipemain(X,Y)),
-	Ynew is Y+1,
-	posisishop(X,Ynew),
-	asserta(posisipemain(X,Ynew)),
-	printmap,
-	rubyplayer(Class, Money),
-	shop(Money,Class),
-	!.
-
 a :-
 	posisipemain(X,Y),
 	Xnew is X-1,
-	batasbawah(Xnew,Y),
+	bataskiri(Xnew,Y),
 	write('You ran into a wall.'),
 	!.
 
@@ -467,20 +447,10 @@ a :-
 	muncul,
 	!.
 
-a :-
-	retract(posisipemain(X,Y)),
-	Xnew is X-1,
-	posisishop(Xnew,Y),
-	asserta(posisipemain(Xnew,Y)),
-	printmap,
-	rubyplayer(Class, Money),
-	shop(Money,Class),
-	!.
-
 d :-
 	posisipemain(X,Y),
 	Xnew is X+1,
-	batasbawah(Xnew,Y),
+	bataskanan(Xnew,Y),
 	write('You ran into a wall.'),
 	!.
 
@@ -498,11 +468,9 @@ d :-
 	muncul,
 	!.
 
-d :-
-	retract(posisipemain(X,Y)),
-	Xnew is X+1,
-	posisishop(Xnew,Y),
-	asserta(posisipemain(Xnew,Y)),
+muncul :-
+	posisipemain(X,Y),
+	posisishop(X,Y),
 	printmap,
 	rubyplayer(Class, Money),
 	shop(Money,Class),
@@ -512,15 +480,6 @@ muncul :-
 	repeat,
 		random(1,8, X),
 		(X =:= 4 -> decide; lain),!.
-
-/*
-lain :-
-	posisipemain(X,Y),
-	posisishop(X,Y),
-	printmap,
-	rubyplayer(Class, Money),
-	shop(Money,Class),!.
-*/
 
 lain :-
 	printmap,!.
