@@ -4,9 +4,12 @@
 /* fight, run, gagalrun, attack, skill, itung turn, levelup */
 
 :- dynamic(inBattle/1).
+:- dynamic(char/1).
 :- dynamic(enemy/1). %menandakan musuhnya apa
 :- dynamic(totalTurn/1). % menghitung jumlah turn pemain
 :- dynamic(playing/1). %nanti pindahin buat ngetes doang
+:- dynamic(enemyKilled/1).
+:- dynamic(healed/1).
 
 :- discontiguous(decide/0).
 :- discontiguous(run/0).
@@ -15,6 +18,8 @@
 :- discontiguous(goRun/0).
 :- discontiguous(updateHPPlayer/2).
 :- discontiguous(updateHPMonster/2).
+:- discontiguous(isenemyKilled/0).
+:- discontiguous(heal/0).
 
 
 /* Pilih random enemy */
@@ -29,10 +34,10 @@ randomenemy :-
 
 printEnemyStats(Enemy) :-
     level(Enemy, Level),
-    attack(Enemy, Att),
+    dungeonDamage(Enemy, Att),
     defence(Enemy, Def),
-    baseHp(Enemy, BaseHp),
-    write(Enemy), write(' appears'), nl,
+    baseHp(Enemy, BaseHp),nl,
+    write('Type : '), write(Enemy), nl,
     write('Level : '), write(Level), nl,
     write('Attack : '), write(Att), nl,
     write('Defence : '), write(Def), nl,
@@ -60,8 +65,10 @@ run :-
   
 run :-
     inBattle(_),
-    random(1,8,Number),
-    (Number =< 2 -> cannotRun; goRun).
+    repeat,
+        random(10,40,Number),
+        write(Number), nl,
+        (Number =< 20 -> cannotRun; goRun),!.
 
 cannotRun :-
     write('Too slow, he runs at you!'), nl,
@@ -70,8 +77,8 @@ cannotRun :-
 goRun :-
     write('Nice move, you escape!'), nl,
     retractall(inBattle(_)),
-    retractall(enemy(_)).
-
+    retractall(enemy(_)),
+    retractall(enemyKilled(_)).
 
 % fight
 fight :-
@@ -83,11 +90,62 @@ fight :-
     \+inBattle(_),
     write('Are you mad? Go somewhere else to find monster!'), nl, !.
 
-% fight :-
-%     write("There's no time to think, attack now !")
+fight :-
+    playing(_), 
+    inBattle(_),
+    write('What are you gonna do ?'), nl,
+    printFightCommand.
 
-% printFightCommand :-
-%     wr
+printFightCommand :-
+    write('1. attack'), nl,
+    write('2. skill'), nl,
+    write('3. heal'), nl,
+    write('4. attackPotion'), nl,
+    write('5. defencePotion'), nl,!,
+    write('6. run').
+
+attack :-
+    \+playing(_),
+    write('Its not started yet'),!.
+
+attack :-
+    playing(_), 
+    \+inBattle(_),
+    write('Are you mad? Go somewhere else to find monster!'), nl, !.
+
+isenemyKilled :-
+    enemy(Type),
+    health(Type, Hp),
+    (Hp =:= 0 -> asserta(enemyKilled(1))),!.
+
+heal :-
+    \+playing(_),
+    write('Its not started yet'),!.
+
+heal :-
+    playing(_), 
+    inventory(0, health_potion),
+    write('Nothing to consume, stay alive commander'),!.
+
+heal :-
+    playing(_), 
+    char(Karakter),
+    healthPlayer(Karakter, Hp),
+    healthbase(Karakter, Base),
+    Hp =:= Base, assertz(healed(1)), write('Youre fully healed, nothing to heal'),!.
+
+heal :-
+    playing(_), 
+    char(Karakter),
+    healthPlayer(Karakter, Hp),
+    healthbase(Karakter, Base),
+    Hp < Base, inventory(NumPotion, health_potion), NumPotion > 0,
+    NewHp is Hp + 200,
+    retractall(healthPlayer(Karakter, _ )),
+    (NewHp >= Base -> asserta(healthPlayer(Karakter, Base)); 
+    asserta(healthPlayer(Karakter, NewHp))),!.
+
+
 % updateHPPlayer(Player,Monster) :-
 %     attack(Monster,X),
 %     healthPlayer(Player, Y),
@@ -95,10 +153,10 @@ fight :-
 %     retract(healthPlayer(Player,_)),
 %     assertz(healthPlayer(Player, TempHp)),!.
 
+
 % updateHPMonster (Player,Monster) :-
 %     damage(Player, X),
 %     health(Monster,Y),
 %     TempHpMonster is Y - X,
 %     retract(health(Monster,_)),
-    
 %     assertz(health(Monster, TempHpMonster)),!.

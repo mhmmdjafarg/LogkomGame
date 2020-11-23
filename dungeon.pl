@@ -3,10 +3,10 @@
 :- dynamic(level/2).
 :- dynamic(baseHp/2).
 :- dynamic(health/2).
-:- dynamic(attack/2).
+:- dynamic(dungeonDamage/2).
 :- dynamic(defence/2).
 :- dynamic(dungeonExp/2).
-% enemy(ID, Name, Level, MaxHealth, Health, Attack, Defence),
+% enemy(ID, Name, Level, MaxHealth, Health, dungeonDamgae, Defence),
 
 :- discontiguous(spawnDungeon/0).
 :- discontiguous(initExpDungeon/0).
@@ -76,11 +76,11 @@ initHealth :-
     assertz(health(dungeonBoss, T)),!.
 
 initAttack :-
-    assertz(attack(goblin,30)),
-    assertz(attack(slime,15)),
-    assertz(attack(wolf,45)),
-    assertz(attack(underlord,120)),
-    assertz(attack(dungeonBoss,200)).
+    assertz(dungeonDamage(goblin,30)),
+    assertz(dungeonDamage(slime,15)),
+    assertz(dungeonDamage(wolf,45)),
+    assertz(dungeonDamage(underlord,120)),
+    assertz(dungeonDamage(dungeonBoss,200)).
 
 initDefence :-
     assertz(defence(goblin,20)),
@@ -97,7 +97,7 @@ getlevel(Name) :-
     baseHp(Name, BaseHp),
     TempBaseHp is BaseHp+30,
     TempHp is TempBaseHp,
-    attack(Name, Att),
+    dungeonDamage(Name, Att),
     TempAtt is Att+5,
     defence(Name, Def),
     TempDef is Def+5,
@@ -105,14 +105,14 @@ getlevel(Name) :-
     retract(dungeonExp(Name,_)),
     retract(baseHp(Name,_)),
     retract(health(Name,_)),
-    retract(attack(Name,_)),
+    retract(dungeonDamage(Name,_)),
     retract(defence(Name,_)),
 
     asserta(level(Name,TempLvl)),
     asserta(dungeonExp(Name, TempExp)),
     asserta(baseHp(Name, TempBaseHp)),
     asserta(health(Name, TempHp)),
-    asserta(attack(Name, TempAtt)),
+    asserta(dungeonDamage(Name, TempAtt)),
     asserta(defence(Name,TempDef)),!.
 
 restoreHealth(Name) :-

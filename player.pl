@@ -164,7 +164,7 @@ charInventory :-
     assertz(inventory(0,attack_potion)),
     assertz(inventory(0,health_potion)),
     assertz(inventory(0,defence_potion)),
-    assertz(inventory(0,health_potion)),
+    % assertz(inventory(0,health_potion)),
     assertz(inventory(0,armor)),
     assertz(inventory(0,boots)),
     assertz(inventory(0,sword)),
