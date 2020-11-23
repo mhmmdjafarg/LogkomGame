@@ -12,9 +12,10 @@
 :- dynamic(type/2).
 :- dynamic(id/2).
 :- dynamic(levelplayer/1).
-:- dynamic(rubypalyer/2).
+:- dynamic(rubyplayer/2).
 :- dynamic(expplayerbase/2).
 :- dynamic(expplayer/2).
+:- dynamic(inventory/1).
 
 :- discontiguous(playerLevel/0).
 :- discontiguous(char_player/0).
@@ -29,6 +30,7 @@
 :- discontiguous(char_id/0).
 :- discontiguous(charplayer/0).
 :- discontiguous(charRuby/0).
+:- discontiguous(charInventory/0).
 :- discontiguous(char_expbase/0).
 :- discontiguous(char_exp/0).
 :- discontiguous(updatelevel/1).
@@ -49,7 +51,8 @@ charplayer :-
     weapon_type,
     char_expbase,
     char_exp,
-    charRuby.
+    charRuby,
+    charInventory.
 
 /*nama player*/
 char_player :-
@@ -123,9 +126,13 @@ char_id :-
 
 /* Ruby player */
 charRuby :-
-    assertz(id(swordsman, 0)),
-    assertz(id(archer, 0)),
-    assertz(id(ninja, 0)).
+    assertz(rubyplayer(swordsman, 0)),
+    assertz(rubyplayer(archer, 0)),
+    assertz(rubyplayer(ninja, 0)).
+
+/* Inventory Player */
+charInventory :-
+    assertz(inventory([])).
 
 /* Exp player base level */
 char_expbase :-
@@ -171,9 +178,9 @@ updatelevel(Player) :-
     assertz(defense(Player,Temptahan)),!.
 
 updateruby(Player) :-
-    rubyplayer(player, X),
+    rubyplayer(Player, X),
     Tempruby is X + 8 ,
     Rubyasli is Tempruby,
-    retract(rubypalyer(player,_)),
+    retract(rubyplayer(Player,_)),
 
-    assertz(rubypalyer(player,Rubyasli)),!.
+    assertz(rubyplayer(Player,Rubyasli)),!.
