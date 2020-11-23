@@ -1,6 +1,7 @@
 :- include('map.pl').
 
 :- dynamic(playing/1). % untuk status sedang bermain atau tidak
+:- dynamic(char/1).
 
 start :-
     playing(_),
@@ -16,9 +17,11 @@ start :-
     write('\\_| \\_\\__,_|_| |_|\\__,_|\\__, | |___/   \\_| |_/\\__,_| \\_/ \\___|_| |_|\\__|\\__,_|_|  \\___|'),nl,
     write('                         __/ |'),nl,                                                         
     write('                        |___/'),nl,nl,
+    spawnDungeon,
+    charplayer,
     writelore,
     mulai,
-    map.
+    map,!.
 
 writelore :-
 	write('Anda adalah seorang pengembara yang berasal dari kota bawah tanah, Dangarnon, yang dikhianati oleh rekan pengembara anda.'),nl,
