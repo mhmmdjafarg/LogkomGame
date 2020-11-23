@@ -17,11 +17,12 @@
 :- discontiguous(fight/0).
 :- discontiguous(cannotRun/0).
 :- discontiguous(goRun/0).
-:- discontiguous(updateHPPlayer/2).
-:- discontiguous(updateHPMonster/2).
+:- discontiguous(updateHPPlayer/1).
+% :- discontiguous(updateHPMonster/0).
 :- discontiguous(isenemyKilled/0).
 :- discontiguous(heal/0).
 :- discontiguous(attackPotion/0).
+:- discontiguous(enemyAttack/0).
 
 
 /* Pilih random enemy */
@@ -99,7 +100,7 @@ fight :-
     inBattle(_),
     write('What are you gonna do ?'), nl,
     printFightCommand,
-    asserta(totalTurn(0)).
+    asserta(totalTurn(0)),!.
 
 printFightCommand :-
     write('1. attack'), nl,
@@ -108,6 +109,16 @@ printFightCommand :-
     write('4. attackPotion'), nl,
     write('5. defencePotion'), nl,!,
     write('6. run').
+
+% Enemy attack - 30% defense
+enemyAttack :-
+    char(Karakter),
+    defense(Karakter, Def),
+    enemy(Enemy),
+    write('attacked by '), write(Enemy), nl,
+    dungeonDamage(Enemy, Dmg),
+    TotalDmg is Dmg - (0.3*Def),
+    updateHPPlayer(TotalDmg), write('You loss '), write(TotalDmg), write(' hp'),nl, !.
 
 attack :-
     \+playing(_),
@@ -195,57 +206,46 @@ heal :-
     asserta(inventory(NewPotion, health_potion)), printPlayerStats(Karakter), !.
     %tambahin enemy attack di akhir turn
 
-attackPotion :-
-    \+playing(_),
-    write('Its not started yet'),!.
-
-attack_potion :-
-    playing(_),
-    \+inBattle(_),
-    write('You're not facing any enemy comrads, relax'),!.
-
-attackPotion :-
-    playing(_),
-    inBattle(_),
-    inventory(0, attack_potion),
-    write('Nothing to consume, believe in your weapon commander!'),!.
-
-attackPotion :-
-    playing(_),
-    inBattle(_),
-    totalTurn(N),
-    N1 is N + 1,
-    %update jumlah turn
-    retractall(totalTurn(_)),
-    asserta(totalTurn(N1)),
-    inventory(X, attack_potion),
-    X > 0, 
+updateHPPlayer(Damage) :-
+    enemy(Enemy),
     char(Karakter),
-
-
-
     healthPlayer(Karakter, Hp),
-    healthbase(Karakter, Base),
-    Hp < Base, inventory(NumPotion, health_potion), NumPotion > 0,
-    NewHp is Hp + 200,
-    retractall(healthPlayer(Karakter, _ )),
-    (NewHp >= Base -> asserta(healthPlayer(Karakter, Base)); 
-    asserta(healthPlayer(Karakter, NewHp))),
-    write('Feeling better comrads ?'), inventory(X, health_potion),
-    NewPotion is X - 1, retractall(inventory(_,health_potion)),
-    asserta(inventory(NewPotion, health_potion)), printPlayerStats(Karakter), !.
+    TempHpPlayer is Hp - Damage,
+    (TempHpPlayer =< 0 -> 
+        write('you lose to this ?'), 
+        nl, 
+        write('you not strong enough'),
+        nl,
+        halt; 
+        retractall(healthPlayer(Karakter,_)),
+        asserta(healthPlayer(Karakter, TempHpPlayer)),!).
+    
+% attackPotion :-
+%     \+playing(_),
+%     write('Its not started yet'),!.
+
+% attack_potion :-
+%     playing(_),
+%     \+inBattle(_),
+%     write('You're not facing any enemy comrads, relax'),!.
+
+% attackPotion :-
+%     playing(_),
+%     inBattle(_),
+%     inventory(0, attack_potion),
+%     write('Nothing to consume, believe in your weapon commander!'),!.
+
+% attackPotion :-
+%     playing(_),
+%     inBattle(_),
+%     totalTurn(N),
+%     N1 is N + 1,
+%     %update jumlah turn
+%     retractall(totalTurn(_)),
+%     asserta(totalTurn(N1)),
+%     inventory(X, attack_potion),
+%     X > 0, 
+%     char(Karakter),
+
     %tambahin enemy attack di akhir turn
-% updateHPPlayer(Player,Monster) :-
-%     attack(Monster,X),
-%     healthPlayer(Player, Y),
-%     TempHpPlayer is Y - X,
-%     retract(healthPlayer(Player,_)),
-%     assertz(healthPlayer(Player, TempHp)),!.
 
-
-% updateHPMonster (Player,Monster) :-
-%     damage(Player, X),
-%     health(Monster,Y),
-%     TempHpMonster is Y - X,
-%     retract(health(Monster,_)),
-%     assertz(health(Monster, TempHpMonster)),!.

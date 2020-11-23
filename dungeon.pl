@@ -77,7 +77,7 @@ initHealth :-
 
 initAttack :-
     assertz(dungeonDamage(goblin,30)),
-    assertz(dungeonDamage(slime,15)),
+    assertz(dungeonDamage(slime,20)),
     assertz(dungeonDamage(wolf,45)),
     assertz(dungeonDamage(underlord,120)),
     assertz(dungeonDamage(dungeonBoss,200)).
