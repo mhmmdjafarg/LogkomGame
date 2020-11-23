@@ -15,7 +15,6 @@
 :- dynamic(rubyplayer/2).
 :- dynamic(expplayerbase/2).
 :- dynamic(expplayer/2).
-:- dynamic(inventory/1).
 
 :- discontiguous(playerLevel/0).
 :- discontiguous(char_player/0).
@@ -30,7 +29,6 @@
 :- discontiguous(char_id/0).
 :- discontiguous(charplayer/0).
 :- discontiguous(charRuby/0).
-:- discontiguous(charInventory/0).
 :- discontiguous(char_expbase/0).
 :- discontiguous(char_exp/0).
 :- discontiguous(updatelevel/1).
@@ -130,9 +128,11 @@ charRuby :-
     assertz(rubyplayer(archer, 0)),
     assertz(rubyplayer(ninja, 0)).
 
-/* Inventory Player */
+/* Inventory Player 
 charInventory :-
     assertz(inventory([])).
+    
+*/
 
 /* Exp player base level */
 char_expbase :-
