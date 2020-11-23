@@ -2,16 +2,15 @@
 
 :- dynamic(player/1).
 :- dynamic(healthPlayer/2).
-:- dynamic(milik/2).
 :- dynamic(healthbase/2).
 :- dynamic(damage/2).
 :- dynamic(defense/2).
-:- dynamic(dodge/2).
 :- dynamic(skill/2).
 :- dynamic(ulti/2).
-:- dynamic(type/2).
+:- dynamic(typeweapon/2).
 :- dynamic(damageweapon/2).
-:- dynamic(id/2).
+:- dynamic(typearmor/2).
+:- dynamic(kerasarmor/2).
 :- dynamic(levelplayer/1).
 :- dynamic(rubyplayer/2).
 :- dynamic(expplayerbase/2).
@@ -21,14 +20,11 @@
 :- discontiguous(playerLevel/0).
 :- discontiguous(char_player/0).
 :- discontiguous(char_health/0).
-:- discontiguous(char_milik/0).
 :- discontiguous(char_damage/0).
 :- discontiguous(char_defense/0).
-:- discontiguous(char_dodge/0).
 :- discontiguous(char_healthbase/0).
 :- discontiguous(char_skill/0).
 :- discontiguous(weapon_type/0).
-:- discontiguous(char_id/0).
 :- discontiguous(charplayer/0).
 :- discontiguous(charRuby/0).
 :- discontiguous(char_expbase/0).
@@ -37,6 +33,8 @@
 :- discontiguous(updateruby/1).
 :- discontiguous(printPlayerStats/1).
 :- discontiguous(weapon_damage/0).
+:- discontiguous(armor_type/0).
+:- discontiguous(armor/0).
 :- discontiguous(charInventory/0).
 
 
@@ -56,6 +54,8 @@ charplayer :-
     char_exp,
     charRuby,
     weapon_damage,
+    armor_type,
+    armor,
     charInventory.
 
 /*ngurusin add inventory*/
@@ -115,21 +115,21 @@ char_health :-
 
 /*tipe*/
 weapon_type :-
-    assertz(type(swordsman, sword_of_eventide)),
-    assertz(type(swordsman, small_sword)),
-    assertz(type(swordsman, dark_rapulser)),
-    assertz(type(swordsman, sword_excalibur)),
-    assertz(type(swordsman, night_sky_sword)),
-    assertz(type(archer, amos_bow)),
-    assertz(type(archer, the_viridescent_hunt)),
-    assertz(type(archer, the_stringles_bow)),
-    assertz(type(archer, skyward_harp)),
-    assertz(type(archer, blackcliff_warbow)),
-    assertz(type(ninja, kunai)),
-    assertz(type(ninja, katana)),
-    assertz(type(ninja, tekko_kagi)),
-    assertz(type(ninja, kusarigisama)),
-    assertz(type(ninja, kakute)).
+    assertz(typeweapon(swordsman, sword_of_eventide)),
+    assertz(typeweapon(swordsman, small_sword)),
+    assertz(typeweapon(swordsman, dark_rapulser)),
+    assertz(typeweapon(swordsman, sword_excalibur)),
+    assertz(typeweapon(swordsman, night_sky_sword)),
+    assertz(typeweapon(archer, amos_bow)),
+    assertz(typeweapon(archer, the_viridescent_hunt)),
+    assertz(typeweapon(archer, the_stringles_bow)),
+    assertz(typeweapon(archer, skyward_harp)),
+    assertz(typeweapon(archer, blackcliff_warbow)),
+    assertz(typeweapon(ninja, kunai)),
+    assertz(typeweapon(ninja, katana)),
+    assertz(typeweapon(ninja, tekko_kagi)),
+    assertz(typeweapon(ninja, kusarigisama)),
+    assertz(typeweapon(ninja, kakute)).
 
 weapon_damage :-
     assertz(damageweapon(sword_of_eventide, 85)),
@@ -148,6 +148,30 @@ weapon_damage :-
     assertz(damageweapon(kusarigisama,80)),
     assertz(damageweapon(kakute,60)).
 
+armor_type :-
+    assertz(typearmor(swordsman, metal_armor)),
+    assertz(typearmor(swordsman, nanosuit)),
+    assertz(typearmor(swordsman, wood_armor)),
+    assertz(typearmor(swordsman, ultimate_armor)),
+    assertz(typearmor(swordsman, elite_advanced_suit)),
+    assertz(typearmor(archer, metal_armor)),
+    assertz(typearmor(archer, nanosuit)),
+    assertz(typearmor(archer, wood_armor)),
+    assertz(typearmor(archer, ultimate_armor)),
+    assertz(typearmor(archer, elite_advanced_suit)),
+    assertz(typearmor(ninja, metal_armor)),
+    assertz(typearmor(ninja, nanosuit)),
+    assertz(typearmor(ninja, wood_armor)),
+    assertz(typearmor(ninja, ultimate_armor)),
+    assertz(typearmor(ninja, elite_advanced_suit)).
+
+armor :-
+    assertz(kerasarmor(metal_armor, 20)),
+    assertz(kerasarmor(nanosuit,40)),
+    assertz(kerasarmor(wood_armor,10)),
+    assertz(kerasarmor(ultimate_armor,50)),
+    assertz(kerasarmor(elite_advanced_suit,30)).
+
 /*normal attack*/
 char_damage :-
     assertz(damage(swordsman, 53)),
@@ -160,30 +184,12 @@ char_defense :-
     assertz(defense(archer, 45)),
     assertz(defense(ninja, 55)).
 
-/* Player Dodge */
-char_dodge :-
-    assertz(dodge(swordsman, 1)),
-    assertz(dodge(archer, 1)),
-    assertz(dodge(ninja, 1)).
-
 
 /*skill */
 char_skill :-
     assertz(skill(swordsman, 200)),
     assertz(skill(archer, 200)),
     assertz(skill(ninja, 200)).
-
-/*kepemilikan*/
-char_milik :-
-    assertz(milik(swordsman, 0)),
-    assertz(milik(archer, 0)),
-    assertz(milik(ninja, 0)).
-
-/*id player*/
-char_id :-
-    assertz(id(swordsman, 1)),
-    assertz(id(archer, 2)),
-    assertz(id(ninja, 3)).
 
 /* Ruby player */
 charRuby :-
@@ -196,9 +202,7 @@ charInventory :-
     assertz(inventory(0,attack_potion)),
     assertz(inventory(0,health_potion)),
     assertz(inventory(0,defence_potion)),
-    % assertz(inventory(0,health_potion)),
     assertz(inventory(0,armor)),
-    assertz(inventory(0,boots)),
     assertz(inventory(0,sword)),
     assertz(inventory(0,bow)),
     assertz(inventory(0,kunai)).
