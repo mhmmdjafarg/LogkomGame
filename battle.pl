@@ -4,7 +4,6 @@
 /* fight, run, gagalrun, attack, skill, itung turn, levelup */
 
 :- dynamic(inBattle/1).
-:- dynamic(char/1). % Nanti hapus
 :- dynamic(enemy/1). % menandakan musuhnya apa
 :- dynamic(totalTurn/1). % menghitung jumlah turn pemain
 :- dynamic(playing/1). %nanti pindahin buat ngetes doang

@@ -1,7 +1,7 @@
 :- include('map.pl').
 
+:- dynamic(char/1). % gajadi dihapus
 :- dynamic(playing/1). % untuk status sedang bermain atau tidak
-:- dynamic(char/1).
 
 start :-
     playing(_),
@@ -20,6 +20,7 @@ start :-
     spawnDungeon,
     charplayer,
     writelore,
+    pickClass,
     mulai,
     map,!.
 
@@ -32,3 +33,15 @@ writelore :-
 	write('teman pengembara anda yang tidak ingin anda kembali ke Dangarnon, yang rekan pengembara anda tidak ketahui adalah penghuni'),nl,
 	write('dunia atas juga memiliki kunci untuk pergi ke dunia bawah tanah, bisakah anda kembali ke Dangarnon? dan bisakah anda mencari'),nl,
 	write('tahu bagaimana penghuni dunia atas bisa memiliki kunci ke Dangarnon?'),nl,nl.
+
+pickClass :-
+    write('Pick your class:'),nl,
+    write('-  swordsman'),nl,
+    write('-  archer'),nl,
+    write('-  ninja'),nl,
+    read(Karaker),
+    asserta(char(Karaker)),
+    !.
+
+
+
