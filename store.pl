@@ -3,12 +3,6 @@
 
 :- dynamic(inventory/2).
 
-rubyplayer(ninja,100). %kalau mau testing harus ada inventory dan rubyplayer
-inventory(0,gacha).
-inventory(0,attack_potion).
-inventory(0,health_potion).
-inventory(0,defence_potion).
-
 potion_choice(1):-
     add_inventory(health_potion).
 potion_choice(2):-

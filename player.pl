@@ -187,9 +187,9 @@ char_id :-
 
 /* Ruby player */
 charRuby :-
-    assertz(rubyplayer(swordsman, 0)),
-    assertz(rubyplayer(archer, 0)),
-    assertz(rubyplayer(ninja, 0)).
+    assertz(rubyplayer(swordsman, 200)),
+    assertz(rubyplayer(archer, 200)),
+    assertz(rubyplayer(ninja, 200)).
 
 /* Inventory Player*/
 charInventory :-
