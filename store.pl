@@ -8,6 +8,47 @@ potion_choice(2):-
 potion_choice(3):-
     add_inventory(defence_potion).
 
+weapon_prize(1,sword_of_eventide).
+weapon_prize(2,small_sword).
+weapon_prize(3,dark_rapulser).
+weapon_prize(4,sword_excalibur).
+weapon_prize(5,night_sky_sword).
+
+weapon_prize(1,amos_bow).
+weapon_prize(2,the_viridescent_hunt).
+weapon_prize(3,the_stringles_bow).
+weapon_prize(4,skyward_harp).
+weapon_prize(5,blackcliff_warbow).
+
+weapon_prize(1,kunai).
+weapon_prize(2,katana).
+weapon_prize(3,tekko_kagi).
+weapon_prize(4,kusarigisama).
+weapon_prize(5,kakute).
+
+weapon_randomizer(Class,Weapon):-
+    random(1,6,X),
+    weapon_prize(X,Weapon),
+    typeweapon(Class,Weapon),!.
+
+armor_prize(1,metal_armor).
+armor_prize(2,nanosuit).
+armor_prize(3,wood_armor).
+armor_prize(4,ultimate_armor).
+armor_prize(5,elite_advanced_suit).
+
+armor_randomizer(Armor):-
+    random(1,6,X),
+
+
+gacha_list(Weapon,Class):-
+    weapon_randomizer(Class,Weapon).
+
+gacha_list()
+
+%open_gacha(Item):-
+
+
 ruby_check(Player_class,New_money):-
     New_money >= 0,
     retract(rubyplayer(Player_class,_)),
