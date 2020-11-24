@@ -2,40 +2,43 @@
 :- include('player.pl').
 
 potion_choice(1):-
-    add_inventory(health_potion).
+    add_inventory(health_potion),
+    write('You receive Health Potion x 1',nl).
 potion_choice(2):-
-    add_inventory(attack_potion).
+    add_inventory(attack_potion),
+     write('You receive Attack Potion x 1',nl).
 potion_choice(3):-
-    add_inventory(defence_potion).
+    add_inventory(defence_potion),
+     write('You receive Defence Potion x 1',nl).
 
-weapon_prize(1,sword_of_eventide).
-weapon_prize(2,small_sword).
-weapon_prize(3,dark_rapulser).
-weapon_prize(4,sword_excalibur).
-weapon_prize(5,night_sky_sword).
+weapon_prize(1,sword_of_eventide):- write('Congratulations, You get Sword of Eventide !'), nl.
+weapon_prize(2,small_sword):- write('Congratulations, You get Small Sword !'), nl.
+weapon_prize(3,dark_rapulser):- write('Congratulations, You get Dark Rapulser !'), nl.
+weapon_prize(4,sword_excalibur):- write('Congratulations, You get Sword Excalibur !'), nl.
+weapon_prize(5,night_sky_sword):- write('Congratulations, You get Night Sky Sword !'), nl.
 
-weapon_prize(1,amos_bow).
-weapon_prize(2,the_viridescent_hunt).
-weapon_prize(3,the_stringles_bow).
-weapon_prize(4,skyward_harp).
-weapon_prize(5,blackcliff_warbow).
+weapon_prize(1,amos_bow):- write('Congratulations, You get Amos Bow !'), nl.
+weapon_prize(2,the_viridescent_hunt):- write('Congratulations, You get The Viridescent Hunt !'), nl.
+weapon_prize(3,the_stringles_bow):- write('Congratulations, You get The Stringles Bow !'), nl.
+weapon_prize(4,skyward_harp):- write('Congratulations, You get Skyward Harp !'), nl.
+weapon_prize(5,blackcliff_warbow):- write('Congratulations, You get Black Cliff War Bow !'), nl.
 
-weapon_prize(1,kunai).
-weapon_prize(2,katana).
-weapon_prize(3,tekko_kagi).
-weapon_prize(4,kusarigisama).
-weapon_prize(5,kakute).
+weapon_prize(1,kunai):- write('Congratulations, You get Kunai !'), nl.
+weapon_prize(2,katana):- write('Congratulations, You get Katana !'), nl.
+weapon_prize(3,tekko_kagi):- write('Congratulations, You get Tekko Kagi !'), nl.
+weapon_prize(4,kusarigisama):- write('Congratulations, You get Kusarigisama !'), nl.
+weapon_prize(5,kakute):- write('Congratulations, You get Kakute !'), nl.
 
 weapon_randomizer(Class,Weapon):-
     random(1,6,X),
     typeweapon(Class,Weapon),
     weapon_prize(X,Weapon),!.
 
-armor_prize(1,metal_armor).
-armor_prize(2,nanosuit).
-armor_prize(3,wood_armor).
-armor_prize(4,ultimate_armor).
-armor_prize(5,elite_advanced_suit).
+armor_prize(1,metal_armor):- write('Congratulations, You get Metal Armor !'), nl.
+armor_prize(2,nanosuit):- write('Congratulations, You get Nano Suit !'), nl.
+armor_prize(3,wood_armor):- write('Congratulations, You get Wood Armor !'), nl.
+armor_prize(4,ultimate_armor):- write('Congratulations, You get Ultimate Armor !'), nl.
+armor_prize(5,elite_advanced_suit):- write('Congratulations, You get Elite Advanced Suit !'), nl.
 
 armor_randomizer(Armor):-
     random(1,6,X),
@@ -48,15 +51,15 @@ gacha_list(1,Weapon,Class):-
 gacha_list(2,Armor,_):-
     armor_randomizer(Armor).
 
-gacha_list(3,health_potion,_).
-gacha_list(4,defence_potion,_).
-gacha_list(5,attack_potion,_).
+gacha_list(3,health_potion,_):- write('Congratulations, You get Health Potion x 1 !'), nl.
+gacha_list(4,defence_potion,_):- write('Congratulations, You get Defence Potion x 1 !'), nl.
+gacha_list(5,attack_potion,_):- write('Congratulations, You get Attack Potion x 1 !'), nl.
 
 ruby_check(Player_class,New_money):-
     New_money >= 0,
     retract(rubyplayer(Player_class,_)),
-    assertz(rubyplayer(Player_class,New_money)),
-    write('Heh heh, thank you!'),nl,
+    assertz(rubyplayer(Player_class,New_money)),nl,
+    write('Heh heh, thank you!'),nl,nl,
     write('Exiting store...'), nl.
 
 ruby_check(_,New_money):-
@@ -73,7 +76,6 @@ open_gacha(Class,New_money):-
     random(1,6,X),
     gacha_list(X,Item,Class),
     add_inventory(Item),
-    write('Congratulations you get...'), write(Item), write('!'),nl,
     ruby_check(Class,New_money),!.
 
 
