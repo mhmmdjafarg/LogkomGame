@@ -18,7 +18,9 @@
 :- discontiguous(initDefence/0).
 :- discontiguous(getlevel/1).
 :- discontiguous(restoreHealth/1).
+:- discontiguous(resetdungeon/0).
 
+    
 spawnDungeon :-
     initIdDungeon,
     initDungeon,
@@ -119,3 +121,13 @@ restoreHealth(Name) :-
     retract(health(Name,_)),
     baseHp(Name, Base),
     asserta(health(Name, Base)), !.
+
+resetdungeon :-
+    retractall(idDungeon(_,_)),
+    retractall(dungeon(_)),
+    retractall(level(_,_)),
+    retractall(baseHp(_,_)),
+    retractall(health(_,_)),
+    retractall(dungeonDamage(_,_)),
+    retractall(defence(_,_)),
+    retractall(dungeonExp(_,_)).

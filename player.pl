@@ -8,7 +8,7 @@
 :- dynamic(ulti/2).
 :- dynamic(typeweapon/2).
 :- dynamic(damageweapon/2).
-:- dynamic(typearmor/2).
+:- dynamic(typearmor/1).
 :- dynamic(kerasarmor/2).
 :- dynamic(levelplayer/1).
 :- dynamic(rubyplayer/2).
@@ -151,24 +151,12 @@ weapon_damage :-
     assertz(damageweapon(kakute,60)).
 
 armor_type :-
-    assertz(typearmor(swordsman, metal_armor)),
-    assertz(typearmor(swordsman, nanosuit)),
-    assertz(typearmor(swordsman, wood_armor)),
-    assertz(typearmor(swordsman, ultimate_armor)),
-    assertz(typearmor(swordsman, elite_advanced_suit)),
-    assertz(typearmor(archer, metal_armor)),
-    assertz(typearmor(archer, nanosuit)),
-    assertz(typearmor(archer, wood_armor)),
-    assertz(typearmor(archer, ultimate_armor)),
-    assertz(typearmor(archer, elite_advanced_suit)),
-    assertz(typearmor(ninja, metal_armor)),
-    assertz(typearmor(ninja, nanosuit)),
-    assertz(typearmor(ninja, wood_armor)),
-    assertz(typearmor(ninja, ultimate_armor)),
-    assertz(typearmor(swordsman, common_armor)),
-    assertz(typearmor(archer, common_armor)),
-    assertz(typearmor(ninja, common_armor)),
-    assertz(typearmor(ninja, elite_advanced_suit)).
+    assertz(typearmor(metal_armor)),
+    assertz(typearmor(nanosuit)),
+    assertz(typearmor(wood_armor)),
+    assertz(typearmor(ultimate_armor)),
+    assertz(typearmor(elite_advanced_suit)),
+    assertz(typearmor(common_armor)).
 
 armor :-
     assertz(kerasarmor(metal_armor, 20)),
@@ -222,16 +210,16 @@ charInventory :-
     assertz(inventory(0,the_viridescent_hunt)),
     assertz(inventory(0,the_stringles_bow)),
     assertz(inventory(0,skyward_harp)),
-    assertz(inventory(0,blackcliff_warbow)),
-    assertz(inventory(0,kunai)),
-    assertz(inventory(0,katana)),
-    assertz(inventory(0,tekko_kagi)),
-    assertz(inventory(0,kusarigisama)),
-    assertz(inventory(0,common_sword),
-    assertz(inventory(0,common_bow)),
-    assertz(inventory(0,common_armor)),
-    assertz(inventory(0,shuriken)),
-    assertz(inventory(0,kakute)).
+    assertz(inventory(0, blackcliff_warbow)),
+    assertz(inventory(0, kunai)),
+    assertz(inventory(0, katana)),
+    assertz(inventory(0, tekko_kagi)),
+    assertz(inventory(0, kusarigisama)),
+    assertz(inventory(0, common_sword)),
+    assertz(inventory(0, common_bow)),
+    assertz(inventory(0, common_armor)),
+    assertz(inventory(0, shuriken)),
+    assertz(inventory(0, kakute)).
 
 /* Exp player base level */
 char_expbase :-
@@ -250,12 +238,16 @@ printPlayerStats(Player) :-
     damage(Player, Serang),
     defense(Player, Tahan),
     healthPlayer(Player, Hp),
+    equipment(weapon, Weapon, WeaponDmg),
+    equipment(armor, Armor, ArmorDef),
     write('Player'), write(' Status'), nl,
     write('Character : '), write(Player), nl,
     write('Level     : '), write(LevelPlayer), nl,
     write('Attack    : '), write(Serang), nl,
     write('Defense   : '), write(Tahan), nl,
-    write('Hp        : '), write(Hp), nl, !.
+    write('Hp        : '), write(Hp), nl,
+    write('Weapon    : '), write(Weapon),write('   Damage : '), write(WeaponDmg), nl,
+    write('Armor     : '), write(Armor), write('   Defence : '), write(ArmorDef),nl, !.
 
 updatelevel(Player) :-
     levelplayer(Player, LevelP),
