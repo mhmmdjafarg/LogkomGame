@@ -274,18 +274,16 @@ updatelevel(Player) :-
 
     retract(levelplayer(Player,_)),
     retract(healthbase(Player,_)),
-    retract(healthPlayer(Player,_)),
     retract(damage(Player,_)),
     retract(defense(Player,_)),
     retract(expplayerbase(Player,_)),
     retract(expplayer(Player,_)),
 
-    assertz(level(Player,Templevel)),
-    assertz(healthbase(Player, Temphealthbase)),
-    assertz(healthPlayer(Player, Tempnyawa)),
+    assertz(levelplayer(Player,Templevel)),
+    assertz(healthbase(Player, Tempnyawa)),
     assertz(damage(Player, Tempdamage)),
     assertz(expplayerbase(Player, TempExp)),
-    assertz(expplayerbase(Player, Expskrg)),
+    assertz(expplayer(Player, Expskrg)),
     assertz(defense(Player,Temptahan)),!.
 
 updateruby(Player) :-
