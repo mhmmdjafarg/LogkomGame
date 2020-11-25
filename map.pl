@@ -386,6 +386,24 @@ printmap :-
 		)),
 	!.
 
+join_wolf :-
+	retract(posisipemain(_,_)),
+	wolfcamp(P,Q),
+	asserta(posisipemain(P,Q)),muncul,
+	write('You have been teleported to Wolf Den'),nl,!.
+
+join_goblin :-
+	retract(posisipemain(_,_)),
+	goblincamp(P,Q),
+	asserta(posisipemain(P,Q)),muncul,
+	write('You have been teleported to Goblin Hut'),nl,!.
+
+join_slime :-
+	retract(posisipemain(_,_)),
+	slimecamp(P,Q),
+	asserta(posisipemain(P,Q)),muncul,
+	write('You have been teleported to Slime Chamber'),nl,!.
+
 w :-
 	posisipemain(X,Y),
 	Ynew is Y-1,
