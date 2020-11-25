@@ -14,6 +14,7 @@
 :- dynamic(defPotionEffect/1).
 :- dynamic(potionCounterAtt/1).
 :- dynamic(potionCounterDef/1).
+:- dynamic(skillCounter/1).
 
 :- discontiguous(decide/0).
 :- discontiguous(run/0).
@@ -31,6 +32,7 @@
 :- discontiguous(updateTurn/0).
 :- discontiguous(decrementInventory/1).
 :- discontiguous(enemykilled/0).
+:- discontiguous(updateskillCounter/1).
 
 /* Pilih random enemy */
 randomenemy :-
@@ -58,6 +60,7 @@ decide :-
     asserta(inBattle(1)),
     setBattleStats,
     asserta(totalTurn(0)),
+    updateskillCounter(0),
     write('Beast creature appears, prepare yourself!'), nl,
     randomenemy,
     write('fight or run? '), nl.
@@ -67,7 +70,8 @@ updateTurn :-
     N1 is N + 1,
     %update jumlah turn
     retractall(totalTurn(_)),
-    asserta(totalTurn(N1)),!.
+    asserta(totalTurn(N1)),
+    updateskillCounter(N1),!.
 
 setBattleStats :-
     char(Player),
@@ -116,6 +120,8 @@ cannotRun :-
 
 goRun :-
     write('Nice move, you escape!'), nl,
+    enemy(Enemy),
+    restoreHealth(Enemy),
     retractall(inBattle(_)),
     retractall(enemy(_)),
     retractall(totalTurn(_)),
@@ -124,7 +130,8 @@ goRun :-
     retractall(attPotionEffect(_)),
     retractall(defPotionEffect(_)),
     retractall(potionCounterAtt(_)),
-    retractall(potionCounterDef(_)),!.
+    retractall(potionCounterDef(_)),
+    retractall(skillCounter(_)),!.
 
 % fight
 fight :-
@@ -152,12 +159,14 @@ fight :-
     totalTurn(X),
     potionCounterAtt(Y),
     potionCounterDef(Z),
-    (X =:= Y -> backNormal(att)),
-    (X =:= Z -> backNormal(def)),!.
+    (X =:= Y -> backNormal(att); nl),
+    (X =:= Z -> backNormal(def); nl),!.
 
 printFightCommand :-
+    skillCounter(X),
+    (X >= 3 -> write('skill ready !'),nl; nl),
     write('1. attack'), nl,
-    write('2. skill'), nl,
+    write('2. skill '), write(X), write('/3'), nl,
     write('3. heal'), nl,
     write('4. attackPotion'), nl,
     write('5. defencePotion'), nl,!,
@@ -171,9 +180,14 @@ enemyAttack :-
     write('attacked by '), write(Enemy), nl,
     dungeonDamage(Enemy, Dmg),
     TotalDmg is round(Dmg - (0.12*Def)),
-    (TotalDmg < 0 -> TotalDmg is 0; TotalDmg is TotalDmg),nl,
+    (TotalDmg < 0 -> TotalDmg is 0; TotalDmg is TotalDmg),
     updateHPPlayer(TotalDmg), write('Careful, they will strike !!!'), nl,
-    write('They got you, loss '), write(TotalDmg), write(' hp'),nl,fight,!.
+    write('They got you, loss '), write(TotalDmg), write(' hp'),nl,nl,printPlayerhp,nl,fight,!.
+
+printPlayerhp :-
+    char(Karakter),
+    healthPlayer(Karakter,X),
+    write('Your hp : '), write(X), write(' hp'),!.
 
 attack :-
     \+playing(_),
@@ -193,8 +207,12 @@ attack :-
     defence(Enemy, Def),
     totalDamage(Dmg), TotalDmg is round(Dmg - 0.2*Def),
     (TotalDmg < 0 -> TotalDmg is 0; TotalDmg is TotalDmg),
-    updateHPMonster(TotalDmg), write('whoa what a strike boss'), nl, write('You just hit '), write(TotalDmg),nl,
+    updateHPMonster(TotalDmg), write('Nice shot'), nl, write('You just hit '), write(TotalDmg), write(' damage'),nl,
     printEnemyStats(Enemy), nl, enemyAttack,!.
+
+updateskillCounter(Num) :-
+    retractall(skillCounter(_)),
+    asserta(skillCounter(Num)),!.
 
 skill :-
     \+playing(_),
@@ -209,10 +227,11 @@ skill :-
     playing(_), 
     inBattle(_),
     totalTurn(X),
+    updateskillCounter(X),
+    skillCounter(Skill),
     enemy(Enemy),
-    (X =:= 0 -> write('Youre not fully ready to use skill'),! ; 
-    X mod 3 =:= 0 -> skill(Dmg), updateTurn,updateHPMonster(Dmg),nl,write('Nice skill boss'),nl,!; write('Youre not fully ready to use skill')),
-    printEnemyStats(Enemy), nl,enemyAttack,nl,!.
+    (Skill < 3 -> write('Youre not fully ready to use skill'),printEnemyStats(Enemy),fight,! ; 
+     skill(Dmg), updateTurn,updateHPMonster(Dmg),nl,write('Nice skill boss'),nl, printEnemyStats(Enemy),updateskillCounter(0),enemyAttack,!).
 
 heal :-
     \+playing(_),
@@ -221,17 +240,13 @@ heal :-
 heal :-
     playing(_), 
     inventory(0, health_potion),
-    write('Nothing to consume, stay alive commander!'),!.
+    write('Nothing to consume, stay alive commander!'),fight,!.
 
 heal :-
     playing(_),
     \+inBattle(_), 
     char(Karakter),
-    totalTurn(N),
-    N1 is N + 1,
-    %update jumlah turn
-    retractall(totalTurn(_)),
-    asserta(totalTurn(N1)),
+    updateTurn,
     healthPlayer(Karakter, Hp),
     healthbase(Karakter, Base),
     Hp =:= Base, retractall(healed(_)),assertz(healed(1)), write('Youre fully healed, nothing to heal'),!.
@@ -240,11 +255,7 @@ heal :-
     playing(_),
     inBattle(_), 
     char(Karakter),
-    totalTurn(N),
-    N1 is N + 1,
-    %update jumlah turn
-    retractall(totalTurn(_)),
-    asserta(totalTurn(N1)),
+    updateTurn,
     healthPlayer(Karakter, Hp),
     healthbase(Karakter, Base),
     Hp =:= Base, retractall(healed(_)),assertz(healed(1)), write('Youre fully healed, nothing to heal'),nl,fight,!.
@@ -262,17 +273,13 @@ heal :-
     asserta(healthPlayer(Karakter, NewHp))),
     write('Feeling better comrads ?'), inventory(X, health_potion),
     NewPotion is X - 1, retractall(inventory(_,health_potion)),
-    asserta(inventory(NewPotion, health_potion)), printPlayerStats(Karakter), %tambahin enemy attack
+    asserta(inventory(NewPotion, health_potion)), printPlayerStats(Karakter), 
     !.
 
 heal :-
     playing(_),
     inBattle(_),
-    totalTurn(N),
-    N1 is N + 1,
-    %update jumlah turn
-    retractall(totalTurn(_)),
-    asserta(totalTurn(N1)),
+    updateTurn,
     char(Karakter),
     healthPlayer(Karakter, Hp),
     healthbase(Karakter, Base),
@@ -316,12 +323,8 @@ attackPotion :-
     asserta(potionCounterAtt(C)),
     inventory(X, attack_potion),
     X > 0, 
-    %update jumlah turn
-    totalTurn(N),
-    N1 is N + 1,
-    retractall(totalTurn(_)),
+    updateTurn,
     decrementInventory(attack_potion),
-    asserta(totalTurn(N1)),
     asserta(attPotionEffect(1)),
     totalDamage(Dmg), NewDmg is Dmg + 100,
     retractall(totalDamage(_)), asserta(totalDamage(NewDmg)),nl,enemyAttack,!. %tambahin enemy attack
@@ -356,12 +359,8 @@ defencePotion :-
     asserta(potionCounterDef(C)),
     inventory(X, defence_potion),
     X > 0, 
-    %update jumlah turn
-    totalTurn(N),
-    N1 is N + 1,
-    retractall(totalTurn(_)),
+    updateTurn,
     decrementInventory(defence_potion),
-    asserta(totalTurn(N1)),
     asserta(defPotionEffect(1)),
     totalDefense(Def), NewDef is Def + 50,
     retractall(totalDefense(_)), asserta(totalDefense(NewDef)), write('what a good choice, do u feel stronger now ?'),nl,
@@ -423,9 +422,9 @@ enemykilled :-
     level(Enemy, Levelmonster),
     ((LevelPlayer - Levelmonster) mod 2 =:= 0 -> getlevel(Enemy); nl),!,
 
+    printmap,
     %if
     updateruby,
-
     retractall(inBattle(_)),
     retractall(enemy(_)),
     retractall(totalTurn(_)),
@@ -434,7 +433,8 @@ enemykilled :-
     retractall(attPotionEffect(_)),
     retractall(defPotionEffect(_)),
     retractall(potionCounterAtt(_)),
-    retractall(potionCounterDef(_)),!.
+    retractall(potionCounterDef(_)),
+    retractall(skillCounter(_)),!.
 
 status :-
     char(Karakter),
