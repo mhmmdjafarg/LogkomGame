@@ -35,6 +35,7 @@
 :- discontiguous(armor_type/0).
 :- discontiguous(armor/0).
 :- discontiguous(charInventory/0).
+:- discontiguous(resetplayer/0).
 
 
 charplayer :-
@@ -287,3 +288,21 @@ updateruby(Player) :-
     retract(rubyplayer(Player,_)),
 
     assertz(rubyplayer(Player,Rubyasli)),!.
+
+resetplayer :-
+    retractall(player(_)),
+    retractall(healthPlayer(_,_)),
+    retractall(healthbase(_,_)),
+    retractall(damage(_,_)),
+    retractall(defense(_,_)),
+    retractall(skill(_,_)),
+    retractall(ulti(_,_)),
+    retractall(typeweapon(_,_)),
+    retractall(damageweapon(_,_)),
+    retractall(typearmor(_)),
+    retractall(kerasarmor(_,_)),
+    retractall(levelplayer(_)),
+    retractall(rubyplayer(_,_)),
+    retractall(expplayerbase(_,_)),
+    retractall(expplayer(_,_)),
+    retractall(inventory(_,_)).
