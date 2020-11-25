@@ -401,6 +401,11 @@ w :-
 	!.
 
 w :-
+	inBattle(_),
+	write('You are in a battle!'),nl,
+	!.
+
+w :-
 	retract(posisipemain(X,Y)),
 	Ynew is Y-1,
 	asserta(posisipemain(X,Ynew)),
@@ -419,6 +424,11 @@ s :-
 	Ynew is Y+1,
 	barrier(X,Ynew),
 	write('You ran into a wall.'),
+	!.
+
+s :-
+	inBattle(_),
+	write('You are in a battle!'),nl,
 	!.
 
 s :-
@@ -443,6 +453,11 @@ a :-
 	!.
 
 a :-
+	inBattle(_),
+	write('You are in a battle!'),nl,
+	!.
+
+a :-
 	retract(posisipemain(X,Y)),
 	Xnew is X-1,
 	asserta(posisipemain(Xnew,Y)),
@@ -461,6 +476,11 @@ d :-
 	Xnew is X+1,
 	barrier(Xnew,Y),
 	write('You ran into a wall.'),
+	!.
+
+d :-
+	inBattle(_),
+	write('You are in a battle!'),nl,
 	!.
 
 d :-
