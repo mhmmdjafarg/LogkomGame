@@ -4,14 +4,14 @@
 :- dynamic(healthbase/2).
 :- dynamic(damage/2).
 :- dynamic(defense/2).
-:- dynamic(skill/2).
+:- dynamic(skill/1).
 :- dynamic(ulti/2).
 :- dynamic(typeweapon/2).
 :- dynamic(damageweapon/2).
 :- dynamic(typearmor/1).
 :- dynamic(kerasarmor/2).
-:- dynamic(levelplayer/1).
-:- dynamic(rubyplayer/2).
+:- dynamic(levelplayer/2).
+:- dynamic(rubyplayer/1).
 :- dynamic(expplayerbase/2).
 :- dynamic(expplayer/2).
 :- dynamic(inventory/2).
@@ -29,7 +29,7 @@
 :- discontiguous(char_expbase/0).
 :- discontiguous(char_exp/0).
 :- discontiguous(updatelevel/1).
-:- discontiguous(updateruby/1).
+:- discontiguous(updateruby/0).
 :- discontiguous(printPlayerStats/1).
 :- discontiguous(weapon_damage/0).
 :- discontiguous(armor_type/0).
@@ -182,15 +182,11 @@ char_defense :-
 
 /*skill */
 char_skill :-
-    assertz(skill(swordsman, 200)),
-    assertz(skill(archer, 200)),
-    assertz(skill(ninja, 200)).
+    assertz(skill(200)).
 
 /* Ruby player */
 charRuby :-
-    assertz(rubyplayer(swordsman, 200)),
-    assertz(rubyplayer(archer, 200)),
-    assertz(rubyplayer(ninja, 200)).
+    assertz(rubyplayer(200)).
 
 /* Inventory Player*/
 charInventory :-
@@ -281,13 +277,13 @@ updatelevel(Player, ExpSisa) :-
     assertz(expplayer(Player, Expskrg)),
     assertz(defense(Player,Temptahan)),!.
 
-updateruby(Player) :-
-    rubyplayer(Player, X),
+updateruby :-
+    rubyplayer(X),
     Tempruby is X + 8 ,
     Rubyasli is Tempruby,
-    retract(rubyplayer(Player,_)),
+    retract(rubyplayer(_)),
 
-    assertz(rubyplayer(Player,Rubyasli)),!.
+    assertz(rubyplayer(Rubyasli)),!.
 
 resetplayer :-
     retractall(player(_)),
@@ -295,14 +291,14 @@ resetplayer :-
     retractall(healthbase(_,_)),
     retractall(damage(_,_)),
     retractall(defense(_,_)),
-    retractall(skill(_,_)),
+    retractall(skill(_)),
     retractall(ulti(_,_)),
     retractall(typeweapon(_,_)),
     retractall(damageweapon(_,_)),
     retractall(typearmor(_)),
     retractall(kerasarmor(_,_)),
     retractall(levelplayer(_)),
-    retractall(rubyplayer(_,_)),
+    retractall(rubyplayer(_)),
     retractall(expplayerbase(_,_)),
     retractall(expplayer(_,_)),
     retractall(inventory(_,_)).

@@ -63,10 +63,10 @@ quit:-
 	halt,!.
 
 resetall :-
-    resetplayer.
-    resetdungeon.
-    resetEquipment.
-    resetMap.
+    resetplayer,
+    resetdungeon,
+    resetEquipment,
+    resetMap,!.
 
 
 

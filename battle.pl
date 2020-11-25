@@ -172,7 +172,8 @@ enemyAttack :-
     dungeonDamage(Enemy, Dmg),
     TotalDmg is round(Dmg - (0.12*Def)),
     (TotalDmg < 0 -> TotalDmg is 0; TotalDmg is TotalDmg),nl,
-    updateHPPlayer(TotalDmg), write('They got you, loss '), write(TotalDmg), write(' hp'),nl, printPlayerStats(Karakter),nl,fight,!.
+    updateHPPlayer(TotalDmg), write('Careful, they will strike !!!'), nl,
+    write('They got you, loss '), write(TotalDmg), write(' hp'),nl,fight,!.
 
 attack :-
     \+playing(_),
@@ -192,9 +193,26 @@ attack :-
     defence(Enemy, Def),
     totalDamage(Dmg), TotalDmg is round(Dmg - 0.2*Def),
     (TotalDmg < 0 -> TotalDmg is 0; TotalDmg is TotalDmg),
-    updateHPMonster(TotalDmg), write('whoa what a strike boss'), nl,
-    printEnemyStats(Enemy), nl,fight,!.
-    %update hp monster
+    updateHPMonster(TotalDmg), write('whoa what a strike boss'), nl, write('You just hit '), write(TotalDmg),nl,
+    printEnemyStats(Enemy), nl, enemyAttack,!.
+
+skill :-
+    \+playing(_),
+    write('Its not started yet'),!.
+
+skill :-
+    playing(_), 
+    \+inBattle(_),
+    write('are you really want to waste your skill to a .. wind ?'), nl, !.
+
+skill :-
+    playing(_), 
+    inBattle(_),
+    totalTurn(X),
+    enemy(Enemy),
+    (X =:= 0 -> write('Youre not fully ready to use skill'),! ; 
+    X mod 3 =:= 0 -> skill(Dmg), updateTurn,updateHPMonster(Dmg),nl,write('Nice skill boss'),nl,!; write('Youre not fully ready to use skill')),
+    printEnemyStats(Enemy), nl,enemyAttack,nl,!.
 
 heal :-
     \+playing(_),
@@ -216,7 +234,7 @@ heal :-
     asserta(totalTurn(N1)),
     healthPlayer(Karakter, Hp),
     healthbase(Karakter, Base),
-    Hp =:= Base, assertz(healed(1)), write('Youre fully healed, nothing to heal'),!.
+    Hp =:= Base, retractall(healed(_)),assertz(healed(1)), write('Youre fully healed, nothing to heal'),!.
 
 heal :-
     playing(_),
@@ -229,7 +247,7 @@ heal :-
     asserta(totalTurn(N1)),
     healthPlayer(Karakter, Hp),
     healthbase(Karakter, Base),
-    Hp =:= Base, assertz(healed(1)), write('Youre fully healed, nothing to heal'),nl,fight,!.
+    Hp =:= Base, retractall(healed(_)),assertz(healed(1)), write('Youre fully healed, nothing to heal'),nl,fight,!.
 
 heal :-
     playing(_),
@@ -265,7 +283,7 @@ heal :-
     asserta(healthPlayer(Karakter, NewHp))),
     write('Feeling better comrads ?'), inventory(X, health_potion),
     NewPotion is X - 1, retractall(inventory(_,health_potion)),
-    asserta(inventory(NewPotion, health_potion)), nl,printPlayerStats(Karakter), !.
+    asserta(inventory(NewPotion, health_potion)), nl,printPlayerStats(Karakter), nl, enemyAttack,!.
     %tambahin enemy attack di akhir turn
 
 attackPotion :-
@@ -306,8 +324,7 @@ attackPotion :-
     asserta(totalTurn(N1)),
     asserta(attPotionEffect(1)),
     totalDamage(Dmg), NewDmg is Dmg + 100,
-    retractall(totalDamage(_)), asserta(totalDamage(NewDmg)),!. %tambahin enemy attack
-
+    retractall(totalDamage(_)), asserta(totalDamage(NewDmg)),nl,enemyAttack,!. %tambahin enemy attack
 
 defencePotion :-
     \+playing(_),
@@ -347,7 +364,8 @@ defencePotion :-
     asserta(totalTurn(N1)),
     asserta(defPotionEffect(1)),
     totalDefense(Def), NewDef is Def + 50,
-    retractall(totalDefense(_)), asserta(totalDefense(NewDef)), write('what a good choice, do u feel stronger now ?'),nl,!. %tambahin enemy attack
+    retractall(totalDefense(_)), asserta(totalDefense(NewDef)), write('what a good choice, do u feel stronger now ?'),nl,
+    enemyAttack,!. %tambahin enemy attack
 
 
 % Efek damage atau defense kembali normal tanpa potion
@@ -372,9 +390,9 @@ updateHPMonster(DamagePlayer) :-
     enemy(Enemy),
     health(Enemy, HpMonster),
     TempHpMonster is HpMonster - DamagePlayer,
-    (TempHpMonster >= 0 -> 
+    (TempHpMonster > 0 -> 
         retractall(health(Enemy,_)),
-        asserta(health(Enemy, TempHpMonster)),!; enemykilled, nl,write('enemy died'),nl).
+        asserta(health(Enemy, TempHpMonster)),!; write('Good job, you just killed '), write(Enemy),nl, enemykilled,nl,fail).
 
 decrementInventory(NamaItem) :-
     inventory(X,NamaItem),
@@ -394,7 +412,7 @@ enemykilled :-
     SisaExp is HealthbasePlayer - TempExp,
 
     %if naik level
-    (HealthbasePlayer < TempExp -> updatelevel(Karakter,SisaExp),!;
+    (HealthbasePlayer < TempExp -> updatelevel(Karakter,SisaExp),nl,write('Congratulations, you just level up'),nl,!;
     %else
     retractall(expplayer(Karakter,_)),
     assertz(expplayer(Karakter,TempExp))),
@@ -403,10 +421,10 @@ enemykilled :-
     %if
     levelplayer(Karakter, LevelPlayer),
     level(Enemy, Levelmonster),
-    ((LevelPlayer - Levelmonster) mod 2 =:= 0 -> getlevel(Enemy);),!,
+    ((LevelPlayer - Levelmonster) mod 2 =:= 0 -> getlevel(Enemy); nl),!,
 
     %if
-    updateruby(Karakter),
+    updateruby,
 
     retractall(inBattle(_)),
     retractall(enemy(_)),
@@ -417,3 +435,7 @@ enemykilled :-
     retractall(defPotionEffect(_)),
     retractall(potionCounterAtt(_)),
     retractall(potionCounterDef(_)),!.
+
+status :-
+    char(Karakter),
+    printPlayerStats(Karakter),!.
