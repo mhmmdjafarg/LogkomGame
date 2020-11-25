@@ -38,18 +38,21 @@ writelore :-
 
 help :-
     write('~~~~~~~~~~~~~Randy"s Adventure~~~~~~~~~~~~~~'), nl,
-	write(' | Available commands:                      |'), nl,
-    write('| 1. start.    : start the game!           |'), nl,
-    write('| 2. map.      : look at the map           |'), nl,
-    write('| 3. status.   : show your status          |'), nl,
-    write('| 4. w         : move north                |'), nl,
-    write('| 5. a         : move west                 |'), nl,
-    write('| 6. s         : move south                |'), nl,
-    write('| 7. d         : move east                 |'), nl,
-    write('| 8. help.     : show available commands   |'), nl,
-    write('| 9. quit.      : quit the game            |'), nl,
+    write('| Available commands:                       |'), nl,
+    write('| 1. start.      : start the game!          |'), nl,
+    write('| 2. map.        : look at the map          |'), nl,
+    write('| 3. status.     : show your status         |'), nl,
+    write('| 4. w           : move north               |'), nl,
+    write('| 5. a           : move west                |'), nl,
+    write('| 6. s           : move south               |'), nl,
+    write('| 7. d           : move east                |'), nl,
+    write('| 8. inventory.  : show available commands  |'), nl,
+    write('| 9. help.       : show available commands  |'), nl,
+    write('| 10. quit.      : quit the game            |'), nl,
     write('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'), nl.
 
+inventory :-
+	openinventory.
 pickClass :-
     write('Pick your class:'),nl,
     write('-  swordsman'),nl,
