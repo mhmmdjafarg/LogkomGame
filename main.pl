@@ -1,4 +1,5 @@
 :- include('map.pl').
+:- include('equipment.pl').
 
 :- dynamic(char/1). % gajadi dihapus
 :- dynamic(playing/1). % untuk status sedang bermain atau tidak
@@ -21,6 +22,7 @@ start :-
     charplayer,
     writelore,
     pickClass,
+    initEquipment,
     mulai,
     map,!.
 

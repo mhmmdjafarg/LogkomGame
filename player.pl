@@ -246,8 +246,10 @@ printPlayerStats(Player) :-
     write('Attack    : '), write(Serang), nl,
     write('Defense   : '), write(Tahan), nl,
     write('Hp        : '), write(Hp), nl,
-    write('Weapon    : '), write(Weapon),write('   Damage : '), write(WeaponDmg), nl,
-    write('Armor     : '), write(Armor), write('   Defence : '), write(ArmorDef),nl, !.
+    write('Weapon    : '), write(Weapon),nl,
+    write('Damage    : '), write(WeaponDmg), nl,
+    write('Armor     : '), write(Armor), nl,
+    write('Defence   : '), write(ArmorDef),nl, !.
 
 updatelevel(Player) :-
     levelplayer(Player, LevelP),

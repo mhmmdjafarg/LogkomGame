@@ -78,18 +78,18 @@ initHealth :-
     assertz(health(dungeonBoss, T)),!.
 
 initAttack :-
-    assertz(dungeonDamage(goblin,30)),
-    assertz(dungeonDamage(slime,20)),
-    assertz(dungeonDamage(wolf,45)),
-    assertz(dungeonDamage(underlord,120)),
-    assertz(dungeonDamage(dungeonBoss,200)).
+    assertz(dungeonDamage(goblin,40)),
+    assertz(dungeonDamage(slime,30)),
+    assertz(dungeonDamage(wolf,60)),
+    assertz(dungeonDamage(underlord,220)),
+    assertz(dungeonDamage(dungeonBoss,300)).
 
 initDefence :-
-    assertz(defence(goblin,20)),
-    assertz(defence(slime,0)),
-    assertz(defence(wolf,30)),
-    assertz(defence(underlord,100)),
-    assertz(defence(dungeonBoss,200)).
+    assertz(defence(goblin,30)),
+    assertz(defence(slime,10)),
+    assertz(defence(wolf,35)),
+    assertz(defence(underlord,120)),
+    assertz(defence(dungeonBoss,250)).
 
 getlevel(Name) :-
     level(Name, Lvl),

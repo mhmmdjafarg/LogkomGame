@@ -1,10 +1,8 @@
-:- include('player.pl'). %untuk testing
-
-
 :- dynamic(equipment/3). % berisi Id,nama, value
 
 :- discontiguous(initEquipment/0).
-:- discontiguous(useEquipment/1).
+:- discontiguous(useWeapon/1).
+:- discontiguous(useArmor/1).
 :- discontiguous(resetEquipment/0).
 
 initEquipment :-
@@ -17,7 +15,7 @@ initEquipment :-
     assertz(equipment(armor,FirstArmor, ValArmor)),!.
 
 % cek untuk weapon
-useEquipment(NamaEquipment) :-
+useWeapon(NamaEquipment) :-
     inventory(X, NamaEquipment),
     X > 0,
     char(Karakter),
@@ -32,9 +30,18 @@ useEquipment(NamaEquipment) :-
     assertz(inventory(X1,NamaEquipment)),
     retractall(equipment(weapon, _, _)),
     damageweapon(NamaEquipment, Val),
-    assertz(equipment(weapon, NamaEquipment, Val)),!.
+    assertz(equipment(weapon, NamaEquipment, Val)),
+    printPlayerStats(Karakter),nl,write('Ready to fight boss?'),!.
 
-useEquipment(NamaEquipment) :-
+
+% cek untuk weapon
+useWeapon(NamaEquipment) :-
+    inventory(_, NamaEquipment),
+    char(Karakter),
+    \+typeweapon(Karakter, NamaEquipment),
+    write('Pick what you can pick master !'), nl,!.
+
+useArmor(NamaEquipment) :-
     typearmor(NamaEquipment),
     inventory(X, NamaEquipment),
     X > 0,
@@ -48,10 +55,20 @@ useEquipment(NamaEquipment) :-
     assertz(inventory(X1,NamaEquipment)),
     retractall(equipment(armor, _, _)),
     kerasarmor(NamaEquipment, ValArmor),
-    assertz(equipment(armor, NamaEquipment, ValArmor)),!.
+    assertz(equipment(armor, NamaEquipment, ValArmor)),
+    char(Player), printPlayerStats(Player), nl, write('it looks nice on you'),!.
+
+useArmor(NamaEquipment) :-
+    inventory(_, NamaEquipment),
+    \+typearmor(NamaEquipment), write('pick what you can pick please '), nl,!.
 
 % cek untuk weapon dipastikan pemain tidak akan mendapat senjata yang tidak sesuai char
-useEquipment(NamaEquipment) :-
+useWeapon(NamaEquipment) :-
+    inventory(X, NamaEquipment),
+    X =:= 0, nl,
+    write('You dont have that item comrads'), !.
+
+useArmor(NamaEquipment) :-
     inventory(X, NamaEquipment),
     X =:= 0, nl,
     write('You dont have that item comrads'), !.
