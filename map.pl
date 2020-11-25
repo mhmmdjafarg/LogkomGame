@@ -407,14 +407,6 @@ join_slime :-
 w :-
 	posisipemain(X,Y),
 	Ynew is Y-1,
-	posisikunci(X,Ynew),
-	write('You retrieve the key.'),
-	asserta(key_retrieved),
-	!.
-
-w :-
-	posisipemain(X,Y),
-	Ynew is Y-1,
 	batasatas(X,Ynew),
 	write('You ran into a wall.'),
 	!.
@@ -438,6 +430,8 @@ w :-
 	Ynew is Y-1,
 	asserta(posisipemain(X,Ynew)),
 	muncul,
+	write('You retrieve the key.'),
+	asserta(key_retrieved),
 	!.
 
 w :-
@@ -445,15 +439,6 @@ w :-
 	Ynew is Y-1,
 	asserta(posisipemain(X,Ynew)),
 	muncul,
-	!.
-	
-
-s :-
-	posisipemain(X,Y),
-	Ynew is Y+1,
-	posisikunci(X,Ynew),
-	write('You retrieve the key.'),
-	asserta(key_retrieved),
 	!.
 
 
@@ -483,6 +468,8 @@ s :-
 	Ynew is Y+1,
 	asserta(posisipemain(X,Ynew)),
 	muncul,
+	write('You retrieve the key.'),
+	asserta(key_retrieved),
 	!.
 
 s :-
@@ -490,14 +477,6 @@ s :-
 	Ynew is Y+1,
 	asserta(posisipemain(X,Ynew)),
 	muncul,
-	!.
-
-a :-
-	posisipemain(X,Y),
-	Xnew is X-1,
-	posisikunci(Xnew,Y),
-	write('You retrieve the key.'),
-	asserta(key_retrieved),
 	!.
 
 a :-
@@ -526,6 +505,8 @@ a :-
 	Xnew is X-1,
 	asserta(posisipemain(Xnew,Y)),
 	muncul,
+	write('You retrieve the key.'),
+	asserta(key_retrieved),
 	!.
 
 a :-
@@ -533,14 +514,6 @@ a :-
 	Xnew is X-1,
 	asserta(posisipemain(Xnew,Y)),
 	muncul,
-	!.
-
-d :-
-	posisipemain(X,Y),
-	Xnew is X+1,
-	posisikunci(Xnew,Y),
-	write('You retrieve the key.'),
-	asserta(key_retrieved),
 	!.
 
 d :-
@@ -569,6 +542,8 @@ d :-
 	Xnew is X+1,
 	asserta(posisipemain(Xnew,Y)),
 	muncul,
+	write('You retrieve the key.'),
+	asserta(key_retrieved),
 	!.
 
 d :-

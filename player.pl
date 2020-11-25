@@ -36,6 +36,15 @@
 :- discontiguous(armor/0).
 :- discontiguous(charInventory/0).
 :- discontiguous(resetplayer/0).
+:- discontiguous(max_capacity/1).
+:- discontiguous(total_capacity/2).
+:- discontiguous(check_capacity/1).
+:- discontiguous(is_full/0).
+:- discontiguous(add_inventory/1).
+:- discontiguous(updatelevel/2).
+:- discontiguous(list_inventory/0).
+:- discontiguous(printinventory/1).
+:- discontiguous(openinventory/0).
 
 
 charplayer :-
