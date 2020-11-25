@@ -21,12 +21,16 @@
 :- discontiguous(cannotRun/0).
 :- discontiguous(goRun/0).
 :- discontiguous(updateHPPlayer/1).
-% :- discontiguous(updateHPMonster/0).
+:- discontiguous(updateHPMonster/1).
 :- discontiguous(heal/0).
 :- discontiguous(attackPotion/0).
 :- discontiguous(defencePotion/0).
 :- discontiguous(enemyAttack/0).
 :- discontiguous(setBattleStats/0).
+:- discontiguous(updateBattleStats/0).
+:- discontiguous(updateTurn/0).
+:- discontiguous(decrementInventory/1).
+:- discontiguous(enemykilled/0).
 
 /* Pilih random enemy */
 randomenemy :-
@@ -37,26 +41,33 @@ randomenemy :-
         asserta(enemy(EnemyType)),!,
         printEnemyStats(EnemyType).
 
-
 printEnemyStats(Enemy) :-
     level(Enemy, Level),
     dungeonDamage(Enemy, Att),
     defence(Enemy, Def),
-    baseHp(Enemy, BaseHp),nl,
-    write('Type : '), write(Enemy), nl,
-    write('Level : '), write(Level), nl,
-    write('Attack : '), write(Att), nl,
-    write('Defence : '), write(Def), nl,
-    write('base Hp : '), write(BaseHp), nl, !.
+    health(Enemy, Hp),nl,
+    write('Type         : '), write(Enemy), nl,
+    write('Level        : '), write(Level), nl,
+    write('Attack       : '), write(Att), nl,
+    write('Defence      : '), write(Def), nl,
+    write('Health point : '), write(Hp), nl, !.
 
 
 /* pertama kali bertemu dungeon */
 decide :-
     asserta(inBattle(1)),
     setBattleStats,
+    asserta(totalTurn(0)),
     write('Beast creature appears, prepare yourself!'), nl,
     randomenemy,
     write('fight or run? '), nl.
+
+updateTurn :-
+    totalTurn(N),
+    N1 is N + 1,
+    %update jumlah turn
+    retractall(totalTurn(_)),
+    asserta(totalTurn(N1)),!.
 
 setBattleStats :-
     char(Player),
@@ -67,6 +78,19 @@ setBattleStats :-
     defense(Player, Def),
     equipment(armor,_,ArmorDef),
     TotalDef is Def + ArmorDef,
+    assertz(totalDefense(TotalDef)),!.
+
+updateBattleStats :-
+    char(Player),
+    damage(Player, Dmg),
+    equipment(weapon,_, WeaponDmg),
+    TotalDmg is Dmg + WeaponDmg,
+    retractall(totalDamage(_)),
+    assertz(totalDamage(TotalDmg)),
+    defense(Player, Def),
+    equipment(armor,_,ArmorDef),
+    TotalDef is Def + ArmorDef,
+    retractall(totalDefense(_)),
     assertz(totalDefense(TotalDef)),!.
 
 % kondisi sedang tidak bermain %
@@ -97,7 +121,10 @@ goRun :-
     retractall(totalTurn(_)),
     retractall(totalDamage(_)),
     retractall(totalDefense(_)),
-    retractall(attPotionEffect(_)).
+    retractall(attPotionEffect(_)),
+    retractall(defPotionEffect(_)),
+    retractall(potionCounterAtt(_)),
+    retractall(potionCounterDef(_)),!.
 
 % fight
 fight :-
@@ -112,9 +139,21 @@ fight :-
 fight :-
     playing(_), 
     inBattle(_),
+    \+potionCounterAtt(_),
+    \+potionCounterDef(_),
+    write('What are you gonna do ?'), nl,
+    printFightCommand,!.
+
+fight :-
+    playing(_), 
+    inBattle(_),
     write('What are you gonna do ?'), nl,
     printFightCommand,
-    asserta(totalTurn(0)),!.
+    totalTurn(X),
+    potionCounterAtt(Y),
+    potionCounterDef(Z),
+    (X =:= Y -> backNormal(att)),
+    (X =:= Z -> backNormal(def)),!.
 
 printFightCommand :-
     write('1. attack'), nl,
@@ -131,8 +170,8 @@ enemyAttack :-
     enemy(Enemy),
     write('attacked by '), write(Enemy), nl,
     dungeonDamage(Enemy, Dmg),
-    TotalDmg is Dmg - (0.12*Def),
-    (TotalDmg < 0 -> TotalDmg is 0;TotalDmg is TotalDmg),
+    TotalDmg is round(Dmg - (0.12*Def)),
+    (TotalDmg < 0 -> TotalDmg is 0; TotalDmg is TotalDmg),nl,
     updateHPPlayer(TotalDmg), write('They got you, loss '), write(TotalDmg), write(' hp'),nl, printPlayerStats(Karakter),nl,fight,!.
 
 attack :-
@@ -144,6 +183,18 @@ attack :-
     \+inBattle(_),
     write('Are you mad? Go somewhere else to find monster!'), nl, !.
 
+attack :-
+    playing(_), 
+    inBattle(_),
+    updateBattleStats,
+    updateTurn,
+    enemy(Enemy),
+    defence(Enemy, Def),
+    totalDamage(Dmg), TotalDmg is round(Dmg - 0.2*Def),
+    (TotalDmg < 0 -> TotalDmg is 0; TotalDmg is TotalDmg),
+    updateHPMonster(TotalDmg), write('whoa what a strike boss'), nl,
+    printEnemyStats(Enemy), nl,fight,!.
+    %update hp monster
 
 heal :-
     \+playing(_),
@@ -214,7 +265,7 @@ heal :-
     asserta(healthPlayer(Karakter, NewHp))),
     write('Feeling better comrads ?'), inventory(X, health_potion),
     NewPotion is X - 1, retractall(inventory(_,health_potion)),
-    asserta(inventory(NewPotion, health_potion)), printPlayerStats(Karakter), !.
+    asserta(inventory(NewPotion, health_potion)), nl,printPlayerStats(Karakter), !.
     %tambahin enemy attack di akhir turn
 
 attackPotion :-
@@ -241,6 +292,7 @@ attackPotion :-
 attackPotion :-
     playing(_),
     inBattle(_),
+    \+attPotionEffect(_),
     totalTurn(Count),
     C is Count + 3,
     asserta(potionCounterAtt(C)),
@@ -250,6 +302,7 @@ attackPotion :-
     totalTurn(N),
     N1 is N + 1,
     retractall(totalTurn(_)),
+    decrementInventory(attack_potion),
     asserta(totalTurn(N1)),
     asserta(attPotionEffect(1)),
     totalDamage(Dmg), NewDmg is Dmg + 100,
@@ -280,6 +333,7 @@ defencePotion :-
 defencePotion :-
     playing(_),
     inBattle(_),
+    \+defPotionEffect(_),
     totalTurn(Count),
     C is Count + 3,
     asserta(potionCounterDef(C)),
@@ -289,27 +343,77 @@ defencePotion :-
     totalTurn(N),
     N1 is N + 1,
     retractall(totalTurn(_)),
+    decrementInventory(defence_potion),
     asserta(totalTurn(N1)),
     asserta(defPotionEffect(1)),
     totalDefense(Def), NewDef is Def + 50,
-    retractall(totalDefense(_)), asserta(totalDefense(NewDef)),!. %tambahin enemy attack
+    retractall(totalDefense(_)), asserta(totalDefense(NewDef)), write('what a good choice, do u feel stronger now ?'),nl,!. %tambahin enemy attack
 
 
 % Efek damage atau defense kembali normal tanpa potion
 backNormal(Potion) :-
     totalDamage(X),
     totalDefense(Y),
-    (Potion = att -> X1 is X - 100, retractall(totalDamage(_)), assertz(totalDamage(X1), retractall(potionCounterAtt(_))),!;
-     Potion = def -> Y1 is Y - 50, retractall(totalDefense(_)), assertz(totalDefense(Y1)),retractall(potionCounterDef(_))),!.
+    (Potion = att -> X1 is X - 100, retractall(totalDamage(_)), assertz(totalDamage(X1)), retractall(potionCounterAtt(_)), retractall(attPotionEffect(_)),!;
+     Potion = def -> Y1 is Y - 50, retractall(totalDefense(_)), assertz(totalDefense(Y1)),retractall(potionCounterDef(_)), retractall(defPotionEffect(_))),!.
 
 updateHPPlayer(Damage) :-
-    enemy(Enemy),
     char(Karakter),
     healthPlayer(Karakter, Hp),
     TempHpPlayer is Hp - Damage,
     (TempHpPlayer =< 0 -> 
         write('you lose to this ?'), 
         nl, 
-        write('you are not strong enough'),fail; 
+        write('you are not strong enough'),resetall,fail; 
         retractall(healthPlayer(Karakter,_)),
         asserta(healthPlayer(Karakter, TempHpPlayer)),!).
+
+updateHPMonster(DamagePlayer) :-
+    enemy(Enemy),
+    health(Enemy, HpMonster),
+    TempHpMonster is HpMonster - DamagePlayer,
+    (TempHpMonster >= 0 -> 
+        retractall(health(Enemy,_)),
+        asserta(health(Enemy, TempHpMonster)),!; enemykilled, nl,write('enemy died'),nl).
+
+decrementInventory(NamaItem) :-
+    inventory(X,NamaItem),
+    X1 is X - 1,
+    retractall(inventory(_,NamaItem)),
+    asserta(inventory(X1, NamaItem)),!.
+
+enemykilled :-
+    enemy(Enemy),
+    char(Karakter),
+
+    % nambah exp dari dungeon ke exp pemain
+    dungeonExp(Enemy,ExpTambah),
+    expplayer(Karakter,ExpSiPlayer),
+    healthbase(Karakter, HealthbasePlayer),
+    TempExp is ExpSiPlayer + ExpTambah,
+    SisaExp is HealthbasePlayer - TempExp,
+
+    %if naik level
+    (HealthbasePlayer < TempExp -> updatelevel(Karakter,SisaExp),!;
+    %else
+    retractall(expplayer(Karakter,_)),
+    assertz(expplayer(Karakter,TempExp))),
+    restoreHealth(Enemy),
+
+    %if
+    levelplayer(Karakter, LevelPlayer),
+    level(Enemy, Levelmonster),
+    ((LevelPlayer - Levelmonster) mod 2 =:= 0 -> getlevel(Enemy);),!,
+
+    %if
+    updateruby(Karakter),
+
+    retractall(inBattle(_)),
+    retractall(enemy(_)),
+    retractall(totalTurn(_)),
+    retractall(totalDamage(_)),
+    retractall(totalDefense(_)),
+    retractall(attPotionEffect(_)),
+    retractall(defPotionEffect(_)),
+    retractall(potionCounterAtt(_)),
+    retractall(potionCounterDef(_)),!.
