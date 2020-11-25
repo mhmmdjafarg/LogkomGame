@@ -1,5 +1,3 @@
-:- include('battle.pl').
-
 :- dynamic(inQuest/1).
 :- dynamic(quest1done/1).
 :- dynamic(quest2done/1).
@@ -38,7 +36,7 @@ quest :-
 
 quest :-
 	inQuest(_),
-	write('You are currently in a quest'),!.
+	write('Finish your current quest first!'),!.
 
 ambilQuestSatu :-
 	asserta(inQuest(1)),
@@ -46,6 +44,9 @@ ambilQuestSatu :-
 	write('The villagers are in trouble!, you decided to help them'), nl,
 	write('as a way to say thank you for their hospitality'), nl, nl,
 	write('Defeat 1 slime, 1 goblin, and 1 wolf'),nl,
+	asserta(goblindefeated(0)),
+	asserta(slimedefeated(0)),
+	asserta(wolfdefeated(0)),
 	asserta(needkillSlime(1)),
 	asserta(needkillGoblin(1)),
 	asserta(needkillWolf(1)),
@@ -57,9 +58,12 @@ ambilQuestDua :-
 	write('You are getting fond of the villagers and their ways and they are starting to accept you,'), nl,
 	write('defeating monsters is basically what you do for the village'), nl, nl,
 	write('Defeat 2 slime, 2 goblin, and 2 wolf'),nl,
-	retract(needkillSlime(_)),
-	retract(needkillGoblin(_)),
-	retract(needkillWolf(_)),
+	retractall(needkillSlime(_)),
+	retractall(needkillGoblin(_)),
+	retractall(needkillWolf(_)),
+	asserta(goblindefeated(0)),
+	asserta(slimedefeated(0)),
+	asserta(wolfdefeated(0)),
 	asserta(needkillSlime(2)),
 	asserta(needkillGoblin(2)),
 	asserta(needkillWolf(2)),
@@ -73,9 +77,12 @@ ambilQuestTiga :-
 	write('you have to return to Dangarnon. '), nl, nl,
 	write('Defeat 3 slime, 3 goblin, and 3 wolf'),nl,nl,
 	write('And a path to the key to Dangarnon will open.'),nl,
-	retract(needkillSlime(_)),
-	retract(needkillGoblin(_)),
-	retract(needkillWolf(_)),
+	retractall(needkillSlime(_)),
+	retractall(needkillGoblin(_)),
+	retractall(needkillWolf(_)),
+	asserta(goblindefeated(0)),
+	asserta(slimedefeated(0)),
+	asserta(wolfdefeated(0)),
 	asserta(needkillSlime(3)),
 	asserta(needkillGoblin(3)),
 	asserta(needkillWolf(3)),
