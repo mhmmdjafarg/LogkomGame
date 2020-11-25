@@ -312,6 +312,6 @@ updateHPPlayer(Damage) :-
     (TempHpPlayer =< 0 -> 
         write('you lose to this ?'), 
         nl, 
-        write('you not strong enough'),fail; 
+        write('you are not strong enough'),fail; 
         retractall(healthPlayer(Karakter,_)),
         asserta(healthPlayer(Karakter, TempHpPlayer)),!).
