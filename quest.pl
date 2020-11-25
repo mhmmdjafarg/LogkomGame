@@ -86,6 +86,9 @@ done1 :-
 	write('still need your help. Get back to the Q area to get your next quest'),nl,
 	retractall(inQuest(_)),
 	asserta(quest1done(1)),
+	retractall(slimedefeated(_)),
+	retractall(goblindefeated(_)),
+	retractall(wolfdefeated(_)),
 	!.
 
 done2 :-
@@ -93,6 +96,9 @@ done2 :-
 	write('still need your help. Get back to the Q area to get your next quest'),nl,
 	retractall(inQuest(_)),
 	asserta(quest2done(1)),
+	retractall(slimedefeated(_)),
+	retractall(goblindefeated(_)),
+	retractall(wolfdefeated(_)),
 	!.
 
 done3 :-
@@ -102,8 +108,74 @@ done3 :-
 	write('Something doesn\'t sit right in the back of your mind.'),nl,
 	retractall(inQuest(_)),
 	asserta(quest3done(1)),
+	retractall(slimedefeated(_)),
+	retractall(goblindefeated(_)),
+	retractall(wolfdefeated(_)),
 	!.
 
+checkquestprogress :-
+	inQuest(1),
+	\+quest1done(1),
+	slimedefeated(X1),
+	needkillSlime(Y1),
+	goblindefeated(X2),
+	needkillGoblin(Y2),
+	wolfdefeated(X3),
+	needkillWolf(Y3),
+	X1 >= Y1, X2 >= Y2, X3 >= Y3,
+	done1,!.
+
+checkquestprogress :-
+	inQuest(2),
+	\+quest2done(1),
+	quest1done(1),
+	slimedefeated(X1),
+	needkillSlime(Y1),
+	goblindefeated(X2),
+	needkillGoblin(Y2),
+	wolfdefeated(X3),
+	needkillWolf(Y3),
+	X1 >= Y1, X2 >= Y2, X3 >= Y3,
+	done2,!.
+
+checkquestprogress :-
+	inQuest(3),
+	\+quest3done(1),
+	quest1done(1),
+	quest2done(1),
+	slimedefeated(X1),
+	needkillSlime(Y1),
+	goblindefeated(X2),
+	needkillGoblin(Y2),
+	wolfdefeated(X3),
+	needkillWolf(Y3),
+	X1 >= Y1, X2 >= Y2, X3 >= Y3,
+	done3,!.
+
+checkquestprogress :-
+	inQuest(_),
+	write('Well done!, you\'re one step closer to finishing your quest!'),nl,!.
+
+checkquestprogress :-
+	write(''),!.
+
+incslime :-
+	slimedefeated(X),
+	Xinc is X+1,
+	retractall(slimedefeated(_)),
+	asserta(slimedefeated(Xinc)),!.
+
+incgoblin :-
+	goblindefeated(X),
+	Xinc is X+1,
+	retractall(goblindefeated(_)),
+	asserta(goblindefeated(Xinc)),!.
+
+incwolf :-
+	wolfdefeated(X),
+	Xinc is X+1,
+	retractall(wolfdefeated(_)),
+	asserta(wolfdefeated(Xinc)),!.
 
 
 
