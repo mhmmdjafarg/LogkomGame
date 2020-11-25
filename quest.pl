@@ -1,7 +1,9 @@
 :- include('battle.pl').
 
 :- dynamic(inQuest/1).
-:- dynamic(inQuestSecret/1).
+:- dynamic(quest1done/1).
+:- dynamic(quest2done/1).
+:- dynamic(quest3done/1).
 :- dynamic(goblindefeated/1).
 :- dynamic(slimedefeated/1).
 :- dynamic(wolfdefeated/1).
@@ -10,16 +12,23 @@
 :- dynamic(needkillWolf/1).
 
 quest :-
-	\+inQuest(_)),
+	\+inQuest(_),
 	ambilQuestSatu,!.
 
 quest :-
-	inQuest(1),
+	\+inQuest(_),
+	quest1done(1),
 	ambilQuestDua,!.
 
 quest :-
-	inQuest(2),
+	\+inQuest(_),
+	quest1done(1),
+	quest2done(1),
 	ambilQuestTiga,!.
+
+quest :-
+	inQuest(_),
+	write('You are currently in a quest'),!.
 
 ambilQuestSatu :-
 	asserta(inQuest(1)),
@@ -36,7 +45,6 @@ ambilQuestSatu :-
 	!.
 
 ambilQuestDua :-
-	retract(inQuest(_)),
 	asserta(inQuest(2)),
 	write('Quest no. 2: Gaining Trust'), nl,
 	write('You are getting fond of the villagers and their ways and they are starting to accept you,'), nl,
@@ -51,7 +59,6 @@ ambilQuestDua :-
 	!.
 
 ambilQuestTiga :-
-	retract(inQuest(_)),
 	asserta(inQuest(3)),
 	write('Quest no. 3: Going Home'), nl,
 	write('The villagers are happy to have you as family, but you know deep down you'), nl,
@@ -66,4 +73,34 @@ ambilQuestTiga :-
 	asserta(needkillGoblin(3)),
 	asserta(needkillWolf(3)),
 	!.
+
+quest1doneMessage :-
+	write('Welldone traveller, you\'ve finished your quest, but the villagers might'),nl,
+	write('still need your help. Get back to the Q area to get your next quest'),nl,
+	retractall(inQuest(_)),
+	asserta(quest1done(1)),
+	!.
+
+quest2doneMessage :-
+	write('Welldone traveller, you\'ve finished your quest, but the villagers might'),nl,
+	write('still need your help. Get back to the Q area to get your next quest'),nl,
+	retractall(inQuest(_)),
+	asserta(quest2done(1)),
+	!.
+
+secretquest :-
+	write('You\'ve been very helpful to the villagers, now it\'s time to go home.'),nl,
+	write('You have all the right to go, but still...'),nl,nl,
+	write('Something doesn\'t sit right in the back of your mind.'),nl,
+	retractall(inQuest(_)),
+	asserta(quest3done(1)),
+	!.
+
+
+
+
+
+
+
+
 
