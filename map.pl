@@ -386,6 +386,32 @@ printmap :-
 		)),
 	!.
 
+join_wolf :-
+	retract(posisipemain(_,_)),
+	wolfcamp(P,Q),
+	asserta(posisipemain(P,Q)),muncul,
+	write('You have been teleported to Wolf Den'),nl,!.
+
+join_goblin :-
+	retract(posisipemain(_,_)),
+	goblincamp(P,Q),
+	asserta(posisipemain(P,Q)),muncul,
+	write('You have been teleported to Goblin Hut'),nl,!.
+
+join_slime :-
+	retract(posisipemain(_,_)),
+	slimecamp(P,Q),
+	asserta(posisipemain(P,Q)),muncul,
+	write('You have been teleported to Slime Chamber'),nl,!.
+
+w :-
+	posisipemain(X,Y),
+	Ynew is Y-1,
+	posisikunci(X,Ynew),
+	write('You retrieve the key.'),
+	asserta(key_retrieved),
+	!.
+
 w :-
 	posisipemain(X,Y),
 	Ynew is Y-1,
@@ -406,11 +432,30 @@ w :-
 	!.
 
 w :-
+	posisikunci(X,Y),
+	retract(posisipemain(X,Y)),
+	retract(posisikunci(X,Y)),
+	Ynew is Y-1,
+	asserta(posisipemain(X,Ynew)),
+	muncul,
+	!.
+
+w :-
 	retract(posisipemain(X,Y)),
 	Ynew is Y-1,
 	asserta(posisipemain(X,Ynew)),
 	muncul,
 	!.
+	
+
+s :-
+	posisipemain(X,Y),
+	Ynew is Y+1,
+	posisikunci(X,Ynew),
+	write('You retrieve the key.'),
+	asserta(key_retrieved),
+	!.
+
 
 s :-
 	posisipemain(X,Y),
@@ -432,10 +477,27 @@ s :-
 	!.
 
 s :-
+	posisikunci(X,Y),
+	retract(posisipemain(X,Y)),
+	retract(posisikunci(X,Y)),
+	Ynew is Y+1,
+	asserta(posisipemain(X,Ynew)),
+	muncul,
+	!.
+
+s :-
 	retract(posisipemain(X,Y)),
 	Ynew is Y+1,
 	asserta(posisipemain(X,Ynew)),
 	muncul,
+	!.
+
+a :-
+	posisipemain(X,Y),
+	Xnew is X-1,
+	posisikunci(Xnew,Y),
+	write('You retrieve the key.'),
+	asserta(key_retrieved),
 	!.
 
 a :-
@@ -458,10 +520,27 @@ a :-
 	!.
 
 a :-
+	posisikunci(X,Y),
+	retract(posisipemain(X,Y)),
+	retract(posisikunci(X,Y)),
+	Xnew is X-1,
+	asserta(posisipemain(Xnew,Y)),
+	muncul,
+	!.
+
+a :-
 	retract(posisipemain(X,Y)),
 	Xnew is X-1,
 	asserta(posisipemain(Xnew,Y)),
 	muncul,
+	!.
+
+d :-
+	posisipemain(X,Y),
+	Xnew is X+1,
+	posisikunci(Xnew,Y),
+	write('You retrieve the key.'),
+	asserta(key_retrieved),
 	!.
 
 d :-
@@ -481,6 +560,15 @@ d :-
 d :-
 	inBattle(_),
 	write('You are in a battle!'),nl,
+	!.
+
+d :-
+	posisikunci(X,Y),
+	retract(posisipemain(X,Y)),
+	retract(posisikunci(X,Y)),
+	Xnew is X+1,
+	asserta(posisipemain(Xnew,Y)),
+	muncul,
 	!.
 
 d :-

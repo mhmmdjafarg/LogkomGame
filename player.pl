@@ -252,7 +252,7 @@ printPlayerStats(Player) :-
     write('Armor     : '), write(Armor), nl,
     write('Defence   : '), write(ArmorDef),nl, !.
 
-updatelevel(Player) :-
+updatelevel(Player, ExpSisa) :-
     levelplayer(Player, LevelP),
     Templevel is LevelP + 1,
     healthbase(Player, Healthbase),
@@ -265,7 +265,7 @@ updatelevel(Player) :-
     expplayerbase(Player,Exp),
     TempExp is Exp + 50,
     expplayer(Player,Expskrg),
-    Expskrg is 0,
+    Expskrg is ExpSisa,
 
     retract(levelplayer(Player,_)),
     retract(healthbase(Player,_)),
