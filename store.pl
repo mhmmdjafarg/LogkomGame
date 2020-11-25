@@ -3,13 +3,13 @@
 
 potion_choice(1):-
     add_inventory(health_potion),
-    write('You receive Health Potion x 1',nl).
+    write('You receive Health Potion x 1'),nl.
 potion_choice(2):-
     add_inventory(attack_potion),
-     write('You receive Attack Potion x 1',nl).
+     write('You receive Attack Potion x 1'),nl.
 potion_choice(3):-
     add_inventory(defence_potion),
-     write('You receive Defence Potion x 1',nl).
+     write('You receive Defence Potion x 1'),nl.
 
 weapon_prize(1,sword_of_eventide):- write('Congratulations, You get Sword of Eventide !'), nl.
 weapon_prize(2,small_sword):- write('Congratulations, You get Small Sword !'), nl.
@@ -45,15 +45,17 @@ armor_randomizer(Armor):-
     armor_prize(X,Armor),!.
 
 
-gacha_list(1,Weapon,Class):-
+gacha_list(X,Weapon,Class):-
+    X >= 80, X < 101,
     weapon_randomizer(Class,Weapon).
 
-gacha_list(2,Armor,_):-
+gacha_list(X,Armor,_):-
+    X >= 60, X < 80,
     armor_randomizer(Armor).
 
-gacha_list(3,health_potion,_):- write('Congratulations, You get Health Potion x 1 !'), nl.
-gacha_list(4,defence_potion,_):- write('Congratulations, You get Defence Potion x 1 !'), nl.
-gacha_list(5,attack_potion,_):- write('Congratulations, You get Attack Potion x 1 !'), nl.
+gacha_list(X,health_potion,_):- X < 40, write('Congratulations, You get Health Potion x 1 !'), nl.
+gacha_list(X,defence_potion,_):- X >= 40 , X < 50 , write('Congratulations, You get Defence Potion x 1 !'), nl.
+gacha_list(X,attack_potion,_):- X >= 50, X < 60, write('Congratulations, You get Attack Potion x 1 !'), nl.
 
 ruby_check(Player_class,New_money):-
     New_money >= 0,
@@ -73,7 +75,7 @@ open_gacha(_,New_money):-
 
 open_gacha(Class,New_money):-
     New_money >= 0,
-    random(1,6,X),
+    random(1,101,X),
     gacha_list(X,Item,Class),
     add_inventory(Item),
     ruby_check(Class,New_money),!.

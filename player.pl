@@ -306,3 +306,30 @@ resetplayer :-
     retractall(expplayerbase(_,_)),
     retractall(expplayer(_,_)),
     retractall(inventory(_,_)).
+
+list_inventory:- findall(X,inventory(_,X),List),write(List).
+
+printinventory(List):-
+    List = [].
+
+printinventory(List):-
+    [H|T] = List,
+    inventory(X,H),
+    X > 0,
+    write(H), write(' x '), write(X), nl,
+    printinventory(T).
+
+printinventory(List):-
+     [H|T] = List,
+     inventory(X,H), X = 0,
+     printinventory(T).
+
+openinventory:-
+    check_capacity(X), X = 0,
+    write('Your inventory is empty...'),nl,!.
+
+
+openinventory:-
+    write('Inventory :'),nl,nl,
+    list_inventory(List),
+    printinventory(List),!.
