@@ -1,3 +1,5 @@
+:- include('map.pl').
+
 :- dynamic(inQuest/1).
 :- dynamic(quest1done/1).
 :- dynamic(quest2done/1).
@@ -118,6 +120,8 @@ done3 :-
 	retractall(slimedefeated(_)),
 	retractall(goblindefeated(_)),
 	retractall(wolfdefeated(_)),
+	retractall(whichstage(_)),
+	asserta(whichstage(2)),
 	!.
 
 checkquestprogress :-
