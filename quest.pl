@@ -13,18 +13,28 @@
 
 quest :-
 	\+inQuest(_),
-	ambilQuestSatu,!.
+	\+quest1done(1),
+	!,ambilQuestSatu.
 
 quest :-
 	\+inQuest(_),
+	\+quest2done(1),
 	quest1done(1),
-	ambilQuestDua,!.
+	!,ambilQuestDua.
+
+quest :-
+	\+inQuest(_),
+	\+quest3done(1),
+	quest1done(1),
+	quest2done(1),
+	!,ambilQuestTiga.
 
 quest :-
 	\+inQuest(_),
 	quest1done(1),
 	quest2done(1),
-	ambilQuestTiga,!.
+	quest3done(1),
+	write('go home.'),nl,!.
 
 quest :-
 	inQuest(_),
@@ -36,9 +46,6 @@ ambilQuestSatu :-
 	write('The villagers are in trouble!, you decided to help them'), nl,
 	write('as a way to say thank you for their hospitality'), nl, nl,
 	write('Defeat 1 slime, 1 goblin, and 1 wolf'),nl,
-	retract(needkillSlime(_)),
-	retract(needkillGoblin(_)),
-	retract(needkillWolf(_)),
 	asserta(needkillSlime(1)),
 	asserta(needkillGoblin(1)),
 	asserta(needkillWolf(1)),
@@ -74,27 +81,30 @@ ambilQuestTiga :-
 	asserta(needkillWolf(3)),
 	!.
 
-quest1doneMessage :-
+done1 :-
 	write('Welldone traveller, you\'ve finished your quest, but the villagers might'),nl,
 	write('still need your help. Get back to the Q area to get your next quest'),nl,
 	retractall(inQuest(_)),
 	asserta(quest1done(1)),
 	!.
 
-quest2doneMessage :-
+done2 :-
 	write('Welldone traveller, you\'ve finished your quest, but the villagers might'),nl,
 	write('still need your help. Get back to the Q area to get your next quest'),nl,
 	retractall(inQuest(_)),
 	asserta(quest2done(1)),
 	!.
 
-secretquest :-
-	write('You\'ve been very helpful to the villagers, now it\'s time to go home.'),nl,
+done3 :-
+	write('Welldone traveller, you\'ve finished all your quests!'),nl,
+	write('The villagers are more than glad to have you as quest, but now it\'s time to go home.'),nl,
 	write('You have all the right to go, but still...'),nl,nl,
 	write('Something doesn\'t sit right in the back of your mind.'),nl,
 	retractall(inQuest(_)),
 	asserta(quest3done(1)),
 	!.
+
+
 
 
 
