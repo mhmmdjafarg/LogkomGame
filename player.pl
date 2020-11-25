@@ -28,7 +28,6 @@
 :- discontiguous(charRuby/0).
 :- discontiguous(char_expbase/0).
 :- discontiguous(char_exp/0).
-:- discontiguous(updatelevel/1).
 :- discontiguous(updateruby/0).
 :- discontiguous(printPlayerStats/1).
 :- discontiguous(weapon_damage/0).
@@ -257,12 +256,11 @@ printPlayerStats(Player) :-
     write('Armor     : '), write(Armor), nl,
     write('Defence   : '), write(ArmorDef),nl, !.
 
-updatelevel(Player, ExpSisa) :-
-    levelplayer(Player, LevelP),
-    Templevel is LevelP + 1,
+updatelevel(Player, Expsisa) :-
+    levelplayer(Player, LeveluP),
+    Templevel is (LeveluP + 1),
     healthbase(Player, Healthbase),
     Temphealthbase is Healthbase+30,
-    Tempnyawa is Temphealthbase,
     damage(Player, Serangan),
     Tempdamage is Serangan+8,
     defense(Player, Tahanan),
@@ -270,20 +268,19 @@ updatelevel(Player, ExpSisa) :-
     expplayerbase(Player,Exp),
     TempExp is Exp + 50,
     expplayer(Player,Expskrg),
-    Expskrg is ExpSisa,
 
-    retract(levelplayer(Player,_)),
-    retract(healthbase(Player,_)),
-    retract(damage(Player,_)),
-    retract(defense(Player,_)),
-    retract(expplayerbase(Player,_)),
-    retract(expplayer(Player,_)),
+    retractall(levelplayer(Player,_)),
+    retractall(healthbase(Player,_)),
+    retractall(damage(Player,_)),
+    retractall(defense(Player,_)),
+    retractall(expplayerbase(Player,_)),
+    retractall(expplayer(Player,_)),
 
     assertz(levelplayer(Player,Templevel)),
-    assertz(healthbase(Player, Tempnyawa)),
+    assertz(healthbase(Player, Temphealthbase)),
     assertz(damage(Player, Tempdamage)),
     assertz(expplayerbase(Player, TempExp)),
-    assertz(expplayer(Player, Expskrg)),
+    assertz(expplayer(Player, Expsisa)),
     assertz(defense(Player,Temptahan)),!.
 
 updateruby :-

@@ -406,12 +406,12 @@ enemykilled :-
     % nambah exp dari dungeon ke exp pemain
     dungeonExp(Enemy,ExpTambah),
     expplayer(Karakter,ExpSiPlayer),
-    healthbase(Karakter, HealthbasePlayer),
+    expplayerbase(Karakter, ExpPlayerbase),
     TempExp is ExpSiPlayer + ExpTambah,
-    SisaExp is HealthbasePlayer - TempExp,
+    SisaExp is TempExp - ExpPlayerbase,
 
     %if naik level
-    (HealthbasePlayer < TempExp -> updatelevel(Karakter,SisaExp),nl,write('Congratulations, you just level up'),nl,!;
+    (ExpPlayerbase < TempExp -> updatelevel(Karakter,SisaExp),nl,write('Congratulations, you just level up'),nl,!;
     %else
     retractall(expplayer(Karakter,_)),
     assertz(expplayer(Karakter,TempExp))),
