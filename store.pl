@@ -3,13 +3,13 @@
 
 potion_choice(1):-
     add_inventory(health_potion),
-    write('You receive Health Potion x 1',nl).
+    write('You receive Health Potion x 1'),nl.
 potion_choice(2):-
     add_inventory(attack_potion),
-     write('You receive Attack Potion x 1',nl).
+     write('You receive Attack Potion x 1'),nl.
 potion_choice(3):-
     add_inventory(defence_potion),
-     write('You receive Defence Potion x 1',nl).
+     write('You receive Defence Potion x 1'),nl.
 
 weapon_prize(1,sword_of_eventide):- write('Congratulations, You get Sword of Eventide !'), nl.
 weapon_prize(2,small_sword):- write('Congratulations, You get Small Sword !'), nl.
