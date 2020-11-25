@@ -179,9 +179,9 @@ enemyAttack :-
     write('attacked by '), write(Enemy), nl,
     dungeonDamage(Enemy, Dmg),
     TotalDmg is round(Dmg - (0.12*Def)),
-    (TotalDmg < 0 -> TotalDmg is 0; TotalDmg is TotalDmg),nl,
+    (TotalDmg < 0 -> TotalDmg is 0; TotalDmg is TotalDmg),
     updateHPPlayer(TotalDmg), write('Careful, they will strike !!!'), nl,
-    write('They got you, loss '), write(TotalDmg), write(' hp'),nl,fight,!.
+    write('They got you, loss '), write(TotalDmg), write(' hp'),nl,nl,printPlayerhp,nl,fight,!.
 
 printPlayerhp :-
     char(Karakter),
@@ -206,7 +206,7 @@ attack :-
     defence(Enemy, Def),
     totalDamage(Dmg), TotalDmg is round(Dmg - 0.2*Def),
     (TotalDmg < 0 -> TotalDmg is 0; TotalDmg is TotalDmg),
-    updateHPMonster(TotalDmg), write('whoa what a strike boss'), nl, write('You just hit '), write(TotalDmg),nl,
+    updateHPMonster(TotalDmg), write('Nice shot'), nl, write('You just hit '), write(TotalDmg), write(' damage'),nl,
     printEnemyStats(Enemy), nl, enemyAttack,!.
 
 updateskillCounter(Num) :-
@@ -229,9 +229,8 @@ skill :-
     updateskillCounter(X),
     skillCounter(Skill),
     enemy(Enemy),
-    (Skill < 3 -> write('Youre not fully ready to use skill'),! ; 
-     skill(Dmg), updateTurn,updateHPMonster(Dmg),nl,write('Nice skill boss'),nl, updateskillCounter(0),!),
-    printEnemyStats(Enemy), nl,enemyAttack,nl,!.
+    (Skill < 3 -> write('Youre not fully ready to use skill'),printEnemyStats(Enemy),fight,! ; 
+     skill(Dmg), updateTurn,updateHPMonster(Dmg),nl,write('Nice skill boss'),nl, printEnemyStats(Enemy),updateskillCounter(0),enemyAttack,!).
 
 heal :-
     \+playing(_),
