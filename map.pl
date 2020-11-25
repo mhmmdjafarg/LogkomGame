@@ -25,6 +25,8 @@
 
 :- dynamic(whichstage/1).
 
+:- discontiguous(resetMap/0).
+
 lebarpeta(18).
 tinggipeta(18).
 
@@ -485,11 +487,19 @@ lain :-
 	printmap,!.
 
 
-
-
-
-
-
-
-
-
+resetMap :-
+    retractall(lebarpeta(_)),
+    retractall(tinggipeta(_)),
+    retractall(posisipemain(_,_)),
+    retractall(legenda(_)),
+    retractall(barrier(_,_)),
+    retractall(star(_,_)),
+    retractall(posisikunci(_,_)),
+    retractall(posisishop(_,_)),
+    retractall(posisiquest(_,_)),
+    retractall(goblincamp(_,_)),
+    retractall(slimecamp(_,_)),
+    retractall(wolfcamp(_)),
+    retractall(underlord(_,_)),
+    retractall(secretboss(_,_)),
+    retractall(whichstage(_)).

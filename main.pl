@@ -45,5 +45,12 @@ pickClass :-
     asserta(char(Karaker)),
     !.
 
+resetall :-
+    resetplayer.
+    resetdungeon.
+    resetEquipment.
+    resetMap.
+.
+
 
 
