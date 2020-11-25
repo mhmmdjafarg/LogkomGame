@@ -36,6 +36,20 @@ writelore :-
 	write('dunia atas juga memiliki kunci untuk pergi ke dunia bawah tanah, bisakah anda kembali ke Dangarnon? dan bisakah anda mencari'),nl,
 	write('tahu bagaimana penghuni dunia atas bisa memiliki kunci ke Dangarnon?'),nl,nl.
 
+help :-
+    write('~~~~~~~~~~~~~Randy"s Adventure~~~~~~~~~~~~~~'), nl,
+	write(' | Available commands:                      |'), nl,
+    write('| 1. start.    : start the game!           |'), nl,
+    write('| 2. map.      : look at the map           |'), nl,
+    write('| 3. status.   : show your status          |'), nl,
+    write('| 4. w         : move north                |'), nl,
+    write('| 5. a         : move west                 |'), nl,
+    write('| 6. s         : move south                |'), nl,
+    write('| 7. d         : move east                 |'), nl,
+    write('| 8. help.     : show available commands   |'), nl,
+    write('| 9. quit.      : quit the game            |'), nl,
+    write('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'), nl.
+
 pickClass :-
     write('Pick your class:'),nl,
     write('-  swordsman'),nl,
@@ -44,6 +58,9 @@ pickClass :-
     read(Karaker),
     asserta(char(Karaker)),
     !.
+
+quit:- 
+	halt,!.
 
 resetall :-
     resetplayer.

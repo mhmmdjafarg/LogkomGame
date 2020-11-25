@@ -302,8 +302,6 @@ backNormal(Potion) :-
     (Potion = att -> X1 is X - 100, retractall(totalDamage(_)), assertz(totalDamage(X1), retractall(potionCounterAtt(_))),!;
      Potion = def -> Y1 is Y - 50, retractall(totalDefense(_)), assertz(totalDefense(Y1)),retractall(potionCounterDef(_))),!.
 
-
-
 updateHPPlayer(Damage) :-
     enemy(Enemy),
     char(Karakter),
