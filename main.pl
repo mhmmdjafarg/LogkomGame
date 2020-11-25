@@ -50,7 +50,6 @@ resetall :-
     resetdungeon.
     resetEquipment.
     resetMap.
-.
 
 
 
