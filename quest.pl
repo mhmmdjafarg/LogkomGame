@@ -10,6 +10,7 @@
 :- dynamic(needkillSlime/1).
 :- dynamic(needkillGoblin/1).
 :- dynamic(needkillWolf/1).
+:- dynamic(onsecret/1).
 
 quest :-
 	\+inQuest(_),
@@ -42,10 +43,10 @@ quest :-
 
 ambilQuestSatu :-
 	asserta(inQuest(1)),
-	write('Quest no. 1: Returning the Favor'), nl,
+	write('             Quest no. 1: Returning the Favor'), nl,nl,
 	write('The villagers are in trouble!, you decided to help them'), nl,
 	write('as a way to say thank you for their hospitality'), nl, nl,
-	write('Defeat 1 slime, 1 goblin, and 1 wolf'),nl,
+	write('           Defeat 1 slime, 1 goblin, and 1 wolf'),nl,
 	asserta(goblindefeated(0)),
 	asserta(slimedefeated(0)),
 	asserta(wolfdefeated(0)),
@@ -56,10 +57,10 @@ ambilQuestSatu :-
 
 ambilQuestDua :-
 	asserta(inQuest(2)),
-	write('Quest no. 2: Gaining Trust'), nl,
+	write('             Quest no. 2: Gaining Trust'), nl,nl,
 	write('You are getting fond of the villagers and their ways and they are starting to accept you,'), nl,
 	write('defeating monsters is basically what you do for the village'), nl, nl,
-	write('Defeat 2 slime, 2 goblin, and 2 wolf'),nl,
+	write('           Defeat 2 slime, 2 goblin, and 2 wolf'),nl,
 	retractall(needkillSlime(_)),
 	retractall(needkillGoblin(_)),
 	retractall(needkillWolf(_)),
@@ -73,11 +74,11 @@ ambilQuestDua :-
 
 ambilQuestTiga :-
 	asserta(inQuest(3)),
-	write('Quest no. 3: Going Home'), nl,
+	write('             Quest no. 3: Going Home'), nl,nl,
 	write('The villagers are happy to have you as family, but you know deep down you'), nl,
 	write('dont belong in the Above World. As much as you want to stay there, you know '), nl,
 	write('you have to return to Dangarnon. '), nl, nl,
-	write('Defeat 3 slime, 3 goblin, and 3 wolf'),nl,nl,
+	write('           Defeat 3 slime, 3 goblin, and 3 wolf'),nl,nl,
 	write('And a path to the key to Dangarnon will open.'),nl,
 	retractall(needkillSlime(_)),
 	retractall(needkillGoblin(_)),
@@ -101,7 +102,7 @@ done1 :-
 	!.
 
 done2 :-
-	write('Welldone traveller, you\'ve finished your quest, but the villagers might'),nl,
+	write('Welldone traveller, you\'ve finished your guest, but the villagers might'),nl,
 	write('still need your help. Get back to the Q area to get your next quest'),nl,
 	retractall(inQuest(_)),
 	asserta(quest2done(1)),
@@ -122,6 +123,16 @@ done3 :-
 	retractall(wolfdefeated(_)),
 	retractall(whichstage(_)),
 	asserta(whichstage(2)),
+	retractall(needkillSlime(_)),
+	retractall(needkillGoblin(_)),
+	retractall(needkillWolf(_)),
+	asserta(goblindefeated(0)),
+	asserta(slimedefeated(0)),
+	asserta(wolfdefeated(0)),
+	asserta(needkillSlime(3)),
+	asserta(needkillGoblin(3)),
+	asserta(needkillWolf(3)),
+	asserta(onsecret(1)),
 	!.
 
 checkquestprogress :-
@@ -166,6 +177,20 @@ checkquestprogress :-
 checkquestprogress :-
 	inQuest(_),
 	write('Well done!, you\'re one step closer to finishing your quest!'),nl,!.
+
+checkquestprogress :-
+	onsecret(1),
+	slimedefeated(X1),
+	needkillSlime(Y1),
+	goblindefeated(X2),
+	needkillGoblin(Y2),
+	wolfdefeated(X3),
+	needkillWolf(Y3),
+	X1 >= Y1, X2 >= Y2, X3 >= Y3,
+	retractall(whichstage(_)),
+	asserta(whichstage(3)),
+	write('           why are you still here?'),nl,
+	map,!.
 
 checkquestprogress :-
 	write(''),!.
