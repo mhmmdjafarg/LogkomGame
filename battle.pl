@@ -536,7 +536,7 @@ enemykilled :-
 
     printmap,
     %if
-    updateruby,
+    (enemy == underlord -> updaterubyUnderLord; updateruby),
     retractall(inBattle(_)),
     retractall(enemy(_)),
     retractall(totalTurn(_)),
@@ -550,7 +550,6 @@ enemykilled :-
     retractall(fightBoss(_)),
 
     %update progress quest
-    write('aaaa'),
     asserta(whatdefeated(Enemy)),
     incdefeated,
     checkquestprogress,

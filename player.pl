@@ -29,6 +29,7 @@
 :- discontiguous(char_expbase/0).
 :- discontiguous(char_exp/0).
 :- discontiguous(updateruby/0).
+:- discontiguous(updaterubyUnderLord/0).
 :- discontiguous(printPlayerStats/1).
 :- discontiguous(weapon_damage/0).
 :- discontiguous(armor_type/0).
@@ -287,7 +288,15 @@ updatelevel(Player, Expsisa) :-
 
 updateruby :-
     rubyplayer(X),
-    Tempruby is X + 8 ,
+    Tempruby is X + 30 ,
+    Rubyasli is Tempruby,
+    retract(rubyplayer(_)),
+
+    assertz(rubyplayer(Rubyasli)),!.
+
+updaterubyUnderLord :-
+    rubyplayer(X),
+    Tempruby is X + 2000 ,
     Rubyasli is Tempruby,
     retract(rubyplayer(_)),
 
