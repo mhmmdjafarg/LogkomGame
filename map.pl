@@ -562,6 +562,13 @@ muncul :-
 	!.
 
 muncul :-
+	posisipemain(X,Y),
+	posisiquest(X,Y),
+	printmap,
+	quest,
+	!.
+
+muncul :-
 	repeat,
 		random(1,8, X),
 		(X =:= 4 -> decide; lain),!.
