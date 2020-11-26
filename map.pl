@@ -557,7 +557,7 @@ muncul :-
 	posisipemain(X,Y),
 	posisishop(X,Y),
 	printmap,
-	rubyplayer(Class, Money),
+	rubyplayer(Money),
 	shop(Money,Class),
 	!.
 

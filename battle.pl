@@ -413,6 +413,7 @@ decrementInventory(NamaItem) :-
     asserta(inventory(X1, NamaItem)),!.
 
 enemykilled :-
+    \+inQuest(_),
     enemy(Enemy),
     char(Karakter),
 
@@ -448,6 +449,50 @@ enemykilled :-
     retractall(potionCounterAtt(_)),
     retractall(potionCounterDef(_)),
     retractall(skillCounter(_)),!.
+
+enemykilled :-
+    enemy(Enemy),
+    char(Karakter),
+
+    % nambah exp dari dungeon ke exp pemain
+    dungeonExp(Enemy,ExpTambah),
+    expplayer(Karakter,ExpSiPlayer),
+    expplayerbase(Karakter, ExpPlayerbase),
+    TempExp is ExpSiPlayer + ExpTambah,
+    SisaExp is TempExp - ExpPlayerbase,
+
+    %if naik level
+    (ExpPlayerbase =< TempExp -> updatelevel(Karakter,SisaExp),nl,write('Congratulations, you just level up'),nl,!;
+    %else
+    retractall(expplayer(Karakter,_)),
+    assertz(expplayer(Karakter,TempExp))),
+    restoreHealth(Enemy),
+
+    %if
+    levelplayer(Karakter, LevelPlayer),
+    level(Enemy, Levelmonster),
+    ((LevelPlayer - Levelmonster) mod 2 =:= 0 -> getlevel(Enemy); nl),!,
+
+    printmap,
+    %if
+    updateruby,
+    retractall(inBattle(_)),
+    retractall(enemy(_)),
+    retractall(totalTurn(_)),
+    retractall(totalDamage(_)),
+    retractall(totalDefense(_)),
+    retractall(attPotionEffect(_)),
+    retractall(defPotionEffect(_)),
+    retractall(potionCounterAtt(_)),
+    retractall(potionCounterDef(_)),
+    retractall(skillCounter(_)),
+
+    %update progress quest
+    write('aaaa'),
+    asserta(whatdefeated(Enemy)),
+    incdefeated,
+    checkquestprogress,
+    !.
 
 status :-
     char(Karakter),
