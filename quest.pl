@@ -1,6 +1,3 @@
-:- include('map.pl').
-:- include('battle.pl').
-
 :- dynamic(inQuest/1).
 :- dynamic(quest1done/1).
 :- dynamic(quest2done/1).

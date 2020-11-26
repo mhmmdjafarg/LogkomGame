@@ -1,5 +1,6 @@
 :- include('player.pl').
 :- include('dungeon.pl').
+:- include('quest.pl').
 
 /* fight, run, gagalrun, attack, skill, itung turn, levelup */
 

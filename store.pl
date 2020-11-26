@@ -1,5 +1,4 @@
 %STORE
-:- include('player.pl').
 
 potion_choice(1):-
     add_inventory(health_potion),
