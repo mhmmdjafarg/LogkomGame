@@ -311,7 +311,7 @@ resetplayer :-
     retractall(expplayer(_,_)),
     retractall(inventory(_,_)).
 
-list_inventory:- findall(X,inventory(_,X),List),write(List).
+list_inventory(List):- findall(X,inventory(_,X),List).
 
 printinventory(List):-
     List = [].
