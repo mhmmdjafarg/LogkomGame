@@ -194,7 +194,7 @@ checkquestprogress :-
 
 checkquestprogress :-
 	\+inQuest(_),
-	write('aaaa'),!.
+	write(''),!.
 
 incdefeated :-
 	whatdefeated(slime),
