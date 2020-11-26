@@ -84,3 +84,40 @@ printslime :-
     write('   (        -        )'),nl,
     write('  (                    )'),nl,
     write('  (____________________)'),nl.
+    
+printarcher :-
+    write('              /\\\\           '),nl,         
+    write('            /   \\\\                         '),nl,
+    write('           /     \\\\                      '),nl,
+    write('      \\\\/,//      \\\\             '),nl,
+    write('    __|/ oo|       ||            '),nl,
+    write('  /,` |_  ~| >>>---`)>                '),nl,
+    write('(  `---`\\--`` _,`  ||                 '),nl,
+    write(' `--.    \\ ,-`    //                 '),nl,
+    write('    |    \\|     //                 '),nl,
+    write('    |     \\   //                 '),nl,
+    write('    |_____|\\//                            '),nl,                        
+    write('    |  ,  |    ~~~~~~~~~~~~~      '),nl,
+    write('    | : \\ :    | YOUR TURN |                       '),nl,
+    write('    | | : :    ~~~~~~~~~~~~~                        '),nl,
+    write('    | | | |                            '),nl,
+    write('    | | |_`.                  '),nl,
+    write('    `--`        '),nl. 
+
+printninja :-
+    write('        ___ '),nl,
+    write('      /_____\\   ~~~~~~~~~~~'),nl,
+    write('     |  0 0  | | YOUR TURN |'),nl,
+    write('     \\``````/   ~~~~~~~~~~~'),nl,
+    write('     __\\   /__'),nl,
+    write('   /     ,    \\'),nl,
+    write('  /     ||     \\'),nl,
+    write(' /  .__.||.__.  \\'),nl,
+    write('(___}___||___{___)'),nl,
+    write('     |      | '),nl,
+    write('     |      |'),nl,
+    write('     |      |'),nl,
+    write('     |  /\\  |'),nl,
+    write('     | | |  |'),nl,
+    write('     | | |  |'),nl,
+    write('    (__) (__)'),nl.
