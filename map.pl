@@ -424,17 +424,6 @@ w :-
 	!.
 
 w :-
-	posisikunci(X,Y),
-	retract(posisipemain(X,Y)),
-	retract(posisikunci(X,Y)),
-	Ynew is Y-1,
-	asserta(posisipemain(X,Ynew)),
-	muncul,
-	write('You retrieve the key.'),
-	asserta(key_retrieved),
-	!.
-
-w :-
 	retract(posisipemain(X,Y)),
 	Ynew is Y-1,
 	asserta(posisipemain(X,Ynew)),
@@ -459,17 +448,6 @@ s :-
 s :-
 	inBattle(_),
 	write('You are in a battle!'),nl,
-	!.
-
-s :-
-	posisikunci(X,Y),
-	retract(posisipemain(X,Y)),
-	retract(posisikunci(X,Y)),
-	Ynew is Y+1,
-	asserta(posisipemain(X,Ynew)),
-	muncul,
-	write('You retrieve the key.'),
-	asserta(key_retrieved),
 	!.
 
 s :-
@@ -499,17 +477,6 @@ a :-
 	!.
 
 a :-
-	posisikunci(X,Y),
-	retract(posisipemain(X,Y)),
-	retract(posisikunci(X,Y)),
-	Xnew is X-1,
-	asserta(posisipemain(Xnew,Y)),
-	muncul,
-	write('You retrieve the key.'),
-	asserta(key_retrieved),
-	!.
-
-a :-
 	retract(posisipemain(X,Y)),
 	Xnew is X-1,
 	asserta(posisipemain(Xnew,Y)),
@@ -536,17 +503,6 @@ d :-
 	!.
 
 d :-
-	posisikunci(X,Y),
-	retract(posisipemain(X,Y)),
-	retract(posisikunci(X,Y)),
-	Xnew is X+1,
-	asserta(posisipemain(Xnew,Y)),
-	muncul,
-	write('You retrieve the key.'),
-	asserta(key_retrieved),
-	!.
-
-d :-
 	retract(posisipemain(X,Y)),
 	Xnew is X+1,
 	asserta(posisipemain(Xnew,Y)),
@@ -559,6 +515,15 @@ muncul :-
 	printmap,
 	rubyplayer(Money),
 	shop(Money,Class),
+	!.
+
+muncul :-
+	posisipemain(X,Y),
+	posisikunci(X,Y),
+	printmap,
+	asserta(retrieve_key),
+	write('Well done! the people of Dangarnon is waiting for you'),nl,
+	retractall(posisikunci(_,_)),
 	!.
 
 muncul :-
