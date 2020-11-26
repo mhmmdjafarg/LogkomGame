@@ -116,6 +116,7 @@ done3 :-
 	write('You have all the right to go, but still...'),nl,nl,
 	write('Something doesn\'t sit right in the back of your mind.'),nl,
 	retractall(inQuest(_)),
+	retractall(whichstage(_)),
 	asserta(quest3done(1)),
 	retractall(slimedefeated(_)),
 	retractall(goblindefeated(_)),

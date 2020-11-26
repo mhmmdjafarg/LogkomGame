@@ -539,7 +539,7 @@ muncul :-
 		(X =:= 4 -> decide; lain),!.
 
 lain :-
-	printmap,!.
+	map,!.
 
 
 resetMap :-
