@@ -88,12 +88,12 @@ updateBattleStats :-
     char(Player),
     damage(Player, Dmg),
     equipment(weapon,_, WeaponDmg),
-    TotalDmg is Dmg + WeaponDmg,
+    (attPotionEffect(X) -> TotalDmg is Dmg + WeaponDmg + 100; TotalDmg is Dmg+WeaponDmg),
     retractall(totalDamage(_)),
     assertz(totalDamage(TotalDmg)),
     defense(Player, Def),
     equipment(armor,_,ArmorDef),
-    TotalDef is Def + ArmorDef,
+    (defPotionEffect(Y) -> TotalDef is Def + ArmorDef + 50; TotalDef is Def+ArmorDef),
     retractall(totalDefense(_)),
     assertz(totalDefense(TotalDef)),!.
 
@@ -157,10 +157,8 @@ fight :-
     write('What are you gonna do ?'), nl,
     printFightCommand,
     totalTurn(X),
-    potionCounterAtt(Y),
-    potionCounterDef(Z),
-    (X =:= Y -> backNormal(att); nl),
-    (X =:= Z -> backNormal(def); nl),!.
+    (potionCounterAtt(Y), X =:= Y -> backNormal(att); nl),
+    (potionCounterDef(Z),X =:= Z -> backNormal(def); nl),!.
 
 printFightCommand :-
     skillCounter(X),
@@ -240,7 +238,7 @@ heal :-
 heal :-
     playing(_), 
     inventory(0, health_potion),
-    write('Nothing to consume, stay alive commander!'),fight,!.
+    write('Nothing to consume, stay alive commander!'),nl,fight,!.
 
 heal :-
     playing(_),
@@ -327,7 +325,7 @@ attackPotion :-
     decrementInventory(attack_potion),
     asserta(attPotionEffect(1)),
     totalDamage(Dmg), NewDmg is Dmg + 100,
-    retractall(totalDamage(_)), asserta(totalDamage(NewDmg)),nl,enemyAttack,!. %tambahin enemy attack
+    retractall(totalDamage(_)), asserta(totalDamage(NewDmg)),write('youre stronger than before commander'),nl,enemyAttack,!. %tambahin enemy attack
 
 defencePotion :-
     \+playing(_),
@@ -369,6 +367,8 @@ defencePotion :-
 
 % Efek damage atau defense kembali normal tanpa potion
 backNormal(Potion) :-
+    nl,
+    write('Youre no longer have potion effect'),
     totalDamage(X),
     totalDefense(Y),
     (Potion = att -> X1 is X - 100, retractall(totalDamage(_)), assertz(totalDamage(X1)), retractall(potionCounterAtt(_)), retractall(attPotionEffect(_)),!;
@@ -411,7 +411,7 @@ enemykilled :-
     SisaExp is TempExp - ExpPlayerbase,
 
     %if naik level
-    (ExpPlayerbase < TempExp -> updatelevel(Karakter,SisaExp),nl,write('Congratulations, you just level up'),nl,!;
+    (ExpPlayerbase =< TempExp -> updatelevel(Karakter,SisaExp),nl,write('Congratulations, you just level up'),nl,!;
     %else
     retractall(expplayer(Karakter,_)),
     assertz(expplayer(Karakter,TempExp))),
