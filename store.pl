@@ -92,7 +92,7 @@ buy_choice(2,Player_money,Player_class) :-
     read(Choice_potion),
     potion_choice(Choice_potion),
     New_money is Player_money - 50,
-    ruby_check(Player_class,New_money).
+    ruby_check(New_money).
 
 cancel_verif(3,_,_,_):-
     is_full,
