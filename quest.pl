@@ -192,10 +192,11 @@ checkquestprogress :-
 	map,!.
 
 checkquestprogress :-
-	write(''),!.
+	\+inQuest(_),
+	write('aaaa'),!.
 
 incdefeated :-
-	whatdefeated(1),
+	whatdefeated(slime),
 	slimedefeated(X),
 	Xinc is X+1,
 	retractall(slimedefeated(_)),
@@ -204,7 +205,7 @@ incdefeated :-
 	!.
 
 incdefeated :-
-	whatdefeated(2),
+	whatdefeated(goblin),
 	goblindefeated(X),
 	Xinc is X+1,
 	retractall(goblindefeated(_)),
@@ -213,7 +214,7 @@ incdefeated :-
 	!.
 
 incdefeated :-
-	whatdefeated(3),
+	whatdefeated(wolf),
 	wolfdefeated(X),
 	Xinc is X+1,
 	retractall(wolfdefeated(_)),
