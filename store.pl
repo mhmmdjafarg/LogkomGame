@@ -84,7 +84,7 @@ buy_choice(1,Player_money,Player_class):- %gacha
     New_money is Player_money - 150,
     open_gacha(Player_class,New_money).
 
-buy_choice(2,Player_money,Player_class) :-
+buy_choice(2,Player_money,_) :-
     write('What kinda potion you wanna buy?'), nl, %potion
     write('1. Health Potion'), nl,
     write('2. Attack Potion'), nl,
