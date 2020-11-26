@@ -244,12 +244,11 @@ printFightCommandBoss :-
 
 % Enemy attack - 12% defense
 enemyAttack :-
-    char(Karakter),
-    defense(Karakter, Def),
+    totalDefense(Def),
     enemy(Enemy),
     write('attacked by '), write(Enemy), nl,
     dungeonDamage(Enemy, Dmg),
-    TotalDmg is round(Dmg - (0.25*Def)),
+    TotalDmg is round(Dmg - (0.12*Def)),
     (TotalDmg < 0 -> TotalDmg is 0; TotalDmg is TotalDmg),
     updateHPPlayer(TotalDmg), write('Careful, they will strike !!!'), nl,
     write('They got you, loss '), write(TotalDmg), write(' hp'),nl,nl,printPlayerhp,nl,fight,!.
