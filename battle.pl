@@ -16,6 +16,7 @@
 :- dynamic(potionCounterAtt/1).
 :- dynamic(potionCounterDef/1).
 :- dynamic(skillCounter/1).
+:- dynamic(fightBoss/1).
 
 :- discontiguous(decide/0).
 :- discontiguous(run/0).
@@ -34,8 +35,6 @@
 :- discontiguous(decrementInventory/1).
 :- discontiguous(enemykilled/0).
 :- discontiguous(updateskillCounter/1).
-
-
 
 
 /* Pilih random enemy */
@@ -69,6 +68,25 @@ decide :-
     write('Beast creature appears, prepare yourself!'), nl,
     randomenemy,
     write('fight or run? '), nl.
+
+decideBoss :-
+    asserta(inBattle(1)),
+    asserta(fightBoss(1)),
+    setBattleStats,
+    asserta(totalTurn(0)),
+    updateskillCounter(0),
+    write('This is your last fight!, Good luck!'), nl,
+    asserta(enemy(dungeonBoss)),
+    printEnemyStats(dungeonBoss),fight,!.
+
+decideSecretBoss :-
+    asserta(inBattle(1)),
+    setBattleStats,
+    asserta(totalTurn(0)),
+    updateskillCounter(0),
+    write('Fight the underlord, be careful, he used to be your friend ....'), nl,
+    asserta(enemy(underlord)),
+    printEnemyStats(underlord),fight,!.
 
 updateTurn :-
     totalTurn(N),
@@ -115,9 +133,14 @@ run :-
   
 run :-
     inBattle(_),
+    \+fightBoss(_),
     repeat,
         random(10,40,Number),
         (Number =< 20 -> cannotRun; goRun),!.
+run :-
+    inBattle(_),
+    fightBoss(_),
+    write('You cannot run from dungeon Boss, pray for yourself '), nl, fight,!.
 
 cannotRun :-
     write('Too slow, he runs at you!'), nl,
@@ -156,13 +179,15 @@ fight :-
     \+potionCounterDef(_),
     printplayer,
     write('What are you gonna do ?'), nl,
-    printFightCommand,!.
+    enemy(Enemy),
+    (Enemy == dungeonBoss -> printFightCommandBoss; printFightCommand),!.
 
 fight :-
     playing(_), 
     inBattle(_),
     write('What are you gonna do ?'), nl,
-    printFightCommand,
+    enemy(Enemy),
+    (Enemy == dungeonBoss -> printFightCommandBoss; printFightCommand),
     totalTurn(X),
     (potionCounterAtt(Y), X =:= Y -> backNormal(att); nl),
     (potionCounterDef(Z),X =:= Z -> backNormal(def); nl),!.
@@ -176,6 +201,15 @@ printFightCommand :-
     write('4. attackPotion'), nl,
     write('5. defencePotion'), nl,!,
     write('6. run').
+
+printFightCommandBoss :-
+    skillCounter(X),
+    (X >= 3 -> write('skill ready !'),nl; nl),
+    write('1. attack'), nl,
+    write('2. skill '), write(X), write('/3'), nl,
+    write('3. heal'), nl,
+    write('4. attackPotion'), nl,
+    write('5. defencePotion'), nl,!.
 
 % Enemy attack - 12% defense
 enemyAttack :-
@@ -486,6 +520,7 @@ enemykilled :-
     retractall(potionCounterAtt(_)),
     retractall(potionCounterDef(_)),
     retractall(skillCounter(_)),
+    retractall(fightBoss(_)),
 
     %update progress quest
     write('aaaa'),
@@ -509,4 +544,5 @@ resetBattle :-
     retractall(potionCounterAtt(_)),
     retractall(potionCounterDef(_)),
     retractall(skillCounter(_)),
-    retractall(healed(_)),!.
+    retractall(healed(_)), 
+    retractall(fightBoss(_)),!.
