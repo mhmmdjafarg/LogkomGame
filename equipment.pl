@@ -31,7 +31,7 @@ useWeapon(NamaEquipment) :-
     retractall(equipment(weapon, _, _)),
     damageweapon(NamaEquipment, Val),
     assertz(equipment(weapon, NamaEquipment, Val)),
-    printPlayerStats(Karakter),nl,write('Ready to fight boss?'),!.
+    printPlayerStats(Karakter),nl,write('Ready to fight my lord?'),!.
 
 
 % cek untuk weapon
