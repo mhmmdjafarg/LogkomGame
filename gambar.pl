@@ -1,4 +1,4 @@
-player :-
+printplayer :-
     write('   ^      '),nl,
     write('  | |     ~~~~~~~~~~~~~'),nl,
     write('  |.|     | YOUR TURN |'),nl,
@@ -20,7 +20,7 @@ player :-
     write('         \\ /   \\_____\\ '),nl,
     write('          `'),nl.
 
-wolf :-
+printwolf :-
     write('                        |\\---/| '),nl,
     write('                       / .\\ /. | '),nl,
     write('                  __.-.|  / \\ / '),nl,
@@ -36,7 +36,7 @@ wolf :-
     write('     || ||              \\--"" '),nl,
     write('     .-"".-""'),nl.
 
-goblin :-
+printgoblin :-
     write('               /\\_[]_/\\'),nl,
     write('              |] _||_ [|'),nl,
     write('       ___     \\/ || \\/'),nl,
@@ -50,7 +50,7 @@ goblin :-
     write('     _\\_||_/_       '),nl,
     write('    (_,_||_,_)      '),nl.
 
-dragon :-
+printdragon :-
     write('                   \\||/ '),nl,
     write('                   |  0\\___oo '),nl,
     write('       /\\  /\\   / (__vvvvv|| '),nl,
@@ -63,7 +63,7 @@ dragon :-
     write('| \\____(      )___) )___ '),nl,
     write('\\______(_______;;; __;;; '),nl.
 
-secretboss :-
+printsecretboss :-
     write('           ,    ,          .'),nl,
     write('           \\\\ \\\\          //'),nl,       
     write('          ) \\\\ \\\\    _p_/ /'),nl,
@@ -76,7 +76,7 @@ secretboss :-
     write('          \\\\    /  \\ '),nl,
     write('           `"'),nl.
 
-slime :-
+printslime :-
     write('           .^.'),nl,
     write('         (     )'),nl,
     write('       (  \\   /  )'),nl,

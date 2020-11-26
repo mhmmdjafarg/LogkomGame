@@ -49,6 +49,7 @@ printEnemyStats(Enemy) :-
     dungeonDamage(Enemy, Att),
     defence(Enemy, Def),
     health(Enemy, Hp),nl,
+    (Enemy == goblin -> printgoblin; Enemy == slime -> printslime; Enemy == wolf -> printwolf;Enemy == underlord -> printsecretboss;Enemy == dungeonBoss -> printdragon),
     write('Type         : '), write(Enemy), nl,
     write('Level        : '), write(Level), nl,
     write('Attack       : '), write(Att), nl,
@@ -149,6 +150,7 @@ fight :-
     inBattle(_),
     \+potionCounterAtt(_),
     \+potionCounterDef(_),
+    printplayer,
     write('What are you gonna do ?'), nl,
     printFightCommand,!.
 
