@@ -56,28 +56,28 @@ gacha_list(X,health_potion,_):- X < 40, write('Congratulations, You get Health P
 gacha_list(X,defence_potion,_):- X >= 40 , X < 50 , write('Congratulations, You get Defence Potion x 1 !'), nl.
 gacha_list(X,attack_potion,_):- X >= 50, X < 60, write('Congratulations, You get Attack Potion x 1 !'), nl.
 
-ruby_check(Player_class,New_money):-
+ruby_check(New_money):-
     New_money >= 0,
     retract(rubyplayer(_)),
     assertz(rubyplayer(New_money)),nl,
     write('Heh heh, thank you!'),nl,nl,
     write('Exiting store...'), nl.
 
-ruby_check(_,New_money):-
+ruby_check(New_money):-
     New_money < 0,
     write('Better you gain more rubies...'), nl,
     write('Exiting store...'), nl.
 
 open_gacha(_,New_money):-
     New_money < 0,
-    ruby_check(_,New_money).
+    ruby_check(New_money).
 
 open_gacha(Class,New_money):-
     New_money >= 0,
     random(1,101,X),
     gacha_list(X,Item,Class),
     add_inventory(Item),
-    ruby_check(Class,New_money),!.
+    ruby_check(New_money),!.
 
 
 buy_choice(1,Player_money,Player_class):- %gacha

@@ -514,7 +514,7 @@ muncul :-
 	posisishop(X,Y),
 	printmap,
 	rubyplayer(Money),
-	shop(Money,Class),
+	shop(Money,_),
 	!.
 
 muncul :-

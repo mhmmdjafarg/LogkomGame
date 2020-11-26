@@ -269,7 +269,7 @@ updatelevel(Player, Expsisa) :-
     Temptahan is Tahanan+5,
     expplayerbase(Player,Exp),
     TempExp is Exp + 50,
-    expplayer(Player,Expskrg),
+    expplayer(Player,_),
 
     retractall(levelplayer(Player,_)),
     retractall(healthbase(Player,_)),
