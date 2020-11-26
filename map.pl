@@ -25,6 +25,8 @@
 
 :- dynamic(whichstage/1).
 
+:- dynamic(retrieve_key/1).
+
 :- discontiguous(resetMap/0).
 
 lebarpeta(18).
@@ -521,7 +523,7 @@ muncul :-
 	posisipemain(X,Y),
 	posisikunci(X,Y),
 	printmap,
-	asserta(retrieve_key),
+	asserta(retrieve_key(1)),
 	write('Well done! the people of Dangarnon is waiting for you'),nl,
 	retractall(posisikunci(_,_)),
 	!.
@@ -558,6 +560,25 @@ muncul :-
 	!.
 
 muncul :-
+	posisipemain(X,Y),
+	underlord(X,Y),
+	\+retrieve_key(_),
+	write('You need the key to go home.'),nl,
+	!.
+
+muncul :-
+	posisipemain(X,Y),
+	underlord(X,Y),
+	decideBoss,
+	!.
+
+muncul :-
+	posisipemain(X,Y),
+	secretboss(X,Y),
+	decideSecretBoss,
+	!.
+
+muncul :-
 	repeat,
 		random(1,8, X),
 		(X =:= 4 -> decide; lain),!.
@@ -578,4 +599,5 @@ resetMap :-
     retractall(wolfcamp(_)),
     retractall(underlord(_,_)),
     retractall(secretboss(_,_)),
-    retractall(whichstage(_)).
+    retractall(whichstage(_)),
+    retractall(retrieve_key(_)).
