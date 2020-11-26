@@ -88,6 +88,33 @@ decideSecretBoss :-
     asserta(enemy(underlord)),
     printEnemyStats(underlord),fight,!.
 
+decideslime :-
+    asserta(inBattle(1)),
+    setBattleStats,
+    asserta(totalTurn(0)),
+    updateskillCounter(0),
+    write('Beast creature appears, prepare yourself!'), nl,
+    asserta(enemy(slime)),
+    write('fight or run? '), nl.
+
+decidegoblin :-
+    asserta(inBattle(1)),
+    setBattleStats,
+    asserta(totalTurn(0)),
+    updateskillCounter(0),
+    write('Beast creature appears, prepare yourself!'), nl,
+    asserta(enemy(goblin)),
+    write('fight or run? '), nl.
+
+decidewolf :-
+    asserta(inBattle(1)),
+    setBattleStats,
+    asserta(totalTurn(0)),
+    updateskillCounter(0),
+    write('Beast creature appears, prepare yourself!'), nl,
+    asserta(enemy(wolf)),
+    write('fight or run? '), nl.
+
 updateTurn :-
     totalTurn(N),
     N1 is N + 1,
