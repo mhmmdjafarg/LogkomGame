@@ -534,6 +534,30 @@ muncul :-
 	!.
 
 muncul :-
+	posisipemain(X,Y),
+	slimecamp(X,Y),
+	repeat,
+	random(1,8, A),
+	(A =:= 4 -> decideslime; lain),
+	!.
+
+muncul :-
+	posisipemain(X,Y),
+	goblincamp(X,Y),
+	repeat,
+	random(1,8, A),
+	(A =:= 4 -> decidegoblin; lain),
+	!.
+
+muncul :-
+	posisipemain(X,Y),
+	wolfcamp(X,Y),
+	repeat,
+	random(1,8, A),
+	(A =:= 4 -> decidewolf; lain),
+	!.
+
+muncul :-
 	repeat,
 		random(1,8, X),
 		(X =:= 4 -> decide; lain),!.
