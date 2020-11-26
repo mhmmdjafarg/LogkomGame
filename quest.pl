@@ -1,4 +1,5 @@
 :- include('map.pl').
+:- include('battle.pl').
 
 :- dynamic(inQuest/1).
 :- dynamic(quest1done/1).
@@ -11,6 +12,7 @@
 :- dynamic(needkillGoblin/1).
 :- dynamic(needkillWolf/1).
 :- dynamic(onsecret/1).
+:- dynamic(whatdefeated/1).
 
 quest :-
 	\+inQuest(_),
@@ -195,23 +197,32 @@ checkquestprogress :-
 checkquestprogress :-
 	write(''),!.
 
-incslime :-
+incdefeated :-
+	whatdefeated(1),
 	slimedefeated(X),
 	Xinc is X+1,
 	retractall(slimedefeated(_)),
-	asserta(slimedefeated(Xinc)),!.
+	asserta(slimedefeated(Xinc)),
+	retractall(whatdefeated(_)),
+	!.
 
-incgoblin :-
+incdefeated :-
+	whatdefeated(2),
 	goblindefeated(X),
 	Xinc is X+1,
 	retractall(goblindefeated(_)),
-	asserta(goblindefeated(Xinc)),!.
+	asserta(goblindefeated(Xinc)),
+	retractall(whatdefeated(_)),
+	!.
 
-incwolf :-
+incdefeated :-
+	whatdefeated(3),
 	wolfdefeated(X),
 	Xinc is X+1,
 	retractall(wolfdefeated(_)),
-	asserta(wolfdefeated(Xinc)),!.
+	asserta(wolfdefeated(Xinc)),
+	retractall(whatdefeated(_)),
+	!.
 
 
 
