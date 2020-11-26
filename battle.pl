@@ -95,6 +95,7 @@ decideslime :-
     updateskillCounter(0),
     write('Beast creature appears, prepare yourself!'), nl,
     asserta(enemy(slime)),
+    printEnemyStats(slime),
     write('fight or run? '), nl.
 
 decidegoblin :-
@@ -104,6 +105,7 @@ decidegoblin :-
     updateskillCounter(0),
     write('Beast creature appears, prepare yourself!'), nl,
     asserta(enemy(goblin)),
+    printEnemyStats(goblin),
     write('fight or run? '), nl.
 
 decidewolf :-
@@ -113,6 +115,7 @@ decidewolf :-
     updateskillCounter(0),
     write('Beast creature appears, prepare yourself!'), nl,
     asserta(enemy(wolf)),
+    printEnemyStats(wolf),
     write('fight or run? '), nl.
 
 updateTurn :-
@@ -204,7 +207,8 @@ fight :-
     inBattle(_),
     \+potionCounterAtt(_),
     \+potionCounterDef(_),
-    printplayer,
+    char(Karakter),
+    (Karakter == swordsman -> printplayer; Karakter == archer -> printarcher; Karakter == ninja -> printninja),
     write('What are you gonna do ?'), nl,
     enemy(Enemy),
     (Enemy == dungeonBoss -> printFightCommandBoss; printFightCommand),!.
