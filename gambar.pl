@@ -62,3 +62,25 @@ dragon :-
     write('||      /    \\)___)\\ '),nl,
     write('| \\____(      )___) )___ '),nl,
     write('\\______(_______;;; __;;; '),nl.
+
+secretboss :-
+    write('           ,    ,          .'),nl,
+    write('           \\\\ \\\\          //'),nl,       
+    write('          ) \\\\ \\\\    _p_/ /'),nl,
+    write('          )^\\))\\))  /  *\\/'),nl,
+    write('           \\_|| || / /^`-" '),nl,
+    write('  __       -\\ \\\\--/ / '),nl,
+    write('<"  \\\\___/   ___. )"'),nl,
+    write('     `====\\ )___/\\\\ '),nl,
+    write('          //     `"'),nl,
+    write('          \\\\    /  \\ '),nl,
+    write('           `"'),nl.
+
+slime :-
+    write('           .^.'),nl,
+    write('         (     )'),nl,
+    write('       (  \\   /  )'),nl,
+    write('     (    o   o    )'),nl,
+    write('   (        -        )'),nl,
+    write('  (                    )'),nl,
+    write('  (____________________)'),nl.
