@@ -59,8 +59,8 @@ gacha_list(X,attack_potion,_):- X >= 50, X < 60, write('Congratulations, You get
 
 ruby_check(Player_class,New_money):-
     New_money >= 0,
-    retract(rubyplayer(Player_class,_)),
-    assertz(rubyplayer(Player_class,New_money)),nl,
+    retract(rubyplayer(_)),
+    assertz(rubyplayer(New_money)),nl,
     write('Heh heh, thank you!'),nl,nl,
     write('Exiting store...'), nl.
 
