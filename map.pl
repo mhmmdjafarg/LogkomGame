@@ -558,6 +558,25 @@ muncul :-
 	!.
 
 muncul :-
+	posisipemain(X,Y),
+	underlord(X,Y),
+	\+retrieve_key(),
+	write('You need the key to go home.'),nl,
+	!.
+
+muncul :-
+	posisipemain(X,Y),
+	underlord(X,Y),
+	decideBoss,
+	!.
+
+muncul :-
+	posisipemain(X,Y),
+	secretboss(X,Y),
+	decideSecretBoss,
+	!.
+
+muncul :-
 	repeat,
 		random(1,8, X),
 		(X =:= 4 -> decide; lain),!.
