@@ -245,6 +245,7 @@ printPlayerStats(Player) :-
     healthPlayer(Player, Hp),
     equipment(weapon, Weapon, WeaponDmg),
     equipment(armor, Armor, ArmorDef),
+    rubyplayer(Ruby),
     write('Player'), write(' Status'), nl,
     write('Character : '), write(Player), nl,
     write('Level     : '), write(LevelPlayer), nl,
@@ -254,7 +255,8 @@ printPlayerStats(Player) :-
     write('Weapon    : '), write(Weapon),nl,
     write('Damage    : '), write(WeaponDmg), nl,
     write('Armor     : '), write(Armor), nl,
-    write('Defence   : '), write(ArmorDef),nl, !.
+    write('Defence   : '), write(ArmorDef),nl,
+    write('Ruby      : '), write(Ruby),nl,!.
 
 updatelevel(Player, Expsisa) :-
     levelplayer(Player, LeveluP),

@@ -35,6 +35,9 @@
 :- discontiguous(enemykilled/0).
 :- discontiguous(updateskillCounter/1).
 
+
+
+
 /* Pilih random enemy */
 randomenemy :-
     % random untuk wolf slime goblin
@@ -73,7 +76,7 @@ updateTurn :-
     %update jumlah turn
     retractall(totalTurn(_)),
     asserta(totalTurn(N1)),
-    updateskillCounter(N1),!.
+    incSkillCounter,!.
 
 setBattleStats :-
     char(Player),
@@ -90,12 +93,12 @@ updateBattleStats :-
     char(Player),
     damage(Player, Dmg),
     equipment(weapon,_, WeaponDmg),
-    (attPotionEffect(X) -> TotalDmg is Dmg + WeaponDmg + 100; TotalDmg is Dmg+WeaponDmg),
+    (attPotionEffect(_) -> TotalDmg is Dmg + WeaponDmg + 100; TotalDmg is Dmg+WeaponDmg),
     retractall(totalDamage(_)),
     assertz(totalDamage(TotalDmg)),
     defense(Player, Def),
     equipment(armor,_,ArmorDef),
-    (defPotionEffect(Y) -> TotalDef is Def + ArmorDef + 50; TotalDef is Def+ArmorDef),
+    (defPotionEffect(_) -> TotalDef is Def + ArmorDef + 50; TotalDef is Def+ArmorDef),
     retractall(totalDefense(_)),
     assertz(totalDefense(TotalDef)),!.
 
@@ -124,6 +127,7 @@ goRun :-
     write('Nice move, you escape!'), nl,
     enemy(Enemy),
     restoreHealth(Enemy),
+    printmap,
     retractall(inBattle(_)),
     retractall(enemy(_)),
     retractall(totalTurn(_)),
@@ -214,6 +218,12 @@ attack :-
 updateskillCounter(Num) :-
     retractall(skillCounter(_)),
     asserta(skillCounter(Num)),!.
+
+incSkillCounter :-
+    skillCounter(X),
+    X1 is X + 1,
+    retractall(skillCounter(_)),
+    asserta(skillCounter(X1)),!.
 
 skill :-
     \+playing(_),
@@ -442,3 +452,16 @@ enemykilled :-
 status :-
     char(Karakter),
     printPlayerStats(Karakter),!.
+
+resetBattle :-
+    retractall(inBattle(_)),
+    retractall(enemy(_)),
+    retractall(totalTurn(_)),
+    retractall(totalDamage(_)),
+    retractall(totalDefense(_)),
+    retractall(attPotionEffect(_)),
+    retractall(defPotionEffect(_)),
+    retractall(potionCounterAtt(_)),
+    retractall(potionCounterDef(_)),
+    retractall(skillCounter(_)),
+    retractall(healed(_)),!.
