@@ -1,7 +1,7 @@
 :- include('player.pl').
 :- include('dungeon.pl').
 :- include('quest.pl').
-
+:- include('gambar.pl').
 /* fight, run, gagalrun, attack, skill, itung turn, levelup */
 
 :- dynamic(inBattle/1).
