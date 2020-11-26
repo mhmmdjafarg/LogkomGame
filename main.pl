@@ -55,6 +55,7 @@ help :-
 
 inventory :-
 	openinventory.
+
 pickClass :-
     write('Pick your class:'),nl,
     write('-  swordsman'),nl,
