@@ -543,10 +543,7 @@ lain :-
 
 
 resetMap :-
-    retractall(lebarpeta(_)),
-    retractall(tinggipeta(_)),
     retractall(posisipemain(_,_)),
-    retractall(legenda(_)),
     retractall(barrier(_,_)),
     retractall(star(_,_)),
     retractall(posisikunci(_,_)),
