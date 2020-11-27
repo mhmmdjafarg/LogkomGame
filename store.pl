@@ -73,6 +73,7 @@ open_gacha(_,New_money):-
     ruby_check(New_money).
 
 open_gacha(Class,New_money):-
+    write('Roll the gacha...'),nl,nl,
     New_money >= 0,
     random(1,101,X),
     gacha_list(X,Item,Class),
