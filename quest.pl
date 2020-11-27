@@ -11,6 +11,13 @@
 :- dynamic(whatdefeated/1).
 
 quest :-
+	inQuest(4),
+	quest1done(1),
+	quest2done(1),
+	quest3done(1),
+	write('go home.'),nl,!.
+
+quest :-
 	\+inQuest(_),
 	\+quest1done(1),
 	!,ambilQuestSatu.
@@ -27,13 +34,6 @@ quest :-
 	quest1done(1),
 	quest2done(1),
 	!,ambilQuestTiga.
-
-quest :-
-	\+inQuest(_),
-	quest1done(1),
-	quest2done(1),
-	quest3done(1),
-	write('go home.'),nl,!.
 
 quest :-
 	inQuest(_),
