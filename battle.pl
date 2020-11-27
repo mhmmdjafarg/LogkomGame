@@ -244,8 +244,7 @@ printFightCommandBoss :-
 
 % Enemy attack - 12% defense
 enemyAttack :-
-    char(Karakter),
-    defense(Karakter, Def),
+    totalDefense(Def),
     enemy(Enemy),
     write('attacked by '), write(Enemy), nl,
     dungeonDamage(Enemy, Dmg),
@@ -316,7 +315,7 @@ heal :-
 heal :-
     playing(_), 
     inventory(0, health_potion),
-    write('Nothing to consume, stay alive commander!'),nl,fight,!.
+    write('Nothing to consume, stay alive commander!'),nl,!.
 
 heal :-
     playing(_),
@@ -373,7 +372,7 @@ attackPotion :-
     \+playing(_),
     write('Its not started yet'),!.
 
-attack_potion :-
+attackPotion :-
     playing(_),
     \+inBattle(_),
     write('Youre not facing any enemy comrads, relax'),!.

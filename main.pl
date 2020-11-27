@@ -4,6 +4,7 @@
 :- dynamic(char/1). % gajadi dihapus
 :- dynamic(playing/1). % untuk status sedang bermain atau tidak
 
+:- discontiguous(verifikasi_char/1).
 start :-
     playing(_),
     write('The game has already started!'),nl.
@@ -56,14 +57,31 @@ help :-
 inventory :-
 	openinventory.
 
+verifikasi_char(Karaker):-
+    Karaker = 'ninja',
+    asserta(char(Karaker)),!.
+
+verifikasi_char(Karaker):-
+    Karaker = 'swordsman',
+    asserta(char(Karaker)),!.
+
+verifikasi_char(Karaker):-
+    Karaker = 'archer',
+    asserta(char(Karaker)),!.
+
+
 pickClass :-
     write('Pick your class:'),nl,
     write('-  swordsman'),nl,
     write('-  archer'),nl,
     write('-  ninja'),nl,
     read(Karaker),
-    asserta(char(Karaker)),
+    verifikasi_char(Karaker),
     !.
+
+verifikasi_char(_):-
+    write('Please choose the 3 classes above!'),
+    pickClass,nl,!.
 
 quit:- 
 	halt,!.

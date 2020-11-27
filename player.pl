@@ -263,7 +263,7 @@ updatelevel(Player, Expsisa) :-
     levelplayer(Player, LeveluP),
     Templevel is (LeveluP + 1),
     healthbase(Player, Healthbase),
-    Temphealthbase is Healthbase+30,
+    Temphealthbase is Healthbase+50,
     damage(Player, Serangan),
     Tempdamage is Serangan+8,
     defense(Player, Tahanan),

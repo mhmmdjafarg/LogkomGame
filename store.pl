@@ -73,6 +73,7 @@ open_gacha(_,New_money):-
     ruby_check(New_money).
 
 open_gacha(Class,New_money):-
+    write('Roll the gacha...'),nl,nl,
     New_money >= 0,
     random(1,101,X),
     gacha_list(X,Item,Class),
@@ -101,8 +102,8 @@ cancel_verif(3,_,_,_):-
 cancel_verif(3,Choice,Player_money,Player_class):-
     buy_choice(Choice,Player_money,Player_class).
 
-cancel_verif(X,_,_,_):-
-    X =\= 3, write('Waste my time... Better buyin somethin next time').
+cancel_verif(_,_,_,_):-
+    write('Waste my time... Better buyin somethin next time').
 
 shop(Player_money,Player_class):-
     char(Player_class),

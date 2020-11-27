@@ -62,8 +62,8 @@ initbaseHealth :-
     assertz(baseHp(goblin,400)),
     assertz(baseHp(slime,550)),
     assertz(baseHp(wolf,450)),
-    assertz(baseHp(underlord,3000)),
-    assertz(baseHp(dungeonBoss,5000)).
+    assertz(baseHp(underlord,2000)),
+    assertz(baseHp(dungeonBoss,3500)).
 
 initHealth :-
     baseHp(goblin,X),
@@ -81,8 +81,8 @@ initAttack :-
     assertz(dungeonDamage(goblin,40)),
     assertz(dungeonDamage(slime,30)),
     assertz(dungeonDamage(wolf,60)),
-    assertz(dungeonDamage(underlord,220)),
-    assertz(dungeonDamage(dungeonBoss,300)).
+    assertz(dungeonDamage(underlord,180)),
+    assertz(dungeonDamage(dungeonBoss,250)).
 
 initDefence :-
     assertz(defence(goblin,30)),
