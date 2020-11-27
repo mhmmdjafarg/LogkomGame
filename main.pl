@@ -29,7 +29,7 @@ start :-
     write('                        |___/'),nl,nl,
     spawnDungeon,
     charplayer,
-    writelore,
+    writelore,help,
     pickClass,
     initEquipment,
     mulai,
