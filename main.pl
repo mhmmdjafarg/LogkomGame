@@ -84,6 +84,8 @@ verifikasi_char(_):-
     pickClass,nl,!.
 
 goHome :-
+    char(Karakter),
+    (Karakter == swordsman -> printplayer; Karakter == archer -> printarcher; Karakter == ninja -> printninja),
     write('Thank you for playing this game !'),nl,
     write('Type yes.'),nl,
     read(_),
@@ -103,5 +105,21 @@ resetall :-
     resetMap,
     resetBattle,resetmain,!.
 
+loreSecretBoss :-
+    printsecretboss,nl,nl,
+    write('It turns out that what you just fought was the friend who betrayed you, he was just trying to save you... '), nl,nl,
+    write('He knew that Dangarnon is not a safe place and that he only want the best for you.'),nl,
+    write('How the villagers have the key to Dangarnon is because he also tried to save someone just like you in the past, but he failed and the key got left behind.'),nl, 
+    write('He swore to not lose another good friend.'),
+    nl,
+    write('And now that you have proven yourself to be strong enough to go by yourself, to even right the wrongs of Dangarnon, he finally lets you go and peacefully rest.'),nl,
+    nl,nl, write('\"Godspeed, friend.\", he said.'),nl,!.
 
-
+loreBoss :-
+    printgohome,nl,
+    nl,
+    write('Citizens of dangarnon shed tears of joy as you slay the monster.'), nl,nl,
+    write('Congratulations traveller! you\'ve made Dangarnon a better place, just like what everyone expected of you.'),nl,nl,
+    write('You go on living in Dangarnon as the mayor and you pay a visit to the village every now and then.'),nl,
+    nl, write('Fin.'),nl,nl,
+    write('You can goHome now . . . .'),!.

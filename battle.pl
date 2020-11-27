@@ -465,7 +465,7 @@ updateHPMonster(DamagePlayer) :-
     TempHpMonster is HpMonster - DamagePlayer,
     (TempHpMonster > 0 -> 
         retractall(health(Enemy,_)),
-        asserta(health(Enemy, TempHpMonster)),!; write('Good job, you just killed '), write(Enemy),nl, enemykilled,nl,fail).
+        asserta(health(Enemy, TempHpMonster)),!; write('Good job, you just killed '), write(Enemy),nl,enemykilled,nl,fail).
 
 decrementInventory(NamaItem) :-
     inventory(X,NamaItem),
@@ -499,7 +499,8 @@ enemykilled :-
 
     printmap,
     %if
-    updateruby,
+    (Enemy == underlord -> updaterubyUnderLord; updateruby),
+    (Enemy == underlord -> loreSecretBoss; Enemy == dungeonBoss -> loreBoss),
     retractall(inBattle(_)),
     retractall(enemy(_)),
     retractall(totalTurn(_)),
@@ -514,7 +515,6 @@ enemykilled :-
 enemykilled :-
     enemy(Enemy),
     char(Karakter),
-
     % nambah exp dari dungeon ke exp pemain
     dungeonExp(Enemy,ExpTambah),
     expplayer(Karakter,ExpSiPlayer),
@@ -528,15 +528,14 @@ enemykilled :-
     retractall(expplayer(Karakter,_)),
     assertz(expplayer(Karakter,TempExp))),
     restoreHealth(Enemy),
-
     %if
     levelplayer(Karakter, LevelPlayer),
     level(Enemy, Levelmonster),
     ((LevelPlayer - Levelmonster) mod 2 =:= 0 -> getlevel(Enemy); nl),!,
-
     printmap,
     %if
-    (enemy == underlord -> updaterubyUnderLord; updateruby),
+    (Enemy == underlord -> updaterubyUnderLord; updateruby),
+    (Enemy == underlord -> loreSecretBoss; Enemy == dungeonBoss -> loreBoss),
     retractall(inBattle(_)),
     retractall(enemy(_)),
     retractall(totalTurn(_)),

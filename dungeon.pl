@@ -49,7 +49,8 @@ initExpDungeon :-
     assertz(dungeonExp(goblin,25)),
     assertz(dungeonExp(slime,25)),
     assertz(dungeonExp(wolf,25)),
-    assertz(dungeonExp(underlord,300)).
+    assertz(dungeonExp(underlord,300)),
+    assertz(dungeonExp(dungeonBoss,0)).
 
 initLevel :-
     assertz(level(goblin,1)),
