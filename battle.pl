@@ -321,7 +321,6 @@ heal :-
     playing(_),
     \+inBattle(_), 
     char(Karakter),
-    updateTurn,
     healthPlayer(Karakter, Hp),
     healthbase(Karakter, Base),
     Hp =:= Base, retractall(healed(_)),assertz(healed(1)), write('Youre fully healed, nothing to heal'),!.
@@ -330,7 +329,6 @@ heal :-
     playing(_),
     inBattle(_), 
     char(Karakter),
-    updateTurn,
     healthPlayer(Karakter, Hp),
     healthbase(Karakter, Base),
     Hp =:= Base, retractall(healed(_)),assertz(healed(1)), write('Youre fully healed, nothing to heal'),nl,fight,!.
@@ -366,7 +364,6 @@ heal :-
     write('Feeling better comrads ?'), inventory(X, health_potion),
     NewPotion is X - 1, retractall(inventory(_,health_potion)),
     asserta(inventory(NewPotion, health_potion)), nl,printPlayerStats(Karakter), nl, enemyAttack,!.
-    %tambahin enemy attack di akhir turn
 
 attackPotion :-
     \+playing(_),

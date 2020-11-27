@@ -278,9 +278,10 @@ updatelevel(Player, Expsisa) :-
     retractall(defense(Player,_)),
     retractall(expplayerbase(Player,_)),
     retractall(expplayer(Player,_)),
-
+    retractall(healthPlayer(Player,_)),
     assertz(levelplayer(Player,Templevel)),
     assertz(healthbase(Player, Temphealthbase)),
+    assertz(healthPlayer(Player, Temphealthbase)),
     assertz(damage(Player, Tempdamage)),
     assertz(expplayerbase(Player, TempExp)),
     assertz(expplayer(Player, Expsisa)),
