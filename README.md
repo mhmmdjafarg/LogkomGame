@@ -1,4 +1,4 @@
-# TOKEMON FIGHT!!!
+# Randy's Adventure!!!
 
 SELAMAT DATANG DI Randy's Adventure
 <table>
