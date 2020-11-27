@@ -289,9 +289,9 @@ legenda(mapawal) :-
 	write('     K: Key'),nl,
 	write('     S: Shop'), nl,
 	write('     Q: Quests'),nl,
-	write('     G: Goblin camp'),nl,
-	write('     S: Slime camp'),nl,
-	write('     W: Wolf camp'),nl,
+	write('     G: Goblin Hut'),nl,
+	write('     S: Slime Chamber'),nl,
+	write('     W: Wolf Den'),nl,
 	write('     D: Dungeon'),
 	!.
 
@@ -300,9 +300,9 @@ legenda(mapunlock) :-
 	write('     K: Key'),nl,
 	write('     S: Shop'), nl,
 	write('     Q: Quests'),nl,
-	write('     G: Goblin camp'),nl,
-	write('     S: Slime camp'),nl,
-	write('     W: Wolf camp'),nl,
+	write('     G: Goblin Hut'),nl,
+	write('     S: Slime Chamber'),nl,
+	write('     W: Wolf Den'),nl,
 	write('     D: Dungeon'),
 	!.
 
