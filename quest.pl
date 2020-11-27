@@ -190,7 +190,9 @@ checkquestprogress :-
 	write(''),nl,
 	write('All the villagers are sound asleep. you try not to wake them.'),nl,
 	write('why are you still here?'),nl,
-	map,!.
+	map,
+	retractall(inQuest(_)),
+	!.
 
 checkquestprogress :-
 	inQuest(_),
