@@ -1,3 +1,11 @@
+% Author :
+%     Randy Zakya Suchrady		13519061
+%     Muhammad Fahmi Alamsyah	13519077
+%     Ryandito Diandaru			13519157
+%     Muhammad Jafar Gundari	13519197
+
+% Date Created : November 27th 2020
+
 :- include('map.pl').
 :- include('equipment.pl').
 
