@@ -60,7 +60,7 @@ initLevel :-
 
 initbaseHealth :-
     assertz(baseHp(goblin,400)),
-    assertz(baseHp(slime,550)),
+    assertz(baseHp(slime,250)),
     assertz(baseHp(wolf,450)),
     assertz(baseHp(underlord,2000)),
     assertz(baseHp(dungeonBoss,3500)).
