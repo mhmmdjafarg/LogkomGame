@@ -121,3 +121,11 @@ printninja :-
     write('     | | |  |'),nl,
     write('     | | |  |'),nl,
     write('    (__) (__)'),nl.
+
+printgohome :-
+    write('     ____||____         ......'),nl,
+    write('    ///////////\\       ( Yeay )   '),nl, 
+    write('   ///////////  \\    _ |/`````'),nl,
+    write('   |    _    |  |   ( )'),nl,
+    write('   |[] | | []|[]|  \\-|-/'),nl,
+    write('   |___|_|___|__|   / \\'),nl.
