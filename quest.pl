@@ -187,7 +187,7 @@ checkquestprogress :-
 	X1 >= Y1, X2 >= Y2, X3 >= Y3,
 	retractall(whichstage(_)),
 	asserta(whichstage(3)),
-	write(''),nl
+	write(''),nl,
 	write('All the villagers are sound asleep. you try not to wake them.'),nl,
 	write('why are you still here?'),nl,
 	map,!.
