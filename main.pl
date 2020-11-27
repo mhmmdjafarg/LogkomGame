@@ -83,6 +83,12 @@ verifikasi_char(_):-
     write('Please choose the 3 classes above!'),
     pickClass,nl,!.
 
+goHome :-
+    write('Thank you for playing this game !'),nl,
+    write('Type yes.'),nl,
+    read(_),
+    quit.
+
 quit:- 
 	halt,!.
 
