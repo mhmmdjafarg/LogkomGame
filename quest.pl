@@ -8,7 +8,6 @@
 :- dynamic(needkillSlime/1).
 :- dynamic(needkillGoblin/1).
 :- dynamic(needkillWolf/1).
-:- dynamic(onsecret/1).
 :- dynamic(whatdefeated/1).
 
 quest :-
@@ -132,7 +131,7 @@ done3 :-
 	asserta(needkillSlime(3)),
 	asserta(needkillGoblin(3)),
 	asserta(needkillWolf(3)),
-	asserta(onsecret(1)),
+	asserta(inQuest(4)),
 	!.
 
 checkquestprogress :-
@@ -175,11 +174,10 @@ checkquestprogress :-
 	done3,!.
 
 checkquestprogress :-
-	inQuest(_),
-	write('Well done!, you\'re one step closer to finishing your quest!'),nl,!.
-
-checkquestprogress :-
-	onsecret(1),
+	inQuest(4),
+	quest1done(1),
+	quest2done(1),
+	quest3done(1),
 	slimedefeated(X1),
 	needkillSlime(Y1),
 	goblindefeated(X2),
@@ -189,8 +187,14 @@ checkquestprogress :-
 	X1 >= Y1, X2 >= Y2, X3 >= Y3,
 	retractall(whichstage(_)),
 	asserta(whichstage(3)),
-	write('           why are you still here?'),nl,
+	write(''),nl
+	write('All the villagers are sound asleep. you try not to wake them.'),nl,
+	write('why are you still here?'),nl,
 	map,!.
+
+checkquestprogress :-
+	inQuest(_),
+	write('Well done!, you\'re one step closer to finishing your quest!'),nl,!.
 
 checkquestprogress :-
 	\+inQuest(_),
