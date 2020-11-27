@@ -45,16 +45,16 @@ armor_randomizer(Armor):-
 
 
 gacha_list(X,Weapon,Class):-
-    X >= 45, X < 80,
+    X >= 30, X < 65,
     weapon_randomizer(Class,Weapon).
 
 gacha_list(X,Armor,_):-
-    X >= 80, X < 101,
+    X >= 65, X < 101,
     armor_randomizer(Armor).
 
-gacha_list(X,health_potion,_):- X < 25, write('Congratulations, You get Health Potion x 1 !'), nl.
-gacha_list(X,defence_potion,_):- X >= 25 , X < 35 , write('Congratulations, You get Defence Potion x 1 !'), nl.
-gacha_list(X,attack_potion,_):- X >= 35, X < 45, write('Congratulations, You get Attack Potion x 1 !'), nl.
+gacha_list(X,health_potion,_):- X < 10, write('Congratulations, You get Health Potion x 1 !'), nl.
+gacha_list(X,defence_potion,_):- X >= 10 , X < 20 , write('Congratulations, You get Defence Potion x 1 !'), nl.
+gacha_list(X,attack_potion,_):- X >= 20, X < 30, write('Congratulations, You get Attack Potion x 1 !'), nl.
 
 ruby_check(New_money):-
     New_money >= 0,
