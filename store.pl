@@ -102,7 +102,7 @@ cancel_verif(3,Choice,Player_money,Player_class):-
     buy_choice(Choice,Player_money,Player_class).
 
 cancel_verif(X,_,_,_):-
-    X =\= 3, write('Waste my time... Better buyin somethin next time').
+    write('Waste my time... Better buyin somethin next time').
 
 shop(Player_money,Player_class):-
     char(Player_class),
