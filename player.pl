@@ -30,6 +30,9 @@
 :- discontiguous(char_exp/0).
 :- discontiguous(updateruby/0).
 :- discontiguous(updaterubyUnderLord/0).
+:- discontiguous(updaterubyquest1/0).
+:- discontiguous(updaterubyquest2/0).
+:- discontiguous(updaterubyquest3/0).
 :- discontiguous(printPlayerStats/1).
 :- discontiguous(weapon_damage/0).
 :- discontiguous(armor_type/0).
@@ -301,6 +304,29 @@ updaterubyUnderLord :-
     Rubyasli is Tempruby,
     retract(rubyplayer(_)),
 
+    assertz(rubyplayer(Rubyasli)),!.
+
+updaterubyquest1 :-
+    rubyplayer(X),
+    Tempruby is X + 300 ,
+    Rubyasli is Tempruby,
+    write('gold is given to you as reward'),nl,
+    retract(rubyplayer(_)),
+    
+    assertz(rubyplayer(Rubyasli)),!.
+updaterubyquest2 :-
+    rubyplayer(X),
+    Tempruby is X + 400 ,
+    Rubyasli is Tempruby,
+    write('gold is given to you as reward'),nl,
+    retract(rubyplayer(_)),
+    assertz(rubyplayer(Rubyasli)),!.
+updaterubyquest3 :-
+    rubyplayer(X),
+    Tempruby is X + 500 ,
+    Rubyasli is Tempruby,
+    write('gold is given to you as reward'),nl,
+    retract(rubyplayer(_)),
     assertz(rubyplayer(Rubyasli)),!.
 
 resetplayer :-

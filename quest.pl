@@ -92,6 +92,7 @@ ambilQuestTiga :-
 done1 :-
 	write('Welldone traveller, you\'ve finished your quest, but the villagers might'),nl,
 	write('still need your help. Get back to the Q area to get your next quest'),nl,
+	updaterubyquest1,
 	retractall(inQuest(_)),
 	asserta(quest1done(1)),
 	retractall(slimedefeated(_)),
@@ -104,6 +105,7 @@ done2 :-
 	write('still need your help. Get back to the Q area to get your next quest'),nl,
 	retractall(inQuest(_)),
 	asserta(quest2done(1)),
+	updaterubyquest2,
 	retractall(slimedefeated(_)),
 	retractall(goblindefeated(_)),
 	retractall(wolfdefeated(_)),
@@ -115,6 +117,7 @@ done3 :-
 	write('You have all the right to go, but still...'),nl,nl,
 	write('Something doesn\'t sit right in the back of your mind.'),nl,
 	retractall(inQuest(_)),
+	updaterubyquest3,
 	retractall(whichstage(_)),
 	asserta(quest3done(1)),
 	retractall(slimedefeated(_)),
