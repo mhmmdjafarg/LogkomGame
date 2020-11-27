@@ -84,12 +84,12 @@ pickClass :-
     write('-  swordsman'),nl,
     write('-  archer'),nl,
     write('-  ninja'),nl,
-    read(Karaker),
+    read(Karaker),nl,
     verifikasi_char(Karaker),
     !.
 
 verifikasi_char(_):-
-    write('Please choose the 3 classes above!'),
+    write('Please choose the 3 classes above!'),nl,nl,
     pickClass,nl,!.
 
 goHome :-
