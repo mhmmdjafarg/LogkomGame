@@ -113,7 +113,7 @@ done2 :-
 
 done3 :-
 	write('Welldone traveller, you\'ve finished all your quests!'),nl,
-	write('The villagers are more than glad to have you as quest, but now it\'s time to go home.'),nl,
+	write('The villagers are more than glad to have you as a guest, but now it\'s time to go home.'),nl,
 	write('You have all the right to go, but still...'),nl,nl,
 	write('Something doesn\'t sit right in the back of your mind.'),nl,
 	retractall(inQuest(_)),
