@@ -3,9 +3,10 @@ SELAMAT DATANG DI Randy's Adventure
 
 ## Author
 | Anggota kelompok | Nim |
-| Randy Zakya  | 13519061 |
-| Muhammad Fahmi Alamsyah | 13519077|
-| Ryandito Diandaru	 | 13519157 |
+| --- | --- |
+| Randy Zakya | 13519061 |
+| Muhammad Fahmi Alamsyah | 13519077 |
+| Ryandito Diandaru | 13519157 |
 | Muhammad Jafar Gundari | 13519197 |
 
 ## Sebelum Memulai
