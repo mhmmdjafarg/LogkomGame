@@ -45,16 +45,16 @@ armor_randomizer(Armor):-
 
 
 gacha_list(X,Weapon,Class):-
-    X >= 80, X < 101,
+    X >= 45, X < 80,
     weapon_randomizer(Class,Weapon).
 
 gacha_list(X,Armor,_):-
-    X >= 60, X < 80,
+    X >= 80, X < 101,
     armor_randomizer(Armor).
 
-gacha_list(X,health_potion,_):- X < 40, write('Congratulations, You get Health Potion x 1 !'), nl.
-gacha_list(X,defence_potion,_):- X >= 40 , X < 50 , write('Congratulations, You get Defence Potion x 1 !'), nl.
-gacha_list(X,attack_potion,_):- X >= 50, X < 60, write('Congratulations, You get Attack Potion x 1 !'), nl.
+gacha_list(X,health_potion,_):- X < 25, write('Congratulations, You get Health Potion x 1 !'), nl.
+gacha_list(X,defence_potion,_):- X >= 25 , X < 35 , write('Congratulations, You get Defence Potion x 1 !'), nl.
+gacha_list(X,attack_potion,_):- X >= 35, X < 45, write('Congratulations, You get Attack Potion x 1 !'), nl.
 
 ruby_check(New_money):-
     New_money >= 0,
@@ -92,7 +92,7 @@ buy_choice(2,Player_money,_) :-
     write('3. Defence Potion'), nl,
     read(Choice_potion),
     potion_choice(Choice_potion),
-    New_money is Player_money - 50,
+    New_money is Player_money - 25,
     ruby_check(New_money).
 
 cancel_verif(3,_,_,_):-
@@ -109,7 +109,7 @@ shop(Player_money,Player_class):-
     char(Player_class),
     write('Welcome! What\'re ya buyin?'), nl,
     write('1. Gacha (150 Ruby)'), nl,
-    write('2. Potion (50 Ruby)'), nl,
+    write('2. Potion (25 Ruby)'), nl,
     write('Type 1 for Gacha and 2 for Potion.') , nl,
     read(Choice), nl,
     write('Ya sure?'), nl,
