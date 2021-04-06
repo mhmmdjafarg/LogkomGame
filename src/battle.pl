@@ -500,7 +500,7 @@ enemykilled :-
     printmap,
     %if
     (Enemy == underlord -> updaterubyUnderLord; updateruby),
-    (Enemy == underlord -> loreSecretBoss; Enemy == dungeonBoss -> loreBoss),
+    (Enemy == underlord -> loreSecretBoss; Enemy == dungeonBoss -> loreBoss; !),
     retractall(inBattle(_)),
     retractall(enemy(_)),
     retractall(totalTurn(_)),
@@ -535,7 +535,7 @@ enemykilled :-
     printmap,
     %if
     (Enemy == underlord -> updaterubyUnderLord; updateruby),
-    (Enemy == underlord -> loreSecretBoss; Enemy == dungeonBoss -> loreBoss),
+    (Enemy == underlord -> loreSecretBoss; Enemy == dungeonBoss -> loreBoss;!),
     retractall(inBattle(_)),
     retractall(enemy(_)),
     retractall(totalTurn(_)),
